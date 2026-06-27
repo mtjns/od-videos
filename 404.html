@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Photography Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .header-nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Navigation -->
+    <header class="header-nav fixed w-full z-50 border-b border-white/10">
+        <nav class="flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
+            <a href="../index.html" class="text-white">
+                <svg viewBox="0 0 48 48" class="w-12 h-12 text-amber-500" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="24" cy="24" r="20" />
+                    <circle cx="24" cy="24" r="8" />
+                    <line x1="24" y1="4" x2="24" y2="16" />
+                    <line x1="24" y1="32" x2="24" y2="44" />
+                    <line x1="4" y1="24" x2="16" y2="24" />
+                    <line x1="32" y1="24" x2="44" y2="24" />
+                </svg>
+            </a>
+            <a href="../index.html" class="text-white hover:text-amber-500 transition font-medium">BACK TO HOME</a>
+        </nav>
+    </header>
+
+    <!-- 404 Content -->
+    <div class="min-h-screen flex items-center justify-center px-4 pt-20">
+        <div class="text-center max-w-2xl">
+            <div class="mb-8">
+                <h1 class="text-9xl md:text-[150px] font-bold text-amber-500 tracking-tighter">404</h1>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Page Not Found</h2>
+            <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                Oops! It looks like the page you're looking for doesn't exist. This might be because the URL is
+                incorrect or the page has been moved.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="../index.html"
+                    class="inline-block bg-amber-500 text-black px-8 py-3 rounded-full font-semibold hover:bg-amber-400 transition-all duration-300 hover:scale-105">Return
+                    to Home</a>
+                <a href="../index.html#gallery"
+                    class="inline-block bg-white/10 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">Explore
+                    Gallery</a>
+            </div>
+
+            <!-- Helpful Links -->
+            <div class="mt-16 pt-8 border-t border-white/10">
+                <p class="text-gray-500 text-sm mb-6">Here are some helpful links:</p>
+                <ul class="space-y-3">
+                    <li><a href="../index.html" class="text-amber-400 hover:text-amber-300 transition">Home Page</a>
+                    </li>
+                    <li><a href="gallery.html" class="text-amber-400 hover:text-amber-300 transition">Student
+                            Gallery</a></li>
+                    <li><a href="course-schedule.html" class="text-amber-400 hover:text-amber-300 transition">Course
+                            Schedule</a></li>
+                    <li><a href="privacy-policy.html" class="text-amber-400 hover:text-amber-300 transition">Privacy
+                            Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black/50 py-8 px-4 md:px-8 border-t border-white/10 mt-16">
+        <div class="max-w-7xl mx-auto text-center text-gray-400 text-sm">
+            <p>&copy; 2024 Photography Academy. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,30 +1,369 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shutter Theory Photography Academy | Master Your Craft</title>
-    <meta name="description" content="Transform your photography skills with Shutter Theory Academy. Expert-led courses in composition, lighting, and visual storytelling for all skill levels.">
-    <meta name="author" content="Shutter Theory" />
-    <link rel="canonical" href="https://shuttertheory.com" />
+<!DOCTYPE html>
+<html lang="cs">
 
-    
-    
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4ba67ed3-823c-49ab-97a8-2a9dd6943dde/id-preview-4a8df61f--dc828243-bfa8-467a-ae86-517045cfc582.lovable.app-1773888888840.png">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OD Videos - Profesionální videoprodukce</title>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@shuttertheory" />
-    <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4ba67ed3-823c-49ab-97a8-2a9dd6943dde/id-preview-4a8df61f--dc828243-bfa8-467a-ae86-517045cfc582.lovable.app-1773888888840.png">
-    <meta property="og:title" content="Shutter Theory Photography Academy | Master Your Craft">
-  <meta name="twitter:title" content="Shutter Theory Photography Academy | Master Your Craft">
-  <meta property="og:description" content="Transform your photography skills with Shutter Theory Academy. Expert-led courses in composition, lighting, and visual storytelling for all skill levels.">
-  <meta name="twitter:description" content="Transform your photography skills with Shutter Theory Academy. Expert-led courses in composition, lighting, and visual storytelling for all skill levels.">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;600;700&family=Story+Script&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#D9A61C',
+                        dark: '#000000',
+                        light: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        sans: ['"Host Grotesk"', 'sans-serif'],
+                        script: ['"Story Script"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<body class="bg-dark text-light font-sans">
+
+    <header class="fixed w-full z-50 border-b border-white/10 bg-dark/90 backdrop-blur-md">
+        <nav class="flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
+
+            <a href="#" aria-label="OD Videos Home" id="logo" class="text-4xl font-script text-brand tracking-wide">
+                OD Videos
+            </a>
+
+            <div id="mobile-menu-btn" class="md:hidden cursor-pointer flex flex-col gap-1.5">
+                <div class="w-6 h-0.5 bg-light transition-all" id="line1"></div>
+                <div class="w-6 h-0.5 bg-light transition-all" id="line2"></div>
+                <div class="w-6 h-0.5 bg-light transition-all" id="line3"></div>
+            </div>
+
+            <div id="mobile-nav"
+                class="hidden md:flex items-center gap-10 absolute md:relative top-full md:top-auto left-0 md:left-auto right-0 md:right-auto w-full md:w-auto bg-dark/95 md:bg-transparent flex-col md:flex-row p-6 md:p-0 border-b md:border-0 border-white/10">
+                <button
+                    class="scroll-btn text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="about">O Mně</button>
+                <button
+                    class="scroll-btn text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="services">Služby</button>
+                <button
+                    class="scroll-btn text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="gallery">Galerie</button>
+                <a href="#contact"
+                    class="text-light hover:text-brand transition font-medium uppercase tracking-wider">Kontakt</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="min-h-screen bg-dark flex items-center justify-center pt-20">
+        <div class="text-center px-4">
+            <h1>
+                <span
+                    class="block text-light text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-2 uppercase">Profesionální</span>
+                <span
+                    class="block text-brand text-6xl md:text-8xl lg:text-9xl font-script tracking-tight">Videoprodukce</span>
+            </h1>
+        </div>
+    </section>
+
+    <section id="about" class="bg-zinc-900 py-24 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+
+            <div class="opacity-fade">
+                <img src="../src/assets/creator.jpg" alt="Tvůrce s kamerou a dronem"
+                    class="w-full h-96 md:h-96 object-cover rounded-2xl border border-white/10" />
+            </div>
+
+            <div class="opacity-fade">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-1 bg-brand rounded-full"></div>
+                        <span class="text-brand text-sm font-semibold tracking-widest uppercase">Kdo jsem</span>
+                    </div>
+                    <h2 class="text-light text-4xl md:text-5xl font-bold tracking-tight">Poznejte svého tvůrce</h2>
+                    <div class="border-l-4 border-brand pl-6">
+                        <p class="text-gray-300 text-lg leading-relaxed">
+                            Jsem filmař a fotograf specializující se na realitní trh. Pomáhám makléřům a majitelům
+                            nemovitostí ukázat skutečný potenciál jejich prostorů.
+                        </p>
+                    </div>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        Spojuji moderní technologie, jako jsou drony a stabilizátory obrazu, s citem pro kompozici a
+                        světlo. Mým cílem je vytvořit vizuální zážitek, který prodává.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="bg-dark py-24 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto text-center">
+
+            <div class="opacity-fade">
+                <h2 class="text-light text-4xl md:text-5xl font-bold mb-4 tracking-tight">Moje Služby</h2>
+                <p class="text-gray-400 text-xl mb-16">Komplexní řešení pro prezentaci vašich nemovitostí</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <div
+                    class="opacity-fade bg-white/5 p-8 rounded-xl transition-all duration-300 text-left group border border-white/10 hover:border-brand/50">
+                    <div
+                        class="w-12 h-12 bg-brand/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-brand/20 transition-colors">
+                        <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-light text-xl font-semibold mb-3">Letecké záběry (Dron)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Ukažte kontext okolí, rozlehlost pozemku a unikátní
+                        úhly pohledu díky profesionálním záběrům ze vzduchu ve 4K rozlišení.</p>
+                </div>
+
+                <div
+                    class="opacity-fade bg-white/5 p-8 rounded-xl transition-all duration-300 text-left group border border-white/10 hover:border-brand/50">
+                    <div
+                        class="w-12 h-12 bg-brand/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-brand/20 transition-colors">
+                        <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="text-light text-xl font-semibold mb-3">Plynulé průchody (Stabilizace)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Zprostředkujte zájemcům pocit z osobní prohlídky.
+                        Ultra-plynulé záběry interiéru, které představí dispozice a atmosféru domu.</p>
+                </div>
+
+                <div
+                    class="opacity-fade bg-white/5 p-8 rounded-xl transition-all duration-300 text-left group border border-white/10 hover:border-brand/50">
+                    <div
+                        class="w-12 h-12 bg-brand/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-brand/20 transition-colors">
+                        <svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-light text-xl font-semibold mb-3">Realitní fotografie</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Ostré, světlé a barevně vyvážené snímky interiérů a
+                        exteriérů, které na inzertních portálech okamžitě zaujmou.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-zinc-900 py-24 overflow-hidden">
+
+        <div class="opacity-fade">
+            <div class="text-center mb-16 px-4">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <div class="w-8 h-1 bg-brand rounded-full"></div>
+                    <span class="text-brand text-sm font-semibold tracking-widest uppercase">Reference</span>
+                    <div class="w-8 h-1 bg-brand rounded-full"></div>
+                </div>
+                <h2 class="text-light text-4xl md:text-5xl font-bold tracking-tight">Co říkají klienti</h2>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+            <div class="flex gap-8 animate-marquee w-max">
+
+                <article
+                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
+                    <span
+                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
+                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
+                        Kvalita, která prodává</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
+                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
+                        <div>
+                            <p class="text-light text-sm font-medium tracking-wider">Martin Novák</p>
+                            <p class="text-gray-400 text-xs mt-0.5 italic">Realitní makléř</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
+                    <span
+                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
+                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
+                        Skvělé letecké záběry</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
+                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
+                        <div>
+                            <p class="text-light text-sm font-medium tracking-wider">Jana Dvořáková</p>
+                            <p class="text-gray-400 text-xs mt-0.5 italic">Majitelka nemovitosti</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article
+                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
+                    <span
+                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
+                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
+                        Profesionální přístup</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
+                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
+                        <div>
+                            <p class="text-light text-sm font-medium tracking-wider">Tomáš Svoboda</p>
+                            <p class="text-gray-400 text-xs mt-0.5 italic">Developer</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="bg-dark py-24 overflow-hidden">
+
+        <div class="opacity-fade">
+            <div class="px-4 md:px-8 text-center mb-16">
+                <h2 class="text-light text-5xl md:text-6xl font-bold tracking-tight mb-4">GALERIE</h2>
+                <a href="#"
+                    class="inline-flex items-center gap-2 bg-white/10 text-light px-6 py-3 rounded-full font-medium text-sm hover:bg-brand hover:text-dark transition-all duration-300 group uppercase tracking-wider">
+                    Zobrazit vše
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+            <div class="flex gap-6 animate-marquee w-max">
+
+                <a href="#" class="group cursor-pointer relative block flex-shrink-0 w-72 h-80">
+                    <img src="../src/assets/gallery-1.jpg" alt="Zlatá hodinka exteriér" loading="lazy"
+                        class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105 border border-white/5" />
+                    <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/40 rounded-xl transition-all"></div>
+                    <span
+                        class="absolute bottom-4 left-4 text-light text-sm opacity-0 group-hover:opacity-100 transition-opacity font-medium tracking-wide">Exteriér
+                        - Zlatá hodinka</span>
+                </a>
+
+                <a href="#" class="group cursor-pointer relative block flex-shrink-0 w-72 h-80">
+                    <img src="../src/assets/gallery-2.jpg" alt="Letecké záběry" loading="lazy"
+                        class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105 border border-white/5" />
+                    <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/40 rounded-xl transition-all"></div>
+                    <span
+                        class="absolute bottom-4 left-4 text-light text-sm opacity-0 group-hover:opacity-100 transition-opacity font-medium tracking-wide">Letecký
+                        pohled</span>
+                </a>
+
+                <a href="#" class="group cursor-pointer relative block flex-shrink-0 w-72 h-80">
+                    <img src="../src/assets/gallery-3.jpg" alt="Moderní interiér" loading="lazy"
+                        class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105 border border-white/5" />
+                    <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/40 rounded-xl transition-all"></div>
+                    <span
+                        class="absolute bottom-4 left-4 text-light text-sm opacity-0 group-hover:opacity-100 transition-opacity font-medium tracking-wide">Interiér
+                        - Detail</span>
+                </a>
+
+                <a href="#" class="group cursor-pointer relative block flex-shrink-0 w-72 h-80">
+                    <img src="../src/assets/gallery-4.jpg" alt="Architektura" loading="lazy"
+                        class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105 border border-white/5" />
+                    <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/40 rounded-xl transition-all"></div>
+                    <span
+                        class="absolute bottom-4 left-4 text-light text-sm opacity-0 group-hover:opacity-100 transition-opacity font-medium tracking-wide">Architektura</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-zinc-900 py-16 px-4 md:px-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-brand text-2xl font-script tracking-wide">OD Videos</span>
+                </div>
+                <p class="text-gray-400 text-sm mb-2">Profesionální filmař a fotograf pro realitní trh. Zachycuji
+                    prostor tak, jak si zaslouží.</p>
+
+                <div class="flex gap-4 mt-6">
+                    <a href="#"
+                        class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand hover:text-dark transition-all duration-300"
+                        aria-label="Instagram">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.205 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
+                        </svg>
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-brand hover:text-dark transition-all duration-300"
+                        aria-label="Vimeo">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M22.396 7.164c-.093 2.026-1.507 4.8-4.245 8.32C15.323 19.16 12.93 21 10.97 21c-1.214 0-2.24-1.12-3.08-3.36-.56-2.052-1.119-4.1-1.68-6.15-.622-2.24-1.26-3.36-1.913-3.36-.186 0-.746.326-1.68 1.026L1.332 7.74c1.12-1.072 2.333-2.193 3.64-3.36 1.773-1.54 3.126-2.38 4.06-2.52 1.633-.233 2.753.653 3.36 2.66.513 1.773.933 3.5 1.26 5.18.373 2.146.746 3.22 1.12 3.22.28 0 .746-.466 1.4-1.4.653-.933 1.073-1.726 1.26-2.38.28-1.026-.046-1.54-1.026-1.54-.513 0-1.026.093-1.54.28 1.073-3.266 3.033-4.853 5.88-4.76 1.96.093 2.893 1.4 2.893 3.92z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-light text-sm font-semibold tracking-widest mb-6 uppercase">Kontakt</h3>
+                <p class="text-gray-400 text-sm mb-2">info@odvideos.cz</p>
+                <p class="text-gray-400 text-sm mb-2">+420 123 456 789</p>
+                <p class="text-gray-400 text-sm">Praha & okolí</p>
+            </div>
+
+            <div>
+                <h3 class="text-light text-sm font-semibold tracking-widest mb-6 uppercase">Rychlé odkazy</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-400 text-sm hover:text-brand transition">Služby a ceník</a></li>
+                    <li><a href="#" class="text-gray-400 text-sm hover:text-brand transition">Podmínky spolupráce</a>
+                    </li>
+                    <li><a href="#" class="text-gray-400 text-sm hover:text-brand transition">Ochrana soukromí</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-light text-sm font-semibold tracking-widest mb-6 uppercase">Napište mi</h3>
+                <form id="contact-form" class="flex gap-2">
+                    <input type="email" placeholder="Váš e-mail"
+                        class="flex-1 bg-white/10 text-light text-sm px-4 py-2 rounded border border-white/20 placeholder-gray-500 focus:outline-none focus:border-brand"
+                        required />
+                    <button type="submit"
+                        class="bg-brand text-dark px-4 py-2 rounded font-medium text-sm hover:bg-yellow-600 transition">Odeslat</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 OD Videos. Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+    <button id="scroll-top-btn"
+        class="fixed bottom-8 right-8 w-12 h-12 bg-brand text-dark rounded-full flex items-center justify-center cursor-pointer opacity-0 pointer-events-none transition-opacity duration-300 hover:scale-110 z-40">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+
 </html>
