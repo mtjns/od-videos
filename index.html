@@ -32,6 +32,28 @@
             }
         }
     </script>
+    <style>
+        /* Chrome/Webkit autofill override for dark mode */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Hide default dropdown arrow in IE/Edge */
+        select::-ms-expand {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-dark text-light font-sans">
@@ -66,6 +88,7 @@
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="min-h-screen bg-dark flex items-center justify-center pt-20">
         <div class="text-center px-4">
             <h1>
@@ -77,6 +100,7 @@
         </div>
     </section>
 
+    <!-- About Section -->
     <section id="about" class="bg-zinc-900 py-24 px-4 md:px-8">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
 
@@ -107,6 +131,7 @@
         </div>
     </section>
 
+    <!-- Services Section -->
     <section id="services" class="bg-dark py-24 px-4 md:px-8">
         <div class="max-w-6xl mx-auto text-center">
 
@@ -167,73 +192,192 @@
         </div>
     </section>
 
-    <section class="bg-zinc-900 py-24 overflow-hidden">
+    <!-- Process Section -->
+    <section class="bg-zinc-900 py-24 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto">
 
-        <div class="opacity-fade">
-            <div class="text-center mb-16 px-4">
+            <div class="text-center mb-16 opacity-fade">
                 <div class="flex items-center justify-center gap-3 mb-4">
                     <div class="w-8 h-1 bg-brand rounded-full"></div>
-                    <span class="text-brand text-sm font-semibold tracking-widest uppercase">Reference</span>
+                    <span class="text-brand text-sm font-semibold tracking-widest uppercase">Spolupráce</span>
                     <div class="w-8 h-1 bg-brand rounded-full"></div>
                 </div>
-                <h2 class="text-light text-4xl md:text-5xl font-bold tracking-tight">Co říkají klienti</h2>
+                <h2 class="text-light text-4xl md:text-5xl font-bold tracking-tight">Jak probíhá focení a natáčení</h2>
             </div>
-        </div>
 
-        <div class="relative overflow-hidden">
-            <div class="flex gap-8 animate-marquee w-max">
+            <div class="grid md:grid-cols-3 gap-12 relative">
 
-                <article
-                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
-                    <span
-                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
-                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
-                        Kvalita, která prodává</p>
-                    <div class="flex items-center gap-3">
-                        <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
-                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
-                        <div>
-                            <p class="text-light text-sm font-medium tracking-wider">Martin Novák</p>
-                            <p class="text-gray-400 text-xs mt-0.5 italic">Realitní makléř</p>
-                        </div>
+                <div class="hidden md:block absolute top-8 left-[16%] right-[16%] h-[2px] bg-white/10 z-0"></div>
+
+                <div class="relative z-10 text-center opacity-fade">
+                    <div
+                        class="w-16 h-16 mx-auto bg-dark border-2 border-brand rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(217,166,28,0.2)]">
+                        <span class="text-brand text-2xl font-bold font-sans">1</span>
                     </div>
-                </article>
+                    <h3 class="text-light text-xl font-semibold mb-3 uppercase tracking-wide">Plánování a termín</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Spojíme se, probereme velikost nemovitosti a vybereme ideální čas s ohledem na počasí a světelné
+                        podmínky.
+                    </p>
+                </div>
 
-                <article
-                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
-                    <span
-                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
-                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
-                        Skvělé letecké záběry</p>
-                    <div class="flex items-center gap-3">
-                        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
-                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
-                        <div>
-                            <p class="text-light text-sm font-medium tracking-wider">Jana Dvořáková</p>
-                            <p class="text-gray-400 text-xs mt-0.5 italic">Majitelka nemovitosti</p>
-                        </div>
+                <div class="relative z-10 text-center opacity-fade">
+                    <div
+                        class="w-16 h-16 mx-auto bg-brand rounded-full flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(217,166,28,0.4)]">
+                        <span class="text-dark text-2xl font-bold font-sans">2</span>
                     </div>
-                </article>
+                    <h3 class="text-light text-xl font-semibold mb-3 uppercase tracking-wide">Samotné focení</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Přijedu na místo s drony a stabilizátory. Samotný proces zabere obvykle 1 až 2 hodiny podle
+                        velikosti objektu.
+                    </p>
+                </div>
 
-                <article
-                    class="bg-dark/30 backdrop-blur-sm p-10 rounded-2xl border border-white/10 min-w-[340px] max-w-[400px] flex-shrink-0 relative">
-                    <span
-                        class="absolute -top-4 left-8 text-white/20 text-7xl font-script leading-none select-none">"</span>
-                    <p class="text-light text-2xl font-bold tracking-tight mb-6 leading-tight relative z-10 uppercase">
-                        Profesionální přístup</p>
-                    <div class="flex items-center gap-3">
-                        <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop"
-                            alt="Klient" class="w-10 h-10 rounded-full object-cover grayscale" />
-                        <div>
-                            <p class="text-light text-sm font-medium tracking-wider">Tomáš Svoboda</p>
-                            <p class="text-gray-400 text-xs mt-0.5 italic">Developer</p>
-                        </div>
+                <div class="relative z-10 text-center opacity-fade">
+                    <div
+                        class="w-16 h-16 mx-auto bg-dark border-2 border-brand rounded-full flex items-center justify-center mb-6 shadow-[0_0_15px_rgba(217,166,28,0.2)]">
+                        <span class="text-brand text-2xl font-bold font-sans">3</span>
                     </div>
-                </article>
+                    <h3 class="text-light text-xl font-semibold mb-3 uppercase tracking-wide">Postprodukce a dodání</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Veškerý materiál profesionálně upravím, sestříhám a dodám v nejvyšší kvalitě připravený pro
+                        inzerci
+                        do 48 hodin.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Contact Form Section -->
+    <section id="contact-form-section"
+        class="bg-dark py-24 px-4 md:px-8 border-t border-white/5 relative overflow-hidden">
+
+        <div
+            class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start relative z-10">
+
+            <div class="opacity-fade">
+                <h2 class="text-light text-4xl md:text-5xl font-bold tracking-tight mb-6">Pojďme prodat vaši další
+                    nemovitost</h2>
+                <p class="text-gray-400 text-lg mb-12 leading-relaxed">
+                    Máte zájem o nacenění služeb nebo chcete rovnou rezervovat termín? Vyplňte formulář a ozvu se vám co
+                    nejdříve.
+                </p>
+
+                <ul class="space-y-6">
+                    <li class="flex items-center gap-5">
+                        <div
+                            class="w-10 h-10 rounded-full border border-brand/30 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 tracking-wide">Dodání materiálů do 48 hodin</span>
+                    </li>
+                    <li class="flex items-center gap-5">
+                        <div
+                            class="w-10 h-10 rounded-full border border-brand/30 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 tracking-wide">Licence pro veškeré inzertní portály</span>
+                    </li>
+                    <li class="flex items-center gap-5">
+                        <div
+                            class="w-10 h-10 rounded-full border border-brand/30 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300 tracking-wide">Flexibilní přizpůsobení počasí</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="opacity-fade md:pl-10">
+                <form action="#" method="POST" class="space-y-10">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+                        <div class="relative group">
+                            <input type="text" id="name" name="name" placeholder="Jméno a příjmení" required
+                                class="w-full bg-transparent border-0 border-b border-white/20 px-0 py-3 text-light text-lg placeholder-gray-600 focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                        </div>
+
+                        <div class="relative group">
+                            <input type="tel" id="phone" name="phone" placeholder="Telefon (+420...)" required
+                                class="w-full bg-transparent border-0 border-b border-white/20 px-0 py-3 text-light text-lg placeholder-gray-600 focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <input type="email" id="email" name="email" placeholder="E-mailová adresa" required
+                            class="w-full bg-transparent border-0 border-b border-white/20 px-0 py-3 text-light text-lg placeholder-gray-600 focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                    </div>
+
+                    <div class="relative group">
+                        <div class="relative border-b border-white/20 focus-within:border-brand transition-colors">
+                            <select id="service" name="service" required
+                                class="w-full bg-transparent border-0 px-0 py-3 text-light text-lg focus:ring-0 focus:outline-none appearance-none cursor-pointer peer">
+
+                                <option value="" disabled selected class="bg-zinc-900 text-gray-500">O jakou službu máte
+                                    zájem?
+                                </option>
+                                <option value="komplet" class="bg-zinc-900 text-light py-2">Kompletní balíček (Foto +
+                                    Video + Dron)
+                                </option>
+                                <option value="video" class="bg-zinc-900 text-light py-2">Video prohlídka & Dron
+                                </option>
+                                <option value="foto" class="bg-zinc-900 text-light py-2">Pouze Fotografie</option>
+                                <option value="jine" class="bg-zinc-900 text-light py-2">Individuální poptávka</option>
+                            </select>
+
+                            <div
+                                class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-brand peer-focus:rotate-180 transition-transform duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group mt-8">
+                        <textarea id="message" name="message" rows="3" placeholder="Zpráva nebo odkaz na nemovitost..."
+                            required
+                            class="w-full bg-transparent border-0 border-b border-white/20 px-0 py-3 text-light text-lg placeholder-gray-600 focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit"
+                            class="group relative inline-flex items-center gap-4 text-brand hover:text-white transition-colors duration-300">
+                            <span class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
+                            <span
+                                class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
+                                <svg class="w-5 h-5 text-brand group-hover:text-dark transition-colors duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
     <section id="gallery" class="bg-dark py-24 overflow-hidden">
 
         <div class="opacity-fade">
@@ -292,7 +436,8 @@
         </div>
     </section>
 
-    <footer id="contact" class="bg-zinc-900 py-16 px-4 md:px-8 border-t border-white/10">
+    <!-- Footer -->
+    <footer class="bg-zinc-900 py-16 px-4 md:px-8 border-t border-white/10">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
 
             <div>
@@ -362,7 +507,7 @@
         </div>
     </footer>
 
-    <button id="scroll-top-btn"
+    <button id="scroll-top-btn" aria-label="Nahoru" type="button"
         class="fixed bottom-8 right-8 w-12 h-12 bg-brand text-dark rounded-full flex items-center justify-center cursor-pointer opacity-0 pointer-events-none transition-opacity duration-300 hover:scale-110 z-40">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
