@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 
-# Ensure the local environment matches the GitHub Pages production build
+# Jekyll plugin bundle used by the site
 gem "github-pages", group: :jekyll_plugins
 
-# Official GitHub Pages SEO and Sitemap plugins
+# SEO and sitemap plugins
 gem "jekyll-seo-tag"
 gem "jekyll-sitemap"
 
