@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% seo %}
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        /* Override Chrome/Webkit autofill styles for dark mode */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Hide default dropdown arrow in IE/Edge */
+        select::-ms-expand {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    {% include nav.html %}
+
+    {{ content }}
+
+    {% include footer.html %}
+
+    <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

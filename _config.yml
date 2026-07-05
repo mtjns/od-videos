@@ -1,0 +1,13 @@
+title: "OD Videos"
+description: "Profesionální videa a fotografie z dronu. Záběry z dronu, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky"
+url: "https://odvideos.cz"
+
+# Exclude raw development files from the production build
+exclude:
+  - .devcontainer/
+  - Gemfile
+  - Gemfile.lock
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap

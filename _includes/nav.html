@@ -1,0 +1,30 @@
+<header class="fixed w-full z-50 border-b border-white/10 bg-dark/90 backdrop-blur-md">
+    <nav class="relative flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
+
+        <a href="{{ '/' | relative_url }}" aria-label="OD Videos Home" id="logo"
+            class="text-4xl font-script text-brand tracking-wide">
+            OD Videos
+        </a>
+
+        <div id="mobile-menu-btn" class="md:hidden cursor-pointer flex flex-col gap-1.5">
+            <div class="w-6 h-0.5 bg-light transition-all" id="line1"></div>
+            <div class="w-6 h-0.5 bg-light transition-all" id="line2"></div>
+            <div class="w-6 h-0.5 bg-light transition-all" id="line3"></div>
+        </div>
+
+        <div id="mobile-nav"
+            class="hidden md:flex absolute md:static inset-x-0 top-full z-50 w-full md:w-auto flex-col md:flex-row items-start md:items-center gap-4 md:gap-10 bg-dark/95 md:bg-transparent p-6 md:p-0 border-b md:border-0 border-white/10 shadow-xl md:shadow-none">
+            <button
+                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                data-target="about">O Mně</button>
+            <button
+                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                data-target="services">Služby</button>
+            <button
+                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                data-target="gallery">Galerie</button>
+            <a href="#contact"
+                class="block w-full md:w-auto text-light hover:text-brand transition font-medium uppercase tracking-wider">Kontakt</a>
+        </div>
+    </nav>
+</header>

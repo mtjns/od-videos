@@ -1,229 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+layout: default
+title: "Student Gallery"
+---
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Gallery - Photography Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #111827;
-            color: #ffffff;
-        }
+<style>
+    /* page-scoped background color preserved from original */
+    body {
+        background-color: #111827;
+        color: #ffffff;
+    }
 
-        .header-nav {
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(12px);
-        }
-    </style>
-</head>
+    .header-nav {
+        background-color: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(12px);
+    }
+</style>
 
-<body>
-    <!-- Header Navigation -->
-    <header class="header-nav fixed w-full z-50 border-b border-white/10">
-        <nav class="flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
-            <a href="../index.html" class="text-white">
-                <svg viewBox="0 0 48 48" class="w-12 h-12 text-amber-500" fill="none" stroke="currentColor"
-                    stroke-width="2">
-                    <circle cx="24" cy="24" r="20" />
-                    <circle cx="24" cy="24" r="8" />
-                    <line x1="24" y1="4" x2="24" y2="16" />
-                    <line x1="24" y1="32" x2="24" y2="44" />
-                    <line x1="4" y1="24" x2="16" y2="24" />
-                    <line x1="32" y1="24" x2="44" y2="24" />
-                </svg>
+<!-- Gallery Content -->
+<div class="min-h-screen pt-28 pb-24 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-white text-4xl md:text-5xl font-bold tracking-tight mb-4">Student Gallery</h1>
+        <p class="text-gray-400 text-xl mb-16">Incredible work from our photography students</p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Gallery Item 1 -->
+            <a href="{{ '/gallery-detail.html?id=golden-hour-portrait' | relative_url }}"
+                class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
+                <img src="/assets/images/gallery-1.jpg" alt="Portrait in golden hour light"
+                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <h3 class="text-white text-lg font-semibold mb-2">Golden Hour Portrait</h3>
+                    <p class="text-amber-400 text-sm">by Aisha Thompson</p>
+                </div>
             </a>
-            <a href="../index.html" class="text-white hover:text-amber-500 transition font-medium">BACK TO HOME</a>
-        </nav>
-    </header>
 
-    <!-- Gallery Content -->
-    <div class="min-h-screen pt-28 pb-24 px-4 md:px-8">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-white text-4xl md:text-5xl font-bold tracking-tight mb-4">Student Gallery</h1>
-            <p class="text-gray-400 text-xl mb-16">Incredible work from our photography students</p>
+            <!-- Gallery Item 2 -->
+            <a href="{{ '/gallery-detail.html?id=aerial-autumn' | relative_url }}"
+                class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
+                <img src="/assets/images/gallery-2.jpg" alt="Aerial landscape of autumn forest"
+                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <h3 class="text-white text-lg font-semibold mb-2">Aerial Autumn</h3>
+                    <p class="text-amber-400 text-sm">by David Kim</p>
+                </div>
+            </a>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Gallery Item 1 -->
-                <a href="gallery-detail.html?id=golden-hour-portrait"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-1.jpg" alt="Portrait in golden hour light"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Golden Hour Portrait</h3>
-                        <p class="text-amber-400 text-sm">by Aisha Thompson</p>
-                    </div>
-                </a>
+            <!-- Gallery Item 3 -->
+            <a href="{{ '/gallery-detail.html?id=urban-street' | relative_url }}"
+                class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
+                <img src="/assets/images/gallery-3.jpg" alt="Street photography candid moment"
+                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <h3 class="text-white text-lg font-semibold mb-2">Urban Street</h3>
+                    <p class="text-amber-400 text-sm">by Marcus Rivera</p>
+                </div>
+            </a>
 
-                <!-- Gallery Item 2 -->
-                <a href="gallery-detail.html?id=aerial-autumn"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-2.jpg" alt="Aerial landscape of autumn forest"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Aerial Autumn</h3>
-                        <p class="text-amber-400 text-sm">by David Kim</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 3 -->
-                <a href="gallery-detail.html?id=urban-street"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-3.jpg" alt="Street photography candid moment"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Urban Street</h3>
-                        <p class="text-amber-400 text-sm">by Marcus Rivera</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 4 -->
-                <a href="gallery-detail.html?id=macro-details"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-4.jpg" alt="Macro water droplets on rose petals"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Macro Details</h3>
-                        <p class="text-amber-400 text-sm">by Elena Vasquez</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 5 -->
-                <a href="gallery-detail.html?id=star-trails"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-5.jpg" alt="Star trails over mountain silhouette"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Star Trails</h3>
-                        <p class="text-amber-400 text-sm">by James Park</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 6 -->
-                <a href="gallery-detail.html?id=bw-portrait"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-6.jpg" alt="Black and white dramatic portrait"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">B&W Portrait</h3>
-                        <p class="text-amber-400 text-sm">by Sofia Andersson</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 7 -->
-                <a href="gallery-detail.html?id=architecture"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-7.jpg" alt="Symmetrical architectural interior"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Architecture</h3>
-                        <p class="text-amber-400 text-sm">by Marcus Chen</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 8 -->
-                <a href="gallery-detail.html?id=vintage-nostalgia"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-8.jpg" alt="Film grain vintage color graded portrait"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Vintage Nostalgia</h3>
-                        <p class="text-amber-400 text-sm">by Isabella Rodriguez</p>
-                    </div>
-                </a>
-
-                <!-- Gallery Item 9 -->
-                <a href="gallery-detail.html?id=wedding-moments"
-                    class="group cursor-pointer relative block overflow-hidden rounded-xl h-80">
-                    <img src="../assets/gallery-9.jpg" alt="Candid emotional wedding photography moment"
-                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <h3 class="text-white text-lg font-semibold mb-2">Wedding Moments</h3>
-                        <p class="text-amber-400 text-sm">by Lucas Thompson</p>
-                    </div>
-                </a>
-            </div>
+            <!-- More items... replace paths to /assets/images/... as needed -->
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-black py-16 px-4 md:px-8 border-t border-white/10">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
-            <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <svg viewBox="0 0 48 48" class="w-10 h-10 text-amber-500" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <circle cx="24" cy="24" r="20" />
-                        <circle cx="24" cy="24" r="8" />
-                        <line x1="24" y1="4" x2="24" y2="16" />
-                        <line x1="24" y1="32" x2="24" y2="44" />
-                        <line x1="4" y1="24" x2="16" y2="24" />
-                        <line x1="32" y1="24" x2="44" y2="24" />
-                    </svg>
-                    <span class="text-white text-sm font-semibold tracking-widest">SHUTTER THEORY</span>
-                </div>
-                <p class="text-gray-400 text-sm mb-2">Transforming aspiring photographers into confident visual
-                    storytellers.</p>
-            </div>
-            <div>
-                <h3 class="text-white text-sm font-semibold tracking-widest mb-6">CONTACT</h3>
-                <p class="text-gray-400 text-sm mb-2">hello@shuttertheory.com</p>
-                <p class="text-gray-400 text-sm mb-2">+1 (555) 789-0123</p>
-                <p class="text-gray-400 text-sm">456 Creative Lane, Portland, OR 97209</p>
-            </div>
-            <div>
-                <h3 class="text-white text-sm font-semibold tracking-widest mb-6">QUICK LINKS</h3>
-                <ul class="space-y-2">
-                    <li><a href="privacy-policy.html"
-                            class="text-gray-400 text-sm hover:text-amber-500 transition">Privacy Policy</a></li>
-                    <li><a href="terms-of-service.html"
-                            class="text-gray-400 text-sm hover:text-amber-500 transition">Terms of Service</a></li>
-                    <li><a href="refund-policy.html"
-                            class="text-gray-400 text-sm hover:text-amber-500 transition">Refund Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 Photography Academy. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-
-</html>
+</div>
