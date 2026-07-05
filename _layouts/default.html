@@ -8,7 +8,7 @@
     {% seo %}
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <style>
         /* Override Chrome/Webkit autofill styles for dark mode */
         input:-webkit-autofill,
@@ -40,7 +40,7 @@
 
     {% include footer.html %}
 
-    <script src="/assets/js/main.js"></script>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 
 </html>
