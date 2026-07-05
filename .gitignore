@@ -12,6 +12,9 @@
 
 old/
 
+# Ignore the generated compiled site
+_site/
+
 # Ignore Jekyll caches
 .sass-cache/
 .jekyll-cache/
