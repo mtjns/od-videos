@@ -1,1 +1,1 @@
-Sitemap: https://odvideos.cz/od-videos/sitemap.xml
+Sitemap: https://odvideos.cz/sitemap.xml
