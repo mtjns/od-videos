@@ -10,4 +10,16 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
-old/*
+old/
+
+# Ignore Jekyll caches
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ignore Ruby environment bloat (since you are using a Docker container)
+.bundle/
+vendor/
+
+# Optional: Ignore the Dev Container configuration if you don't want it public
+# .devcontainer/
