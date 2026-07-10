@@ -23,6 +23,8 @@ _site/
 # Ignore Ruby environment bloat (since you are using a Docker container)
 .bundle/
 vendor/
+.ruby-lsp/
+
 
 # Optional: Ignore the Dev Container configuration if you don't want it public
 # .devcontainer/
