@@ -1,12 +1,12 @@
 ---
-layout: default
+layout: minimal
 title: "404 — Page Not Found"
-permalink: /404.html
+permalink: /404
 ---
 
 <style>
     body {
-        background-color: #000000;
+        background-color: hsl(0, 0%, 0%);
         color: #ffffff;
     }
 
@@ -21,23 +21,23 @@ permalink: /404.html
         <div class="mb-8">
             <h1 class="text-9xl md:text-[150px] font-bold text-amber-500 tracking-tighter">404</h1>
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Page Not Found</h2>
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Stránka nenalezena</h2>
         <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-            Oops! It looks like the page you're looking for doesn't exist. This might be because the URL is
-            incorrect or the page has been moved.
+            Tady žádný videa nenajdeš kámo. Možná jsi se ztratil, nebo stránka byla odstraněna. Zkus se vrátit na hlavní
+            stránku nebo do galerie.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{{ '/' | relative_url }}"
-                class="inline-block bg-amber-500 text-black px-8 py-3 rounded-full font-semibold hover:bg-amber-400 transition-all duration-300 hover:scale-105">Return
-                to Home</a>
+                class="inline-block bg-amber-500 text-black px-8 py-3 rounded-full font-semibold hover:bg-amber-400 transition-all duration-300 hover:scale-105">Vrátit
+                se na hlavní stránku</a>
             <a href="{{ '/#gallery' | relative_url }}"
-                class="inline-block bg-white/10 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">Explore
-                Gallery</a>
+                class="inline-block bg-white/10 text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-300">Prozkoumat
+                Galerii</a>
         </div>
 
         <!-- Helpful Links -->
         <div class="mt-16 pt-8 border-t border-white/10">
-            <p class="text-gray-500 text-sm mb-6">Here are some helpful links:</p>
+            <p class="text-gray-500 text-sm mb-6">Užitečné odkazy:</p>
             <ul class="space-y-3">
                 <li><a href="{{ '/' | relative_url }}" class="text-amber-400 hover:text-amber-300 transition">Home
                         Page</a></li>
@@ -46,7 +46,7 @@ permalink: /404.html
                 <li><a href="{{ '/course-schedule.html' | relative_url }}"
                         class="text-amber-400 hover:text-amber-300 transition">Course Schedule</a></li>
                 <li><a href="{{ '/privacy-policy.html' | relative_url }}"
-                        class="text-amber-400 hover:text-amber-300 transition">Privacy Policy</a></li>
+                        class="text-amber-400 hover:text-amber-300 transition">Zásady ochrany osobních údajů</a></li>
             </ul>
         </div>
     </div>

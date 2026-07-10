@@ -1,30 +1,49 @@
-<header class="fixed w-full z-50 border-b border-white/10 bg-dark/90 backdrop-blur-md">
+<header class="fixed w-full z-50 border-b border-line/10 bg-base/90 backdrop-blur-md">
     <nav class="relative flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
 
-        <a href="{{ '/' | relative_url }}" aria-label="OD Videos Home" id="logo"
-            class="text-4xl font-script text-brand tracking-wide">
-            OD Videos
+        <a href="{{ '/' | relative_url }}" aria-label="OD Videos Home" id="logo" class="flex items-center">
+            <!-- Color logo for light theme, white logo for dark theme -->
+            <img src="{{ '/assets/images/logo/logo-color.png' | relative_url }}" alt="OD Videos"
+                class="h-12 w-auto block dark:hidden" />
+            <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt="OD Videos"
+                class="h-12 w-auto hidden dark:block" />
         </a>
 
-        <div id="mobile-menu-btn" class="md:hidden cursor-pointer flex flex-col gap-1.5">
-            <div class="w-6 h-0.5 bg-light transition-all" id="line1"></div>
-            <div class="w-6 h-0.5 bg-light transition-all" id="line2"></div>
-            <div class="w-6 h-0.5 bg-light transition-all" id="line3"></div>
-        </div>
+        <div class="flex items-center gap-4 md:gap-8">
 
-        <div id="mobile-nav"
-            class="hidden md:flex absolute md:static inset-x-0 top-full z-50 w-full md:w-auto flex-col md:flex-row items-start md:items-center gap-4 md:gap-10 bg-dark/95 md:bg-transparent p-6 md:p-0 border-b md:border-0 border-white/10 shadow-xl md:shadow-none">
-            <button
-                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                data-target="about">O Mně</button>
-            <button
-                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                data-target="services">Služby</button>
-            <button
-                class="scroll-btn block w-full md:w-auto text-light hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                data-target="gallery">Galerie</button>
-            <a href="#contact"
-                class="block w-full md:w-auto text-light hover:text-brand transition font-medium uppercase tracking-wider">Kontakt</a>
+            <div id="mobile-nav"
+                class="hidden md:flex absolute md:static inset-x-0 top-full z-50 w-full md:w-auto flex-col md:flex-row items-start md:items-center gap-4 md:gap-10 bg-base/95 md:bg-transparent p-6 md:p-0 border-b md:border-0 border-line/10 shadow-xl md:shadow-none">
+                <button
+                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="about">O Mně</button>
+                <button
+                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="services">Služby</button>
+                <button
+                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
+                    data-target="gallery">Galerie</button>
+                <a href="#contact"
+                    class="block w-full md:w-auto text-fg hover:text-brand transition font-medium uppercase tracking-wider">Kontakt</a>
+            </div>
+
+            <!-- Theme toggle: moon shown in light mode (switch to dark), sun shown in dark mode (switch to light) -->
+            <button id="theme-toggle" type="button" aria-label="Přepnout světlý/tmavý režim"
+                class="w-10 h-10 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+
+            <div id="mobile-menu-btn" class="md:hidden cursor-pointer flex flex-col gap-1.5">
+                <div class="w-6 h-0.5 bg-fg transition-all" id="line1"></div>
+                <div class="w-6 h-0.5 bg-fg transition-all" id="line2"></div>
+                <div class="w-6 h-0.5 bg-fg transition-all" id="line3"></div>
+            </div>
         </div>
     </nav>
 </header>

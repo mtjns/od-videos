@@ -53,19 +53,42 @@ if (logo) {
 
 // Scroll to top button
 const scrollTopBtn = document.getElementById('scroll-top-btn');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        scrollTopBtn.classList.add('opacity-100');
-        scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
-    } else {
-        scrollTopBtn.classList.remove('opacity-100');
-        scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
-    }
-});
-
 if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollTopBtn.classList.add('opacity-100');
+            scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        } else {
+            scrollTopBtn.classList.remove('opacity-100');
+            scrollTopBtn.classList.add('opacity-0', 'pointer-events-none');
+        }
+    });
+
     scrollTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// Theme toggle: flip the `.dark` class on <html> and remember the choice.
+// Initial theme is set pre-paint by an inline script in the layout head.
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        try {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch (e) { /* storage unavailable — theme still applies for this session */ }
+    });
+}
+
+// Follow the OS setting live, but only while the visitor hasn't picked a theme manually.
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        let stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (err) { /* ignore */ }
+        if (!stored) {
+            document.documentElement.classList.toggle('dark', e.matches);
+        }
     });
 }
 

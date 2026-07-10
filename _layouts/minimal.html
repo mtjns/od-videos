@@ -40,7 +40,7 @@
                         brand: 'hsl(var(--brand) / <alpha-value>)',
                         onbrand: 'hsl(0 0% 8% / <alpha-value>)',
                     },
-                },
+                }
             },
         };
     </script>
@@ -70,9 +70,48 @@
 </head>
 
 <body>
-    {% include nav.html %}
+    <!-- Minimal Header instead of full nav -->
+    <header class="w-full max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+        <a href="{{ '/' | relative_url }}"
+            class="text-muted hover:text-brand transition duration-200 inline-flex items-center gap-2 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
+            Zpět na hlavní stránku
+        </a>
 
-    {{ content }}
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button"
+            class="text-muted hover:text-brand transition duration-200 p-2 focus:outline-none"
+            aria-label="Přepnout tmavý/světlý režim">
+            <!-- Moon icon (shows in light mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="dark:hidden block">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <!-- Sun icon (shows in dark mode) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="hidden dark:block">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Main Page Content -->
+    <main>
+        {{ content }}
+    </main>
 
     {% include footer.html %}
 

@@ -232,3 +232,7 @@ This is a template project. Customize as needed.
 ## 🎓 About This Project
 
 Converted from a React + TypeScript project to pure HTML + CSS + JavaScript for better performance and simpler deployment. All functionality preserved, no framework dependencies.
+
+
+locally run
+bundle exec jekyll serve --livereload --host 0.0.0.0 --baseurl "" --force_polling

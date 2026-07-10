@@ -1,26 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* Theme tokens. Light is the default (:root); the `.dark` class on <html> flips them.
+   Consumed by the Tailwind color tokens (base/surface/fg/muted/line/brand) in _layouts/default.html. */
 :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 43 96% 56%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 220 9% 46%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 43 96% 56%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 100% / 0.1;
-    --input: 0 0% 100% / 0.1;
-    --ring: 43 96% 56%;
+    --bg: 0 0% 100%;        /* page background */
+    --surface: 240 5% 96%;  /* cards / alternating sections */
+    --fg: 0 0% 10%;         /* primary text */
+    --muted: 0 0% 38%;      /* secondary text */
+    --line: 0 0% 0%;        /* borders & subtle fills (used at low alpha) */
+    --brand: 38 82% 40%;    /* gold, darkened for contrast on light backgrounds */
     --radius: 0.75rem;
+}
+
+.dark {
+    --bg: 0 0% 0%;
+    --surface: 0 0% 9%;
+    --fg: 0 0% 100%;
+    --muted: 0 0% 65%;
+    --line: 0 0% 100%;
+    --brand: 41 76% 53%;    /* logo gold */
 }
 
 * {
@@ -34,12 +32,13 @@ html {
 }
 
 body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: hsl(var(--bg));
+    color: hsl(var(--fg));
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Animations */
@@ -139,8 +138,8 @@ body {
     right: 2rem;
     width: 3rem;
     height: 3rem;
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--brand));
+    color: hsl(0 0% 8%);
     border-radius: 50%;
     display: flex;
     align-items: center;
