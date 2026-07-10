@@ -1,0 +1,47 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "{{ site.url }}/#business",
+  "name": "OD Videos",
+  "alternateName": "Ondřej Demuth — OD Videos",
+  "description": {{ site.description | jsonify }},
+  "url": "{{ site.url }}",
+  "image": "{{ '/assets/images/portrait.jpg' | absolute_url }}",
+  "logo": "{{ '/assets/images/logo/logo-color.png' | absolute_url }}",
+  "telephone": "+420604434409",
+  "email": "od.videomaker@gmail.com",
+  "priceRange": "$$",
+  "currenciesAccepted": "CZK",
+  "founder": {
+    "@type": "Person",
+    "name": "Ondřej Demuth"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Bobr 163",
+    "addressLocality": "Žacléř",
+    "postalCode": "542 01",
+    "addressCountry": "CZ"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Česká republika"
+  },
+  "sameAs": [
+    "https://www.instagram.com/od_videos/"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Videoslužby",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Videoprohlídka nemovitosti" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Letecké záběry z dronu" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Realitní fotografie" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Svatební video" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reklamní a firemní video" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Video na sociální sítě" } }
+    ]
+  }
+}
+</script>

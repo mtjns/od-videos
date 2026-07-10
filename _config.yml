@@ -1,11 +1,24 @@
 title: "OD Videos"
-description: "Profesionální videa a fotografie z dronu. Záběry z dronu, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky, letecké záběry, letecké fotografie, letecké video, letecká fotografie, letecké snímky"
+tagline: "Váš příběh z blízka i výšky"
+description: "Nejen realitní videa, ale tvoříme také krátká videa na sociální sítě, reklamní a firemní videa i svatební filmy. Vaši představu připravíme, natočíme a profesionálně zpracujeme do finální podoby."
 logo: "/assets/images/logo/logo-color.png"
 
 url: "https://odvideos.cz"
 baseurl: ""
 
 lang: cs-CZ
+
+# Default social-share image (Open Graph / Twitter) applied to every page unless a
+# page overrides it with `image:` in its front matter. Sized 1200×630 (1.91:1).
+defaults:
+  - scope:
+      path: ""
+    values:
+      image:
+        path: "/assets/images/og-image.jpg"
+        width: 1200
+        height: 630
+        alt: "OD Videos — realitní a letecká videotvorba"
 
 author:
   name: "Ondřej Demuth"
@@ -16,6 +29,19 @@ social:
   name: "OD Videos"
   links:
     - https://www.instagram.com/od_videos/
+
+# Render link previews with a large image on X/Twitter and other consumers.
+# Fill in `username` (without @) once/if a Twitter/X profile exists — jekyll-seo-tag
+# then emits twitter:site / twitter:creator automatically.
+twitter:
+  card: summary_large_image
+  # username: od_videos
+
+# Facebook Open Graph extras — fill in if/when a Facebook page or app exists.
+# jekyll-seo-tag emits fb:app_id / article:publisher from these.
+# facebook:
+#   app_id:
+#   publisher: "https://www.facebook.com/your-page"
 
 # Google Apps Script Web App URL that receives /recenze form submissions.
 # Deploy the script in google-apps-script/ and paste the .../exec URL here.

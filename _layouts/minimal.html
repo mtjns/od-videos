@@ -1,73 +1,7 @@
 <!DOCTYPE html>
 <html lang="cs">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Resolve theme before first paint to avoid a flash:
-         stored choice wins, otherwise follow the OS setting, otherwise default to dark. -->
-    <script>
-        (function () {
-            try {
-                var stored = localStorage.getItem('theme');
-                if (stored === 'light') return;
-                if (stored === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.classList.add('dark');
-                }
-            } catch (e) {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-
-    {% seo %}
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Semantic, theme-aware color tokens. Actual values live in CSS variables
-        // (assets/css/main.css) and flip between light and dark via the `.dark` class.
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        base: 'hsl(var(--bg) / <alpha-value>)',
-                        surface: 'hsl(var(--surface) / <alpha-value>)',
-                        fg: 'hsl(var(--fg) / <alpha-value>)',
-                        muted: 'hsl(var(--muted) / <alpha-value>)',
-                        line: 'hsl(var(--line) / <alpha-value>)',
-                        brand: 'hsl(var(--brand) / <alpha-value>)',
-                        onbrand: 'hsl(0 0% 8% / <alpha-value>)',
-                    },
-                }
-            },
-        };
-    </script>
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    <style>
-        /* Override Chrome/Webkit autofill styles so they follow the active theme */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active,
-        textarea:-webkit-autofill,
-        textarea:-webkit-autofill:hover,
-        textarea:-webkit-autofill:focus,
-        select:-webkit-autofill,
-        select:-webkit-autofill:hover,
-        select:-webkit-autofill:focus {
-            -webkit-box-shadow: 0 0 0 30px transparent inset !important;
-            -webkit-text-fill-color: hsl(var(--fg)) !important;
-            transition: background-color 5000s ease-in-out 0s;
-        }
-
-        /* Hide default dropdown arrow in IE/Edge */
-        select::-ms-expand {
-            display: none;
-        }
-    </style>
-</head>
+{% include head.html %}
 
 <body>
     <!-- Minimal Header instead of full nav -->
@@ -94,26 +28,26 @@
             <button id="theme-toggle" type="button"
                 class="text-muted hover:text-brand transition duration-200 p-2 focus:outline-none"
                 aria-label="Přepnout tmavý/světlý režim">
-            <!-- Moon icon (shows in light mode) -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="dark:hidden block">
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-            <!-- Sun icon (shows in dark mode) -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="hidden dark:block">
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 2v2"></path>
-                <path d="M12 20v2"></path>
-                <path d="m4.93 4.93 1.41 1.41"></path>
-                <path d="m17.66 17.66 1.41 1.41"></path>
-                <path d="M2 12h2"></path>
-                <path d="M20 12h2"></path>
-                <path d="m6.34 17.66-1.41 1.41"></path>
-                <path d="m19.07 4.93-1.41 1.41"></path>
-            </svg>
+                <!-- Moon icon (shows in light mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="dark:hidden block">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                </svg>
+                <!-- Sun icon (shows in dark mode) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="hidden dark:block">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2"></path>
+                    <path d="M12 20v2"></path>
+                    <path d="m4.93 4.93 1.41 1.41"></path>
+                    <path d="m17.66 17.66 1.41 1.41"></path>
+                    <path d="M2 12h2"></path>
+                    <path d="M20 12h2"></path>
+                    <path d="m6.34 17.66-1.41 1.41"></path>
+                    <path d="m19.07 4.93-1.41 1.41"></path>
+                </svg>
             </button>
         </div>
     </header>

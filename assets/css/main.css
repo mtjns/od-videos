@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Fonts are loaded (preconnect + preload) in _includes/head.html to avoid a
+   render-blocking @import. Host Grotesk = body/UI, Story Script = accent. */
 
 /* Theme tokens. Light is the default (:root); the `.dark` class on <html> flips them.
    Consumed by the Tailwind color tokens (base/surface/fg/muted/line/brand) in _layouts/default.html. */
@@ -36,7 +37,7 @@ html {
 body {
     background-color: hsl(var(--bg));
     color: hsl(var(--fg));
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Host Grotesk', system-ui, -apple-system, sans-serif;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
