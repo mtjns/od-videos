@@ -17,6 +17,11 @@ social:
   links:
     - https://www.instagram.com/od_videos/
 
+# Google Apps Script Web App URL that receives /recenze form submissions.
+# Deploy the script in google-apps-script/ and paste the .../exec URL here.
+# Leave empty for demo mode (responses are not saved).
+google_script_url: "https://script.google.com/macros/s/AKfycbzLYbTCqQThUhjZGEr-5n2vUkN_Yv1cate8v3HLJXNwPx8DseF5gpL9-MLlbmMcarHj/exec"
+
 permalink: pretty
 
 
@@ -29,6 +34,7 @@ exclude:
   - .git/
   - README.md
   - TODO.md
+  - google-apps-script/
 
 # Required plugins for SEO and sitemap generation
 plugins:
