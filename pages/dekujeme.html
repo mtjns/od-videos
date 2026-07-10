@@ -1,0 +1,40 @@
+---
+layout: default
+title: "Děkujeme"
+permalink: /dekujeme
+sitemap: false
+---
+<section class="relative min-h-screen bg-base flex items-center justify-center px-4 py-32 overflow-hidden">
+
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
+    </div>
+
+    <div class="relative z-10 max-w-2xl text-center">
+
+        <div class="w-20 h-20 mx-auto mb-10 rounded-full border border-brand/30 flex items-center justify-center">
+            <svg class="w-9 h-9 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+
+        <h1 class="text-fg text-4xl md:text-6xl font-bold tracking-tight mb-6">Děkuji za zprávu</h1>
+
+        <p class="text-muted text-lg leading-relaxed mb-12">
+            Vaše poptávka dorazila v pořádku. Ozvu se vám co nejdříve, obvykle do 24 hodin.
+        </p>
+
+        <a href="{{ '/' | relative_url }}"
+            class="group inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
+            <span
+                class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
+                <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                    </path>
+                </svg>
+            </span>
+            <span class="text-xl font-bold uppercase tracking-widest">Zpět na úvod</span>
+        </a>
+    </div>
+</section>

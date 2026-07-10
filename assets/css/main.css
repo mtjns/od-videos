@@ -29,6 +29,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* Offset anchor jumps so sections clear the fixed header */
+    scroll-padding-top: 6rem;
 }
 
 body {

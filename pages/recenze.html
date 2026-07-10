@@ -1,0 +1,394 @@
+---
+layout: minimal
+title: "Recenze"
+sitemap: false
+permalink: /recenze
+---
+
+<style>
+    /* Subtle entrance for each question card */
+    @keyframes q-in {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .q-card { animation: q-in 0.4s ease-out; }
+
+    /* Shake used to flag a missing required answer */
+    @keyframes q-shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+    }
+    .q-shake { animation: q-shake 0.4s ease; }
+
+    /* Choice / rating option buttons */
+    .opt {
+        transition: border-color .2s, background-color .2s, color .2s, transform .1s;
+    }
+    .opt:hover { border-color: hsl(var(--brand) / 0.5); }
+    .opt.selected {
+        border-color: hsl(var(--brand));
+        background-color: hsl(var(--brand) / 0.12);
+        color: hsl(var(--fg));
+    }
+    .opt:active { transform: scale(0.99); }
+
+    /* Pure-CSS star rating (reversed source order + sibling combinator).
+       Stars render 1→5 left→right; checked star and all lower ones light up. */
+    .star-rating { display: inline-flex; flex-direction: row-reverse; }
+    .star-rating input { display: none; }
+    .star-rating label {
+        cursor: pointer;
+        color: hsl(var(--line) / 0.22);
+        font-size: 2.75rem;
+        line-height: 1;
+        padding: 0 0.25rem;
+        transition: color 0.3s, transform 0.3s;
+    }
+    .star-rating label:before { content: '\2605'; }
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: hsl(var(--brand));
+        transform: scale(1.2);
+        animation: star-bounce 0.5s ease-in-out alternate;
+    }
+    @keyframes star-bounce { to { transform: scale(1.3); } }
+</style>
+
+<section class="bg-base min-h-screen flex items-center px-4 md:px-8 py-16 md:py-24 relative overflow-hidden">
+
+    <!-- low-opacity grid mesh, fades out toward the edges -->
+    <div class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.05]"
+        style="background-image: linear-gradient(hsl(var(--line)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--line)) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);"></div>
+
+    <!-- very low-opacity watermark logo -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <img src="{{ '/assets/images/logo/logo-black.png' | relative_url }}" alt=""
+            class="w-[85%] max-w-2xl opacity-[0.03] block dark:hidden -translate-y-24 md:-translate-y-32" />
+        <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt=""
+            class="w-[85%] max-w-2xl opacity-[0.04] hidden dark:block -translate-y-24 md:-translate-y-32" />
+    </div>
+
+    <!-- ambient gold glow -->
+    <div class="absolute top-0 right-1/2 translate-x-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-2xl mx-auto relative z-10 w-full">
+
+        <!-- ============ START SCREEN ============ -->
+        <div id="screen-start" class="text-center">
+            <h1 class="text-fg text-4xl md:text-6xl font-bold tracking-tight mb-6">Jak se vám<br>s námi spolupracovalo?</h1>
+
+            <p class="text-muted text-lg leading-relaxed max-w-xl mx-auto">
+                Děkujeme, že jste využili našich služeb. Váš názor je pro nás klíčový a pomáhá nám se neustále zlepšovat.
+            </p>
+
+            <div class="flex items-center justify-center gap-6 text-muted text-sm mt-8">
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    <span id="q-total-start">12</span>&nbsp;otázek
+                </span>
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    cca 3 minuty
+                </span>
+            </div>
+
+            <button id="btn-start" type="button"
+                class="group mt-12 inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
+                <span class="text-xl font-bold uppercase tracking-widest">Začít recenzi</span>
+                <span class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
+                    <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </span>
+            </button>
+        </div>
+
+        <!-- ============ QUESTION SCREEN ============ -->
+        <div id="screen-questions" class="hidden">
+
+            <!-- progress -->
+            <div class="mb-10">
+                <div class="flex items-center justify-between text-sm text-muted mb-3">
+                    <span id="q-counter" class="font-medium tracking-wide"></span>
+                    <span id="q-percent" class="text-brand font-semibold"></span>
+                </div>
+                <div class="h-1 w-full bg-line/10 rounded-full overflow-hidden">
+                    <div id="q-bar" class="h-full bg-brand rounded-full transition-all duration-500" style="width:0%"></div>
+                </div>
+            </div>
+
+            <!-- dynamic question card -->
+            <div id="q-card"></div>
+
+            <!-- validation message -->
+            <p id="q-error" class="hidden text-brand text-sm mt-4">Prosím vyberte nebo vyplňte odpověď.</p>
+
+            <!-- nav -->
+            <div class="flex items-center justify-between mt-10">
+                <button id="btn-back" type="button"
+                    class="inline-flex items-center gap-2 text-muted hover:text-fg transition-colors font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    Zpět
+                </button>
+
+                <button id="btn-next" type="button"
+                    class="inline-flex items-center gap-3 bg-brand text-onbrand font-bold uppercase tracking-widest text-sm px-7 py-3.5 rounded-full hover:opacity-90 transition-opacity">
+                    <span id="btn-next-label">Další</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ THANK YOU SCREEN ============ -->
+        <div id="screen-thanks" class="hidden text-center py-10">
+            <div class="w-20 h-20 mx-auto rounded-full bg-brand/10 border border-brand/30 flex items-center justify-center mb-8">
+                <svg class="w-9 h-9 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h2 class="text-fg text-4xl md:text-5xl font-bold tracking-tight mb-4">Děkujeme!</h2>
+            <p class="text-muted text-lg leading-relaxed max-w-md mx-auto">
+                Vaše recenze byla odeslána. Moc si vážíme času, který jste nám věnovali.
+            </p>
+            <a href="{{ '/' | relative_url }}"
+                class="inline-flex items-center gap-2 mt-10 bg-line/10 text-fg px-6 py-3 rounded-full font-medium text-sm hover:bg-brand hover:text-onbrand transition-all duration-300 uppercase tracking-wider">
+                Zpět na hlavní stránku
+            </a>
+        </div>
+
+        <!-- sending overlay -->
+        <div id="screen-sending" class="hidden text-center py-20">
+            <div class="w-12 h-12 mx-auto border-2 border-line/20 border-t-brand rounded-full animate-spin"></div>
+            <p class="text-muted mt-6">Odesílám recenzi…</p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+(function () {
+    // ── CONFIG ────────────────────────────────────────────────────────────
+    // Set once in _config.yml as `google_script_url` (see google-apps-script/README.md).
+    // Liquid injects it here at build time; empty string = demo mode (nothing saved).
+    var GOOGLE_SCRIPT_URL = "{{ site.google_script_url }}";
+    // ──────────────────────────────────────────────────────────────────────
+
+    // Question definitions (order + type + options mirror the review flow).
+    var QUESTIONS = [
+        { id: "kdo", q: "Kdo jste?", helper: "Jméno, firma, případně pracovní pozice", type: "text", required: true, placeholder: "Např. Jan Novák, RK Domov" },
+        { id: "typ", q: "Jaký typ videa jsme společně realizovali?", type: "choice", required: true, other: true,
+          options: ["Svatební video", "Video na sociální sítě (Reels, TikTok, promo)", "Videoprohlídka nemovitosti", "Firemní video"] },
+        { id: "kvalita", q: "Jak hodnotíte kvalitu výsledného videa?", helper: "1 = slabé, 5 = top", type: "rating", required: true },
+        { id: "cena", q: "Odpovídala cena hodnotě, kterou jste získali?", type: "choice", required: true,
+          options: ["Rozhodně NE", "Spíše NE", "Akorát", "Spíše ANO", "Rozhodně ANO"] },
+        { id: "faze", q: "Ve které fázi spolupráce vidíte největší prostor pro zlepšení?", type: "choice", required: true,
+          options: ["Komunikace a domluva před natáčením", "Samotné natáčení", "Rychlost dodání", "Kvalita finálního videa"] },
+        { id: "zlepseni", q: "Rozepište, co lze konkrétně zlepšit do příště.", type: "textarea", required: false, placeholder: "Vaše postřehy nám pomáhají růst…" },
+        { id: "oceneni", q: "Co jste naopak během naší spolupráce velmi ocenil/a?", type: "textarea", required: false, placeholder: "Co se povedlo a stálo za to?" },
+        { id: "shrnuti", q: "Pokud byste měli spolupráci s námi shrnout vlastními slovy, co byste řekli?", type: "textarea", required: false, placeholder: "Vaše slova mohou pomoci dalším klientům…" },
+        { id: "zdroj", q: "Jak jste se o nás dozvěděli?", type: "choice", required: true, other: true,
+          options: ["Doporučení", "Sociální sítě", "Komunita", "Mnou kontaktován/a"] },
+        { id: "nps", q: "Jak pravděpodobné je, že byste naše služby doporučili přátelům nebo kolegům?", helper: "1 = vůbec, 5 = určitě doporučil", type: "rating", required: true },
+        { id: "doporuceni", q: "Znáte někoho dalšího, kdo by potřeboval video? Komu byste nás doporučili?", type: "textarea", required: false, placeholder: "Jméno, kontakt nebo obor…" },
+        { id: "souhlas", q: "Souhlasíte, že vaši odpověď (případně jméno/firmu) můžeme použít jako referenci na webu a sociálních sítích?", type: "choice", required: true,
+          options: ["Souhlasím", "Nesouhlasím"] },
+        { id: "portfolio", q: "Mohu výsledné materiály (video a fotografie) použít ve svém portfoliu a jako ukázku pro další klienty?", type: "choice", required: true,
+          options: ["Souhlasím", "Nesouhlasím"] }
+    ];
+
+    var answers = {};   // id -> value (string)
+    var current = 0;
+
+    // Keep the "N otázek" count on the start screen in sync with QUESTIONS.
+    document.getElementById("q-total-start").textContent = QUESTIONS.length;
+
+    var el = function (id) { return document.getElementById(id); };
+    var screenStart = el("screen-start"),
+        screenQ = el("screen-questions"),
+        screenThanks = el("screen-thanks"),
+        screenSending = el("screen-sending"),
+        card = el("q-card"),
+        errorMsg = el("q-error");
+
+    function show(screen) {
+        [screenStart, screenQ, screenThanks, screenSending].forEach(function (s) { s.classList.add("hidden"); });
+        screen.classList.remove("hidden");
+    }
+
+    function esc(str) {
+        return String(str).replace(/[&<>"']/g, function (c) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+    }
+
+    function renderStep() {
+        var qDef = QUESTIONS[current];
+        errorMsg.classList.add("hidden");
+
+        // progress
+        el("q-counter").textContent = "Otázka " + (current + 1) + " z " + QUESTIONS.length;
+        var pct = Math.round(((current + 1) / QUESTIONS.length) * 100);
+        el("q-percent").textContent = pct + " %";
+        el("q-bar").style.width = pct + "%";
+
+        // next button label
+        el("btn-next-label").textContent = (current === QUESTIONS.length - 1) ? "Odeslat recenzi" : "Další";
+
+        // back button visibility
+        el("btn-back").style.visibility = current === 0 ? "hidden" : "visible";
+
+        var html = '<div class="q-card">';
+        html += '<h2 class="text-fg text-2xl md:text-3xl font-bold tracking-tight leading-snug">' + esc(qDef.q) + '</h2>';
+        if (qDef.helper) html += '<p class="text-muted text-sm mt-3">' + esc(qDef.helper) + '</p>';
+        html += '<div class="mt-8">';
+
+        var stored = answers[qDef.id] || "";
+
+        if (qDef.type === "text") {
+            html += '<input type="text" id="input-field" value="' + esc(stored) + '" placeholder="' + esc(qDef.placeholder || "") + '" ' +
+                'class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">';
+
+        } else if (qDef.type === "textarea") {
+            html += '<textarea id="input-field" rows="4" placeholder="' + esc(qDef.placeholder || "") + '" ' +
+                'class="w-full bg-transparent border border-line/20 rounded-xl px-4 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none">' + esc(stored) + '</textarea>';
+
+        } else if (qDef.type === "rating") {
+            // Reversed source order (5→1) so CSS sibling combinators can light up
+            // the checked star and every lower one; row-reverse renders them 1→5.
+            // Min/max hints flank the star row so they always line up with the ends.
+            html += '<div class="flex items-center gap-3">';
+            html += '<span class="text-xs text-muted select-none">1</span>';
+            html += '<div class="star-rating" role="radiogroup" aria-label="Hodnocení 1 až 5">';
+            for (var r = 5; r >= 1; r--) {
+                var checked = Number(stored) === r ? ' checked' : '';
+                html += '<input type="radio" class="sr-input" id="' + qDef.id + '-star' + r + '" name="' + qDef.id + '-rating" value="' + r + '"' + checked + '>' +
+                    '<label for="' + qDef.id + '-star' + r + '" title="' + r + ' z 5"></label>';
+            }
+            html += '</div>';
+            html += '<span class="text-xs text-muted select-none">5</span>';
+            html += '</div>';
+
+        } else if (qDef.type === "choice") {
+            html += '<div class="space-y-3" id="choice-group">';
+            qDef.options.forEach(function (opt) {
+                var on = opt === stored;
+                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-4 text-fg text-lg ' +
+                    (on ? 'selected' : '') + '" data-value="' + esc(opt) + '">' + esc(opt) + '</button>';
+            });
+            if (qDef.other) {
+                // "Jiné" reveals a free-text input
+                var otherActive = stored && qDef.options.indexOf(stored) === -1;
+                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-4 text-fg text-lg ' +
+                    (otherActive ? 'selected' : '') + '" data-value="__other__">Jiné…</button>';
+                html += '<input type="text" id="other-field" placeholder="Napište…" value="' + esc(otherActive ? stored : "") + '" ' +
+                    'class="' + (otherActive ? '' : 'hidden ') + 'w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 mt-1 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">';
+            }
+            html += '</div>';
+        }
+
+        html += '</div></div>';
+        card.innerHTML = html;
+        bindStepEvents(qDef);
+    }
+
+    function bindStepEvents(qDef) {
+        if (qDef.type === "text" || qDef.type === "textarea") {
+            el("input-field").addEventListener("input", function () { answers[qDef.id] = this.value.trim(); });
+            el("input-field").focus();
+
+        } else if (qDef.type === "rating") {
+            // CSS handles the fill/hover/bounce; JS just records the chosen value.
+            Array.prototype.forEach.call(card.querySelectorAll(".sr-input"), function (inp) {
+                inp.addEventListener("change", function () {
+                    answers[qDef.id] = this.value;
+                    errorMsg.classList.add("hidden");
+                });
+            });
+
+        } else if (qDef.type === "choice") {
+            var otherField = el("other-field");
+            var choiceBtns = card.querySelectorAll("#choice-group .opt");
+            Array.prototype.forEach.call(choiceBtns, function (btn) {
+                btn.addEventListener("click", function () {
+                    var val = this.getAttribute("data-value");
+                    Array.prototype.forEach.call(choiceBtns, function (b) { b.classList.remove("selected"); });
+                    this.classList.add("selected");
+                    errorMsg.classList.add("hidden");
+                    if (val === "__other__") {
+                        if (otherField) {
+                            otherField.classList.remove("hidden");
+                            otherField.focus();
+                            answers[qDef.id] = otherField.value.trim();
+                        }
+                    } else {
+                        answers[qDef.id] = val;
+                        if (otherField) otherField.classList.add("hidden");
+                    }
+                });
+            });
+            if (otherField) {
+                otherField.addEventListener("input", function () { answers[qDef.id] = this.value.trim(); });
+            }
+        }
+    }
+
+    function validate(qDef) {
+        if (!qDef.required) return true;
+        var v = answers[qDef.id];
+        return v !== undefined && v !== null && String(v).trim() !== "";
+    }
+
+    function flagError() {
+        errorMsg.classList.remove("hidden");
+        var c = card.firstElementChild;
+        if (c) { c.classList.remove("q-shake"); void c.offsetWidth; c.classList.add("q-shake"); }
+    }
+
+    // ── navigation ──
+    el("btn-start").addEventListener("click", function () {
+        show(screenQ);
+        current = 0;
+        renderStep();
+    });
+
+    el("btn-back").addEventListener("click", function () {
+        if (current > 0) { current--; renderStep(); }
+    });
+
+    el("btn-next").addEventListener("click", function () {
+        var qDef = QUESTIONS[current];
+        if (!validate(qDef)) { flagError(); return; }
+        if (current < QUESTIONS.length - 1) {
+            current++;
+            renderStep();
+        } else {
+            submit();
+        }
+    });
+
+    function submit() {
+        show(screenSending);
+
+        var payload = {};
+        QUESTIONS.forEach(function (q) { payload[q.id] = answers[q.id] || ""; });
+        payload._sent_at = new Date().toISOString();
+
+        if (!GOOGLE_SCRIPT_URL) {
+            // Not configured yet — log so the form is still testable.
+            console.warn("GOOGLE_SCRIPT_URL is empty. Response not saved:", payload);
+            setTimeout(function () { show(screenThanks); }, 600);
+            return;
+        }
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(payload).toString()
+        }).then(function () {
+            show(screenThanks);
+        }).catch(function () {
+            // With no-cors we can't read the response; a network failure still lands here.
+            show(screenThanks);
+        });
+    }
+})();
+</script>

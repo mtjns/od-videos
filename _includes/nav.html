@@ -13,16 +13,13 @@
 
             <div id="mobile-nav"
                 class="hidden md:flex absolute md:static inset-x-0 top-full z-50 w-full md:w-auto flex-col md:flex-row items-start md:items-center gap-4 md:gap-10 bg-base/95 md:bg-transparent p-6 md:p-0 border-b md:border-0 border-line/10 shadow-xl md:shadow-none">
-                <button
-                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                    data-target="about">O Mně</button>
-                <button
-                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                    data-target="services">Služby</button>
-                <button
-                    class="scroll-btn block w-full md:w-auto text-fg hover:text-brand transition font-medium text-left uppercase tracking-wider"
-                    data-target="gallery">Galerie</button>
-                <a href="#contact"
+                <a href="{{ '/' | relative_url }}#about"
+                    class="block w-full md:w-auto text-fg hover:text-brand transition font-medium uppercase tracking-wider">O Mně</a>
+                <a href="{{ '/' | relative_url }}#services"
+                    class="block w-full md:w-auto text-fg hover:text-brand transition font-medium uppercase tracking-wider">Služby</a>
+                <a href="{{ '/' | relative_url }}#gallery"
+                    class="block w-full md:w-auto text-fg hover:text-brand transition font-medium uppercase tracking-wider">Galerie</a>
+                <a href="{{ '/' | relative_url }}#contact"
                     class="block w-full md:w-auto text-fg hover:text-brand transition font-medium uppercase tracking-wider">Kontakt</a>
             </div>
 

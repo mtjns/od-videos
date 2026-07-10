@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Detail - Photography Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #111827;
+            color: #ffffff;
+        }
+
+        .header-nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Navigation -->
+    <header class="header-nav fixed w-full z-50 border-b border-white/10">
+        <nav class="flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
+            <a href="index.html" class="text-white">
+                <svg viewBox="0 0 48 48" class="w-12 h-12 text-amber-500" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="24" cy="24" r="20" />
+                    <circle cx="24" cy="24" r="8" />
+                    <line x1="24" y1="4" x2="24" y2="16" />
+                    <line x1="24" y1="32" x2="24" y2="44" />
+                    <line x1="4" y1="24" x2="16" y2="24" />
+                    <line x1="32" y1="24" x2="44" y2="24" />
+                </svg>
+            </a>
+            <a href="gallery.html" class="text-white hover:text-amber-500 transition font-medium">BACK TO GALLERY</a>
+        </nav>
+    </header>
+
+    <!-- Gallery Detail Content -->
+    <div class="min-h-screen pt-28 pb-24 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Image Section -->
+                <div class="md:col-span-2">
+                    <div
+                        class="relative rounded-2xl overflow-hidden bg-black/50 aspect-square md:aspect-auto md:h-[600px]">
+                        <img id="gallery-image" src="assets/images/gallery-1.jpg" alt="Gallery image"
+                            class="w-full h-full object-cover" />
+                    </div>
+                </div>
+
+                <!-- Details Section -->
+                <div class="md:col-span-1">
+                    <div class="space-y-8">
+                        <!-- Title -->
+                        <div>
+                            <h1 id="gallery-title" class="text-4xl font-bold text-white mb-2">Golden Hour Portrait</h1>
+                            <p id="gallery-caption" class="text-amber-400 text-lg">A stunning moment captured</p>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="border-t border-white/10"></div>
+
+                        <!-- Student Info -->
+                        <div>
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-2">STUDENT</h3>
+                            <p id="gallery-student" class="text-2xl font-bold text-white">Aisha Thompson</p>
+                        </div>
+
+                        <!-- Course -->
+                        <div>
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-2">COURSE</h3>
+                            <p id="gallery-course" class="text-white">Advanced Composition</p>
+                        </div>
+
+                        <!-- Camera Settings -->
+                        <div>
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-2">CAMERA</h3>
+                            <p id="gallery-camera" class="text-white">Sony A7III · 85mm f/1.4</p>
+                        </div>
+
+                        <!-- Exposure Settings -->
+                        <div>
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-2">SETTINGS</h3>
+                            <p id="gallery-settings" class="text-white font-mono">f/1.8 · 1/500s · ISO 200</p>
+                        </div>
+
+                        <!-- Date -->
+                        <div>
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-2">DATE</h3>
+                            <p id="gallery-date" class="text-white">October 14, 2023</p>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="border-t border-white/10 pt-8">
+                            <h3 class="text-sm font-semibold tracking-widest text-gray-400 mb-4">ABOUT THIS IMAGE</h3>
+                            <p id="gallery-description" class="text-gray-300 leading-relaxed text-sm">
+                                Captured during the final workshop of our Advanced Composition course, Aisha waited for
+                                the perfect moment when the setting sun created a natural rim light. The shallow depth
+                                of field isolates the subject beautifully against the warm bokeh background,
+                                demonstrating mastery of aperture control and timing.
+                            </p>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="border-t border-white/10 pt-8 flex gap-4">
+                            <button id="prev-btn" onclick="navigateGallery(-1)"
+                                class="flex-1 bg-white/10 hover:bg-white/20 text-white py-3 rounded-lg font-semibold transition">←
+                                Previous</button>
+                            <button id="next-btn" onclick="navigateGallery(1)"
+                                class="flex-1 bg-white/10 hover:bg-white/20 text-white py-3 rounded-lg font-semibold transition">Next
+                                →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black py-16 px-4 md:px-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <svg viewBox="0 0 48 48" class="w-10 h-10 text-amber-500" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="24" cy="24" r="20" />
+                        <circle cx="24" cy="24" r="8" />
+                        <line x1="24" y1="4" x2="24" y2="16" />
+                        <line x1="24" y1="32" x2="24" y2="44" />
+                        <line x1="4" y1="24" x2="16" y2="24" />
+                        <line x1="32" y1="24" x2="44" y2="24" />
+                    </svg>
+                    <span class="text-white text-sm font-semibold tracking-widest">SHUTTER THEORY</span>
+                </div>
+                <p class="text-gray-400 text-sm mb-2">Transforming aspiring photographers into confident visual
+                    storytellers.</p>
+            </div>
+            <div>
+                <h3 class="text-white text-sm font-semibold tracking-widest mb-6">CONTACT</h3>
+                <p class="text-gray-400 text-sm mb-2">hello@shuttertheory.com</p>
+                <p class="text-gray-400 text-sm mb-2">+1 (555) 789-0123</p>
+                <p class="text-gray-400 text-sm">456 Creative Lane, Portland, OR 97209</p>
+            </div>
+            <div>
+                <h3 class="text-white text-sm font-semibold tracking-widest mb-6">QUICK LINKS</h3>
+                <ul class="space-y-2">
+                    <li><a href="gallery.html" class="text-gray-400 text-sm hover:text-amber-500 transition">Student
+                            Gallery</a></li>
+                    <li><a href="course-schedule.html"
+                            class="text-gray-400 text-sm hover:text-amber-500 transition">Course Schedule</a></li>
+                    <li><a href="index.html" class="text-gray-400 text-sm hover:text-amber-500 transition">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-8 text-center text-gray-400 text-sm">
+            <p>&copy; 2024 Photography Academy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Gallery data
+        const galleryData = {
+            'golden-hour-portrait': {
+                title: 'Golden Hour Portrait',
+                image: 'assets/images/gallery-1.jpg',
+                student: 'Aisha Thompson',
+                course: 'Advanced Composition',
+                camera: 'Sony A7III · 85mm f/1.4',
+                settings: 'f/1.8 · 1/500s · ISO 200',
+                date: 'October 14, 2023',
+                description: 'Captured during the final workshop of our Advanced Composition course, Aisha waited for the perfect moment when the setting sun created a natural rim light. The shallow depth of field isolates the subject beautifully against the warm bokeh background, demonstrating mastery of aperture control and timing.'
+            },
+            'aerial-autumn': {
+                title: 'Aerial Autumn',
+                image: 'assets/images/gallery-2.jpg',
+                student: 'David Kim',
+                course: 'Genre Specialization: Landscape',
+                camera: 'DJI Mavic 3 · Hasselblad 24mm',
+                settings: 'f/2.8 · 1/1000s · ISO 100',
+                date: 'November 2, 2023',
+                description: 'David\'s drone work during the fall landscape workshop captured this stunning bird\'s-eye view of a winding river cutting through peak autumn foliage. The composition uses the river as a natural leading line, drawing the viewer\'s eye through the image while the vibrant reds and oranges create a tapestry of color.'
+            },
+            'urban-street': {
+                title: 'Urban Street',
+                image: 'assets/images/gallery-3.jpg',
+                student: 'Marcus Rivera',
+                course: 'Genre Specialization: Street',
+                camera: 'Fujifilm X-T5 · 23mm f/2',
+                settings: 'f/5.6 · 1/250s · ISO 400',
+                date: 'September 22, 2023',
+                description: 'Shot during our downtown Portland street photography walk, Marcus captured this decisive moment of a passerby against vibrant street art. The contrast between the human figure and the bold graffiti creates visual tension, while the diagonal shadows add depth and movement to the frame.'
+            },
+            'macro-details': {
+                title: 'Macro Details',
+                image: 'assets/images/gallery-4.jpg',
+                student: 'Elena Vasquez',
+                course: 'Beginner Fundamentals',
+                camera: 'Canon R6 · 100mm Macro f/2.8L',
+                settings: 'f/4 · 1/160s · ISO 320',
+                date: 'August 18, 2023',
+                description: 'Elena\'s macro work is a testament to patience and precision. These water droplets on rose petals were captured early morning at the Portland Japanese Garden, using a focus rail for pin-sharp detail. The image reveals a miniature world invisible to the naked eye — each droplet acting as a tiny lens reflecting the garden.'
+            },
+            'star-trails': {
+                title: 'Star Trails',
+                image: 'assets/images/gallery-5.jpg',
+                student: 'James Park',
+                course: 'Genre Specialization: Landscape',
+                camera: 'Nikon Z8 · 14-24mm f/2.8',
+                settings: 'f/2.8 · 30s × 240 frames · ISO 3200',
+                date: 'July 8, 2023',
+                description: 'This stunning star trail composite was created from 240 individual 30-second exposures during our astrophotography night workshop at Mt. Hood. James stacked the images to create concentric circles of light around the North Star, with the mountain providing a dramatic anchoring foreground element.'
+            },
+            'bw-portrait': {
+                title: 'B&W Portrait',
+                image: 'assets/images/gallery-6.jpg',
+                student: 'Sofia Andersson',
+                course: 'Studio Lighting Mastery',
+                camera: 'Canon R5 · 50mm f/1.2L',
+                settings: 'f/2.0 · 1/200s · ISO 100',
+                date: 'December 1, 2023',
+                description: 'Created during our studio lighting intensive, Sofia used a single strip light with a grid to carve dramatic shadows across the subject\'s face. The conversion to black and white emphasizes the interplay between light and shadow, creating a timeless and emotionally charged portrait.'
+            }
+        };
+
+        const galleryIds = Object.keys(galleryData);
+        let currentIndex = 0;
+
+        function loadGallery() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id') || 'golden-hour-portrait';
+            currentIndex = galleryIds.indexOf(id);
+            if (currentIndex === -1) currentIndex = 0;
+
+            updateGalleryDisplay();
+        }
+
+        function updateGalleryDisplay() {
+            const id = galleryIds[currentIndex];
+            const item = galleryData[id];
+
+            document.getElementById('gallery-image').src = item.image;
+            document.getElementById('gallery-title').textContent = item.title;
+            document.getElementById('gallery-student').textContent = item.student;
+            document.getElementById('gallery-course').textContent = item.course;
+            document.getElementById('gallery-camera').textContent = item.camera;
+            document.getElementById('gallery-settings').textContent = item.settings;
+            document.getElementById('gallery-date').textContent = item.date;
+            document.getElementById('gallery-description').textContent = item.description;
+
+            // Update URL
+            window.history.replaceState({}, '', `gallery-detail.html?id=${id}`);
+        }
+
+        function navigateGallery(direction) {
+            currentIndex = (currentIndex + direction + galleryIds.length) % galleryIds.length;
+            updateGalleryDisplay();
+        }
+
+        loadGallery();
+    </script>
+</body>
+
+</html>
