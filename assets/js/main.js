@@ -135,3 +135,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- Analytics: GoatCounter custom events -----------------------------------
+// Fires events through GoatCounter's count.js (loaded in the page head). Events
+// are recorded as their own paths with `event: true`. Safely no-ops where
+// GoatCounter is absent (local dev / previews) and never throws into the page.
+function track(path, title) {
+    try {
+        if (window.goatcounter && typeof window.goatcounter.count === 'function') {
+            window.goatcounter.count({ path: path, title: title || path, event: true });
+        }
+    } catch (e) { /* analytics must never break the page */ }
+}
+
+// One delegated click listener covers phone / e-mail / Instagram / contact CTA
+// links wherever they appear — no per-element markup needed.
+document.addEventListener('click', (e) => {
+    const el = e.target.closest('a');
+    if (!el) return;
+    const href = el.getAttribute('href') || '';
+
+    if (href.indexOf('tel:') === 0) {
+        track('phone-click', 'Kliknutí na telefon');
+    } else if (href.indexOf('mailto:') === 0) {
+        track('email-click', 'Kliknutí na e-mail');
+    } else if (href.indexOf('instagram.com') !== -1) {
+        track('instagram-click', 'Kliknutí na Instagram');
+    } else if (href.indexOf('#contact') !== -1) {
+        // "Kontaktovat" button — distinguish the nav header from in-page links.
+        track(el.closest('header') ? 'contact-cta-nav' : 'contact-cta-page', 'Kontakt CTA');
+    }
+}, true);
+
+// Contact form sent. The reliable lead count is the /dekujeme page view, which
+// GoatCounter records automatically as a normal page view.
+const contactForm = document.querySelector('form[action*="formsubmit.co"]');
+if (contactForm) {
+    contactForm.addEventListener('submit', () => track('contact-form-submit', 'Odeslání poptávky'));
+}
+
+// Section-depth tracking: fire one event the first time each key section
+// scrolls into view, so GoatCounter shows how far down the page visitors got.
+// rootMargin fires when a section's top passes ~60% of the viewport height, so
+// it works even for sections taller than the screen.
+const depthSections = ['about', 'services', 'contact'];
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            track('section-' + entry.target.id, 'Sekce: ' + entry.target.id);
+            sectionObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0, rootMargin: '0px 0px -40% 0px' });
+
+depthSections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+});

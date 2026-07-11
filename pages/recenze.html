@@ -44,7 +44,7 @@ permalink: /recenze
         color: hsl(var(--line) / 0.22);
         font-size: 2.75rem;
         line-height: 1;
-        padding: 0 0.25rem;
+        padding: 0 0.4rem;
         transition: color 0.3s, transform 0.3s;
     }
     .star-rating label:before { content: '\2605'; }
@@ -58,22 +58,27 @@ permalink: /recenze
     @keyframes star-bounce { to { transform: scale(1.3); } }
 </style>
 
-<section class="bg-base min-h-screen flex items-center px-4 md:px-8 py-16 md:py-24 relative overflow-hidden">
+<section class="bg-base min-h-[100svh] flex items-start md:items-center px-4 md:px-8 pt-8 pb-36 md:py-24 relative overflow-hidden">
 
-    <!-- low-opacity grid mesh, fades out toward the edges -->
-    <div class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.05]"
-        style="background-image: linear-gradient(hsl(var(--line)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--line)) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);"></div>
+    <!-- Decorative backdrop, locked to one viewport height so it never re-centers when
+         the form content grows (e.g. revealing the "Jiné" input) — that was making the logo jump. -->
+    <div class="absolute inset-x-0 top-0 h-[100svh] overflow-hidden pointer-events-none">
 
-    <!-- very low-opacity watermark logo -->
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <img src="{{ '/assets/images/logo/logo-black.png' | relative_url }}" alt=""
-            class="w-[85%] max-w-2xl opacity-[0.03] block dark:hidden -translate-y-8 md:-translate-y-12" />
-        <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt=""
-            class="w-[85%] max-w-2xl opacity-[0.04] hidden dark:block -translate-y-8 md:-translate-y-12" />
+        <!-- low-opacity grid mesh, fades out toward the edges -->
+        <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.05]"
+            style="background-image: linear-gradient(hsl(var(--line)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--line)) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);"></div>
+
+        <!-- very low-opacity watermark logo -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <img src="{{ '/assets/images/logo/logo-black.png' | relative_url }}" alt=""
+                class="w-[85%] max-w-2xl opacity-[0.03] block dark:hidden -translate-y-8 md:-translate-y-12" />
+            <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt=""
+                class="w-[85%] max-w-2xl opacity-[0.04] hidden dark:block -translate-y-8 md:-translate-y-12" />
+        </div>
+
+        <!-- ambient gold glow -->
+        <div class="absolute top-0 right-1/2 translate-x-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px]"></div>
     </div>
-
-    <!-- ambient gold glow -->
-    <div class="absolute top-0 right-1/2 translate-x-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none"></div>
 
     <div class="max-w-2xl mx-auto relative z-10 w-full">
 
@@ -109,7 +114,7 @@ permalink: /recenze
         <div id="screen-questions" class="hidden">
 
             <!-- progress -->
-            <div class="mb-10">
+            <div class="mb-6 md:mb-10">
                 <div class="flex items-center justify-between text-sm text-muted mb-3">
                     <span id="q-counter" class="font-medium tracking-wide"></span>
                     <span id="q-percent" class="text-brand font-semibold"></span>
@@ -125,8 +130,10 @@ permalink: /recenze
             <!-- validation message -->
             <p id="q-error" class="hidden text-brand text-sm mt-4">Prosím vyberte nebo vyplňte odpověď.</p>
 
-            <!-- nav -->
-            <div class="flex items-center justify-between mt-10">
+            <!-- nav — fixed bottom bar on phones so the primary action is always thumb-reachable
+                 and stays above the keyboard; reverts to inline on md+ -->
+            <div
+                class="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-between gap-4 px-4 py-3 bg-base/95 backdrop-blur border-t border-line/10 md:static md:mt-10 md:px-0 md:py-0 md:bg-transparent md:border-0 md:backdrop-blur-none">
                 <button id="btn-back" type="button"
                     class="inline-flex items-center gap-2 text-muted hover:text-fg transition-colors font-medium">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
@@ -175,7 +182,7 @@ permalink: /recenze
 
     // Question definitions (order + type + options mirror the review flow).
     var QUESTIONS = [
-        { id: "kdo", q: "Kdo jste?", helper: "Jméno, firma, případně pracovní pozice", type: "text", required: true, placeholder: "Např. Jan Novák, RK Domov" },
+        { id: "kdo", q: "Kdo jste?", helper: "Jméno, firma, případně pracovní pozice", type: "text", required: true, placeholder: "Např. Jan Novák, RK Domov", autocomplete: "name", autocapitalize: "words" },
         { id: "typ", q: "Jaký typ videa jsme společně realizovali?", type: "choice", required: true, other: true,
           options: ["Svatební video", "Video na sociální sítě (Reels, TikTok, promo)", "Videoprohlídka nemovitosti", "Firemní video"] },
         { id: "kvalita", q: "Jak hodnotíte kvalitu výsledného videa?", helper: "1 = slabé, 5 = top", type: "rating", required: true },
@@ -225,6 +232,10 @@ permalink: /recenze
         var qDef = QUESTIONS[current];
         errorMsg.classList.add("hidden");
 
+        // Each question starts from the top — otherwise a long textarea can leave
+        // the next (short) question scrolled halfway down on mobile.
+        window.scrollTo(0, 0);
+
         // progress
         el("q-counter").textContent = "Otázka " + (current + 1) + " z " + QUESTIONS.length;
         var pct = Math.round(((current + 1) / QUESTIONS.length) * 100);
@@ -238,14 +249,17 @@ permalink: /recenze
         el("btn-back").style.visibility = current === 0 ? "hidden" : "visible";
 
         var html = '<div class="q-card">';
-        html += '<h2 class="text-fg text-2xl md:text-3xl font-bold tracking-tight leading-snug">' + esc(qDef.q) + '</h2>';
-        if (qDef.helper) html += '<p class="text-muted text-sm mt-3">' + esc(qDef.helper) + '</p>';
-        html += '<div class="mt-8">';
+        html += '<h2 class="text-fg text-xl md:text-3xl font-bold tracking-tight leading-snug">' + esc(qDef.q) + '</h2>';
+        if (qDef.helper) html += '<p class="text-muted text-sm mt-2 md:mt-3">' + esc(qDef.helper) + '</p>';
+        html += '<div class="mt-6 md:mt-8">';
 
         var stored = answers[qDef.id] || "";
 
         if (qDef.type === "text") {
             html += '<input type="text" id="input-field" value="' + esc(stored) + '" placeholder="' + esc(qDef.placeholder || "") + '" ' +
+                'enterkeyhint="next" ' +
+                (qDef.autocomplete ? 'autocomplete="' + esc(qDef.autocomplete) + '" ' : '') +
+                (qDef.autocapitalize ? 'autocapitalize="' + esc(qDef.autocapitalize) + '" ' : '') +
                 'class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">';
 
         } else if (qDef.type === "textarea") {
@@ -257,7 +271,7 @@ permalink: /recenze
             // the checked star and every lower one; row-reverse renders them 1→5.
             // Min/max hints flank the star row so they always line up with the ends.
             html += '<div class="flex items-center gap-3">';
-            html += '<span class="text-xs text-muted select-none">1</span>';
+            html += '<span class="text-sm text-muted select-none">1</span>';
             html += '<div class="star-rating" role="radiogroup" aria-label="Hodnocení 1 až 5">';
             for (var r = 5; r >= 1; r--) {
                 var checked = Number(stored) === r ? ' checked' : '';
@@ -265,20 +279,20 @@ permalink: /recenze
                     '<label for="' + qDef.id + '-star' + r + '" title="' + r + ' z 5"></label>';
             }
             html += '</div>';
-            html += '<span class="text-xs text-muted select-none">5</span>';
+            html += '<span class="text-sm text-muted select-none">5</span>';
             html += '</div>';
 
         } else if (qDef.type === "choice") {
-            html += '<div class="space-y-3" id="choice-group">';
+            html += '<div class="space-y-2.5 md:space-y-3" id="choice-group">';
             qDef.options.forEach(function (opt) {
                 var on = opt === stored;
-                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-4 text-fg text-lg ' +
+                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-3 md:py-4 text-fg text-[0.9rem] md:text-lg leading-snug ' +
                     (on ? 'selected' : '') + '" data-value="' + esc(opt) + '">' + esc(opt) + '</button>';
             });
             if (qDef.other) {
                 // "Jiné" reveals a free-text input
                 var otherActive = stored && qDef.options.indexOf(stored) === -1;
-                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-4 text-fg text-lg ' +
+                html += '<button type="button" class="opt w-full text-left border border-line/20 rounded-xl px-5 py-3 md:py-4 text-fg text-[0.9rem] md:text-lg leading-snug ' +
                     (otherActive ? 'selected' : '') + '" data-value="__other__">Jiné…</button>';
                 html += '<input type="text" id="other-field" placeholder="Napište…" value="' + esc(otherActive ? stored : "") + '" ' +
                     'class="' + (otherActive ? '' : 'hidden ') + 'w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 mt-1 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">';
@@ -294,6 +308,12 @@ permalink: /recenze
     function bindStepEvents(qDef) {
         if (qDef.type === "text" || qDef.type === "textarea") {
             el("input-field").addEventListener("input", function () { answers[qDef.id] = this.value.trim(); });
+            // Single-line inputs: the phone keyboard's "next"/enter key advances the step.
+            if (qDef.type === "text") {
+                el("input-field").addEventListener("keydown", function (e) {
+                    if (e.key === "Enter") { e.preventDefault(); el("btn-next").click(); }
+                });
+            }
             el("input-field").focus();
 
         } else if (qDef.type === "rating") {

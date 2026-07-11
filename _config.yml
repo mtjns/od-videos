@@ -1,6 +1,8 @@
 title: "OD Videos"
 tagline: "Váš příběh z blízka i výšky"
-description: "Nejen realitní videa, ale tvoříme také krátká videa na sociální sítě, reklamní a firemní videa i svatební filmy. Vaši představu připravíme, natočíme a profesionálně zpracujeme do finální podoby."
+# Google/SEO meta description (kept under ~155 chars so it isn't truncated in search
+# results). The longer share/social blurb lives in og_description on the home page.
+description: "Tvoříme realitní i firemní videa, reklamy, obsah na sociální sítě i svatební filmy. Vaši představu natočíme a profesionálně zpracujeme do finální podoby."
 logo: "/assets/images/logo/logo-color.png"
 
 url: "https://odvideos.cz"

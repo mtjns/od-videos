@@ -26,6 +26,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* No blue/grey flash when tapping links & buttons on touch devices */
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {

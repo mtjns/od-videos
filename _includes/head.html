@@ -22,7 +22,23 @@
     </script>
 
     {% include social-meta.html %}
-    {% seo %}
+
+    {%- comment -%}
+    Custom document + share title. Home renders as just "OD Videos"; every other page as
+    "OD Videos | <page title>". Emitted before {% seo %} (which runs with title=false) so we
+    fully own <title>, og:title and twitter:title with no duplicates. jekyll-seo-tag's own
+    og:title would otherwise be the bare page name ("Recenze") with no brand.
+    {%- endcomment -%}
+    {%- if page.title == nil or page.title == site.title or page.url == "/" -%}
+    {%- assign full_title = site.title -%}
+    {%- else -%}
+    {%- assign full_title = site.title | append: " | " | append: page.title -%}
+    {%- endif -%}
+    <title>{{ full_title | escape }}</title>
+    <meta property="og:title" content="{{ full_title | escape }}">
+    <meta name="twitter:title" content="{{ full_title | escape }}">
+
+    {% seo title=false %}
     {% include structured-data.html %}
 
     <!-- Keep utility pages (thank-you, review form) out of the search index. -->
@@ -94,4 +110,11 @@
             display: none;
         }
     </style>
+
+    <!-- GoatCounter analytics (cookieless, privacy-friendly — no consent banner needed).
+         Replace YOURCODE below with your GoatCounter site code (the subdomain you
+         chose at signup: https://YOURCODE.goatcounter.com). Custom events are sent
+         from assets/js/main.js. Does not count localhost, so previews stay clean. -->
+    <script data-goatcounter="https://odvideos.goatcounter.com/count" async
+        src="//gc.zgo.at/count.js"></script>
 </head>
