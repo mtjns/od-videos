@@ -57,7 +57,11 @@
         {{ content }}
     </main>
 
+    {% if page.hide_footer_mobile %}
+    <div class="hidden md:block">{% include footer.html %}</div>
+    {% else %}
     {% include footer.html %}
+    {% endif %}
 
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>

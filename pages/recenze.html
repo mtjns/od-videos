@@ -5,6 +5,7 @@ description: "Podělte se o zpětnou vazbu na spolupráci s OD Videos."
 sitemap: false
 noindex: true
 permalink: /recenze
+hide_footer_mobile: true
 ---
 
 <style>
@@ -127,8 +128,11 @@ permalink: /recenze
             <!-- dynamic question card -->
             <div id="q-card"></div>
 
-            <!-- validation message -->
-            <p id="q-error" class="hidden text-brand text-sm mt-4">Prosím vyberte nebo vyplňte odpověď.</p>
+            <!-- validation message; wrapper reserves the line height so toggling the
+                 message doesn't shift the nav buttons below it -->
+            <div class="mt-4 min-h-[1.25rem]">
+                <p id="q-error" class="hidden text-brand text-sm">Prosím vyberte nebo vyplňte odpověď.</p>
+            </div>
 
             <!-- nav — fixed bottom bar on phones so the primary action is always thumb-reachable
                  and stays above the keyboard; reverts to inline on md+ -->
@@ -169,6 +173,31 @@ permalink: /recenze
             <p class="text-muted mt-6">Odesílám recenzi…</p>
         </div>
 
+        <!-- ============ ERROR SCREEN (network failure) ============ -->
+        <div id="screen-error" class="hidden text-center py-10">
+            <div
+                class="w-20 h-20 mx-auto rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center mb-8">
+                <svg class="w-9 h-9 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <h2 class="text-fg text-4xl md:text-5xl font-bold tracking-tight mb-4">Odeslání se nezdařilo</h2>
+            <p class="text-muted text-lg leading-relaxed max-w-md mx-auto mb-2">
+                Recenzi se nepodařilo odeslat. Zkontrolujte prosím připojení k internetu a zkuste to znovu.
+            </p>
+            <p class="text-muted text-sm leading-relaxed max-w-md mx-auto">
+                Vaše odpovědi zůstaly vyplněné.
+            </p>
+            <button id="btn-retry" type="button"
+                class="inline-flex items-center gap-3 mt-10 bg-brand text-onbrand font-bold uppercase tracking-widest text-sm px-7 py-3.5 rounded-full hover:opacity-90 transition-opacity">
+                Zkusit znovu
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </button>
+        </div>
+
     </div>
 </section>
 
@@ -188,8 +217,8 @@ permalink: /recenze
         { id: "kvalita", q: "Jak hodnotíte kvalitu výsledného videa?", helper: "1 = slabé, 5 = top", type: "rating", required: true },
         { id: "cena", q: "Odpovídala cena hodnotě, kterou jste získali?", type: "choice", required: true,
           options: ["Rozhodně NE", "Spíše NE", "Akorát", "Spíše ANO", "Rozhodně ANO"] },
-        { id: "faze", q: "Ve které fázi spolupráce vidíte největší prostor pro zlepšení?", type: "choice", required: true,
-          options: ["Komunikace a domluva před natáčením", "Samotné natáčení", "Rychlost dodání", "Kvalita finálního videa"] },
+        { id: "faze", q: "Ve které fázi spolupráce vidíte největší prostor pro zlepšení?", type: "choice", required: false,
+          options: ["Komunikace a domluva před natáčením", "Samotné natáčení", "Rychlost dodání", "Kvalita finálního videa", "Vše mi vyhovovalo"] },
         { id: "zlepseni", q: "Rozepište, co lze konkrétně zlepšit do příště.", type: "textarea", required: false, placeholder: "Vaše postřehy nám pomáhají růst…" },
         { id: "oceneni", q: "Co jste naopak během naší spolupráce velmi ocenil/a?", type: "textarea", required: false, placeholder: "Co se povedlo a stálo za to?" },
         { id: "shrnuti", q: "Pokud byste měli spolupráci s námi shrnout vlastními slovy, co byste řekli?", type: "textarea", required: false, placeholder: "Vaše slova mohou pomoci dalším klientům…" },
@@ -214,13 +243,17 @@ permalink: /recenze
         screenQ = el("screen-questions"),
         screenThanks = el("screen-thanks"),
         screenSending = el("screen-sending"),
+        screenError = el("screen-error"),
         card = el("q-card"),
         errorMsg = el("q-error");
 
     function show(screen) {
-        [screenStart, screenQ, screenThanks, screenSending].forEach(function (s) { s.classList.add("hidden"); });
+        [screenStart, screenQ, screenThanks, screenSending, screenError].forEach(function (s) { s.classList.add("hidden"); });
         screen.classList.remove("hidden");
     }
+
+    // Retry from the error screen: answers are kept, so just resubmit.
+    el("btn-retry").addEventListener("click", function () { submit(); });
 
     function esc(str) {
         return String(str).replace(/[&<>"']/g, function (c) {
@@ -406,10 +439,13 @@ permalink: /recenze
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams(payload).toString()
         }).then(function () {
+            // no-cors gives an opaque response, so a completed request (even a
+            // server-side error) can't be inspected — treat it as sent.
             show(screenThanks);
         }).catch(function () {
-            // With no-cors we can't read the response; a network failure still lands here.
-            show(screenThanks);
+            // A genuine network failure (offline / unreachable) lands here: surface
+            // it instead of a false success. Answers stay in memory for a retry.
+            show(screenError);
         });
     }
 })();

@@ -1,5 +1,4 @@
-<!-- Full footer is hidden on phones (hidden md:block); a slim legal strip below covers mobile. -->
-<footer class="hidden md:block bg-surface py-16 px-4 md:px-8 border-t border-line/10">
+<footer class="bg-surface py-16 px-4 md:px-8 border-t border-line/10">
     <!-- Main grid layout defining 4 columns on medium screens and larger -->
     <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
 
@@ -61,14 +60,10 @@
 
     <!-- Copyright declaration block at the bottom of the footer -->
     <div class="max-w-7xl mx-auto border-t border-line/10 mt-12 pt-8 text-center text-muted text-sm">
-        <p>&copy; 2026 OD Videos. Všechna práva vyhrazena. Vytvořil Matěj Jansa.</p>
+        <p>
+            <span class="block md:inline">&copy; 2026 OD Videos.</span>
+            <span class="block md:inline"> Všechna práva vyhrazena.</span>
+            <span class="block md:inline mt-3 md:mt-0 text-xs md:text-sm"> Vytvořil Matěj Jansa.</span>
+        </p>
     </div>
 </footer>
-
-<!-- Mobile-only legal strip: keeps the mandatory OSVČ identification + privacy link
-     accessible on phones, where the full footer is hidden. -->
-<div class="md:hidden bg-surface border-t border-line/10 px-4 py-6 text-center text-muted text-xs leading-relaxed">
-    <p>Ondřej Demuth — IČO: 21919631 · <a href="/ochrana-soukromi"
-            class="text-fg hover:text-brand transition-colors">Ochrana soukromí</a></p>
-    <p class="mt-1">&copy; 2026 OD Videos</p>
-</div>

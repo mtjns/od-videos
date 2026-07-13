@@ -51,12 +51,7 @@ permalink: /
 
 <!-- Separator band between the hero video and the About section: a looping
      marquee of categories (reality, firmy, sociální sítě, svatby…). -->
-<section class="bg-base pt-4 md:pt-8 pb-10 md:pb-20 border-b border-line/10 overflow-hidden">
-
-    <!-- Gold hairline accent, centered above the marquee -->
-    <div
-        class="mx-auto mb-9 md:mb-14 h-px w-32 md:w-40 bg-gradient-to-r from-transparent via-brand to-transparent opacity-70">
-    </div>
+<section class="bg-base py-10 md:py-20 border-b border-line/10 overflow-hidden">
 
     <!-- Looping highlights marquee; duplicated track scrolls -50% for a seamless loop
          and fades out at both edges. -->
@@ -70,7 +65,7 @@ permalink: /
                 <span
                     class="mx-6 md:mx-9 text-fg/50 text-xl md:text-2xl font-semibold uppercase tracking-widest whitespace-nowrap">{{
                     c }}</span>
-                <span class="text-brand text-sm" aria-hidden="true">&#9670;</span>
+                <span class="text-brand text-lg" aria-hidden="true">&bull;</span>
                 {% endfor %}{% endfor %}
             </div>
             {% endfor %}
@@ -303,7 +298,8 @@ permalink: /
         </div>
 
         <div class="opacity-fade md:pl-10">
-            <form action="https://formsubmit.co/od.videomaker@gmail.com" method="POST" class="space-y-10">
+            <form id="contact-form" action="https://formsubmit.co/od.videomaker@gmail.com" method="POST"
+                class="space-y-10">
 
                 <!-- FormSubmit settings -->
                 <input type="hidden" name="_subject" value="Nová poptávka z webu OD videos">
@@ -372,10 +368,17 @@ permalink: /
                         class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none"></textarea>
                 </div>
 
+                <!-- Shown in-place if the AJAX submit fails; the user stays on the form. -->
+                <p id="contact-error" class="hidden text-sm text-red-600 dark:text-red-400 leading-relaxed">
+                    Zprávu se nepodařilo odeslat. Zkuste to prosím znovu, nebo nás kontaktujte přímo na
+                    <a href="mailto:od.videomaker@gmail.com" class="underline font-medium">od.videomaker@gmail.com</a>.
+                </p>
+
                 <div class="pt-4">
-                    <button type="submit"
-                        class="group relative inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
-                        <span class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
+                    <button type="submit" id="contact-submit"
+                        class="group relative inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300 disabled:opacity-60">
+                        <span id="contact-submit-label"
+                            class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
                         <span
                             class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
                             <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300"
@@ -387,6 +390,52 @@ permalink: /
                     </button>
                 </div>
             </form>
+
+            <!-- Progressive enhancement: intercept the submit and POST via FormSubmit's
+                 AJAX endpoint so failures can be shown in-place instead of redirecting.
+                 Without JS the form still submits natively (action + _next redirect). -->
+            <script>
+                (function () {
+                    var form = document.getElementById('contact-form');
+                    if (!form) return;
+                    var errorEl = document.getElementById('contact-error');
+                    var btn = document.getElementById('contact-submit');
+                    var label = document.getElementById('contact-submit-label');
+                    var defaultLabel = label ? label.textContent : '';
+                    var endpoint = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
+                    var successUrl = '{{ '/dekujeme' | relative_url }}';
+
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        errorEl.classList.add('hidden');
+
+                        var payload = {};
+                        new FormData(form).forEach(function (v, k) { payload[k] = v; });
+
+                        if (btn) btn.disabled = true;
+                        if (label) label.textContent = 'Odesílám…';
+
+                        fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                            body: JSON.stringify(payload)
+                        })
+                            .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+                            .then(function (res) {
+                                if (res && (res.success === 'true' || res.success === true)) {
+                                    window.location.href = successUrl;
+                                } else {
+                                    return Promise.reject();
+                                }
+                            })
+                            .catch(function () {
+                                if (btn) btn.disabled = false;
+                                if (label) label.textContent = defaultLabel;
+                                errorEl.classList.remove('hidden');
+                            });
+                    });
+                })();
+            </script>
         </div>
     </div>
 </section>

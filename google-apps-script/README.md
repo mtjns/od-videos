@@ -57,3 +57,13 @@ Uložte, **restartujte Jekyll** (změny v `_config.yml` se nenačítají za běh
 - Formulář odesílá přes `mode: "no-cors"`, takže prohlížeč nečte odpověď skriptu – to je v pořádku, řádek se přesto uloží.
 - Když URL necháte prázdnou, formulář funguje jako demo (odpověď se jen vypíše do konzole prohlížeče, nikam se neukládá).
 - **Po každé úpravě `Code.gs`** je potřeba znovu **Nasadit → Spravovat nasazení → upravit → Nová verze**, jinak se změny neprojeví.
+
+## Ošetření chyb při odesílání (známé omezení)
+Kvůli `mode: "no-cors"` dostane prohlížeč tzv. **neprůhlednou (opaque) odpověď** – nevidí HTTP status ani tělo. To má důsledky pro chování formuláře při chybě:
+
+- **Výpadek sítě** (uživatel offline / skript nedostupný) → JavaScript to zachytí a zobrazí obrazovku **„Odeslání se nezdařilo"** s tlačítkem **Zkusit znovu**. Odpovědi zůstanou vyplněné.
+- **Chyba na straně skriptu** (výjimka v `Code.gs`, tj. HTTP 500) → kvůli opaque odpovědi ji **nelze odlišit od úspěchu**, takže se uživateli i tak zobrazí děkovací obrazovka, přestože se řádek neuložil. Data se v tomto případě ztratí bez upozornění.
+
+Proto po nasazení a po každé změně `Code.gs` **ověřte uložení reálným odesláním** (viz sekce *Ověření*) a hlídejte, že v listu `Recenze` řádky skutečně přibývají.
+
+**Jak omezení plně odstranit:** přepnout frontend z `no-cors` na běžný `fetch` a nechat skript vracet CORS hlavičky (`Access-Control-Allow-Origin`), aby prohlížeč mohl přečíst skutečný status a odlišit úspěch od chyby serveru. To je větší zásah do `Code.gs` i do skriptu na `/recenze` a zatím není implementováno – aktuálně se spolehlivě ošetřuje pouze výpadek sítě.
