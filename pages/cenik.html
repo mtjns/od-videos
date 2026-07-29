@@ -1,8 +1,992 @@
 ---
 layout: minimal
 title: "Ceník"
-description: "Orientační ceník videoslužeb ODVideos."
+og_description: "Spočítejte si orientační cenu videa. Vyberte hotový balíček nebo si poskládejte vlastní zakázku —
+videoprohlídky nemovitostí, reely na sociální sítě, studiová, svatební i firemní videa."
+priority: 0.8
 permalink: /cenik
-sitemap: false
-noindex: true
 ---
+
+<style>
+    /* Přejíždějící odlesk na zvýrazněné dlaždici */
+    @keyframes cenik-sheen {
+        0% { left: -75%; opacity: 0; }
+        12% { opacity: 1; }
+        88% { opacity: 1; }
+        100% { left: 135%; opacity: 0; }
+    }
+    .cenik-featured:hover .cenik-sheen { animation: cenik-sheen 1.1s ease-out forwards; }
+    @media (prefers-reduced-motion: reduce) {
+        .cenik-featured:hover .cenik-sheen { animation: none; }
+    }
+
+    /* Číselné pole bez šipek */
+    .cenik-num::-webkit-outer-spin-button,
+    .cenik-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .cenik-num { -moz-appearance: textfield; }
+</style>
+
+<!-- Hlavička stránky -->
+<section class="bg-base pt-36 md:pt-44 pb-14 md:pb-20 px-4 md:px-8 relative overflow-hidden">
+
+    <!-- jemná mřížka, stejná jako v sekci služeb na homepage -->
+    <div class="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.05]"
+        style="background-image: linear-gradient(hsl(var(--line)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--line)) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%); mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);">
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10 opacity-fade">
+        <div class="flex items-center justify-center gap-3 mb-5">
+            <div class="w-8 h-1 bg-brand rounded-full"></div>
+            <span class="text-brand text-sm font-semibold tracking-widest uppercase">Ceník</span>
+            <div class="w-8 h-1 bg-brand rounded-full"></div>
+        </div>
+
+        <h1 class="text-fg text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
+            Spočítejte si <em
+                class="normal-case not-italic text-brand text-[1.2em] align-baseline font-normal [font-family:'Story_Script',cursive]">cenu</em>
+            videa
+        </h1>
+
+        <p class="text-muted text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+            Vyberte si hotový balíček, nebo si poskládejte vlastní zakázku. Cena se počítá živě — orientačně, finální
+            částku vždy potvrdíme po konzultaci.
+        </p>
+    </div>
+</section>
+
+<!-- Balíčky -->
+<section class="bg-base pb-20 md:pb-28 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="opacity-fade mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-1 bg-brand rounded-full"></div>
+                <span class="text-brand text-sm font-semibold tracking-widest uppercase">Balíčky</span>
+            </div>
+            <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Základní balíčky</h2>
+            <p class="text-muted text-lg">Klikněte na balíček a níže se vám předvyplní kalkulačka — pak už jen doladíte
+                detaily.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 opacity-fade">
+
+            <!-- Balíček 1 -->
+            <button type="button" data-preset="reels3"
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                <span
+                    class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Sociální&nbsp;sítě</span>
+                <h3 class="text-fg text-lg font-semibold pr-24 mb-1">Sada 3 Reels</h3>
+                <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>4 500 Kč
+                </div>
+                <ul class="space-y-2.5 flex-1 text-sm text-muted">
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Natáčení naráz + edit
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Designové animované titulky
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Neobsahuje licencovanou hudbu
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Cíleno na sociální sítě a počet zhlédnutí
+                    </li>
+                </ul>
+                <p class="mt-4 text-xs italic text-muted/70">Jedná se o 3 základní reely.</p>
+                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
+                    Předvyplnit kalkulačku
+                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
+                        </path>
+                    </svg>
+                </span>
+            </button>
+
+            <!-- Balíček 2 -->
+            <button type="button" data-preset="reality2kk"
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Reality</span>
+                <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Videoprohlídka + Reel</h3>
+                <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>6 000 Kč
+                </div>
+                <ul class="space-y-2.5 flex-1 text-sm text-muted">
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Obsahuje záběry z dronu
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Kompletní videoprohlídka (1+kk)
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Reel složený ze záběrů natočených pro videoprohlídku
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Videoprohlídka obsahuje licencovanou hudbu
+                    </li>
+                </ul>
+                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
+                    Předvyplnit kalkulačku
+                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
+                        </path>
+                    </svg>
+                </span>
+            </button>
+
+            <!-- Balíček 3 -->
+            <button type="button" data-preset="wedding"
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Svatba</span>
+                <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Svatební video</h3>
+                <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>12 000 Kč
+                </div>
+                <ul class="space-y-2.5 flex-1 text-sm text-muted">
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Zachycení atmosféry svatebního dne
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Celý den natáčení
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Postprodukce
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Obsahuje záběry z dronu
+                    </li>
+                </ul>
+                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
+                    Předvyplnit kalkulačku
+                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
+                        </path>
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <!-- Zvýrazněný balíček -->
+        <button type="button" data-preset="realityFeatured"
+            class="cenik-tile cenik-featured opacity-fade group relative block w-full text-left overflow-hidden mt-6 rounded-2xl border-2 border-brand p-8 md:p-10 bg-gradient-to-br from-brand/20 via-brand/5 to-surface transition-all duration-300 hover:-translate-y-1 hover:border-fg hover:shadow-[0_30px_80px_-20px_hsl(var(--brand)/0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+
+            <!-- odlesk -->
+            <span aria-hidden="true"
+                class="cenik-sheen absolute -top-1/4 -left-3/4 w-[55%] h-[150%] opacity-0 pointer-events-none z-[3] blur-[1px] -skew-x-[20deg]"
+                style="background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.06) 38%,rgba(255,250,235,.30) 47%,rgba(255,255,255,.85) 50%,rgba(255,250,235,.30) 53%,rgba(255,255,255,.06) 62%,transparent 100%);"></span>
+
+            <span
+                class="md:absolute md:top-6 md:right-7 inline-flex items-center gap-1.5 bg-brand text-onbrand text-[12px] font-extrabold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5 md:mb-0">
+                ★ Populární volba
+            </span>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center relative z-10">
+                <div>
+                    <span class="block text-brand text-[11px] tracking-widest uppercase mb-3">Reality ·
+                        nejoblíbenější</span>
+                    <h3 class="text-fg text-2xl md:text-3xl font-bold tracking-tight mb-1">Videoprohlídka nemovitosti +
+                        Reel</h3>
+                    <div class="text-brand text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-2">
+                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>8 500 Kč
+                    </div>
+                    <span class="mt-5 inline-flex items-center gap-2 text-brand text-base font-semibold">
+                        Předvyplnit kalkulačku
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </span>
+                </div>
+
+                <ul class="space-y-3 text-fg">
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Kompletní videoprohlídka bytu 2+kk
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Reel z nových záběrů (natočený na výšku)
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        AI záběry
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Dronové záběry v ceně
+                    </li>
+                    <li class="relative pl-6">
+                        <span
+                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
+                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                        Licencovaná hudba videoprohlídky v ceně
+                    </li>
+                </ul>
+            </div>
+        </button>
+    </div>
+</section>
+
+<!-- Kalkulačka -->
+<section id="kalkulacka" class="bg-surface py-20 md:py-28 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="opacity-fade mb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-1 bg-brand rounded-full"></div>
+                <span class="text-brand text-sm font-semibold tracking-widest uppercase">Krok 1</span>
+            </div>
+            <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Poskládejte si vlastní zakázku</h2>
+            <p class="text-muted text-lg">Vyberte typ videa — podle výběru se rozbalí možnosti a cena se dopočítá.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-[minmax(0,1fr)_380px] gap-6 lg:gap-8 items-start">
+
+            <!-- Levý sloupec: nástroje -->
+            <div class="opacity-fade">
+                <div class="bg-base border border-line/10 rounded-2xl p-6 md:p-7">
+                    <div class="text-fg font-semibold mb-1">Typ videa</div>
+                    <p class="text-muted text-sm mb-4">Vyberte jednu možnost.</p>
+                    <div class="grid sm:grid-cols-2 gap-3" id="typeGrid"></div>
+                </div>
+
+                <div id="tools" class="space-y-5"></div>
+            </div>
+
+            <!-- Pravý sloupec: výstup -->
+            <div class="opacity-fade lg:sticky lg:top-28">
+                <div class="bg-base border border-brand/40 rounded-2xl p-6 md:p-7 shadow-2xl">
+                    <div class="text-muted text-xs font-semibold tracking-widest uppercase">Orientační cena</div>
+                    <div id="bigPrice" class="text-brand text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-1">
+                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč
+                    </div>
+                    <div id="breakdown" class="mt-5"></div>
+                    <p id="disclaimer" class="text-muted/80 text-xs leading-relaxed mt-4">Vyberte typ videa a možnosti —
+                        cena se dopočítá.</p>
+
+                    <a href="{{ '/#contact' | relative_url }}"
+                        class="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-[15px] px-5 py-4 rounded-xl hover:-translate-y-0.5 hover:brightness-110 transition-all duration-200">
+                        Nezávazně poptat
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                                d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Závěrečné CTA -->
+<section class="bg-base py-20 md:py-28 px-4 md:px-8 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
+    </div>
+    <div class="max-w-3xl mx-auto text-center relative z-10 opacity-fade">
+        <h2 class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">Máte v hlavě něco, co se do ceníku
+            nevejde?</h2>
+        <p class="text-fg text-lg leading-relaxed mb-10">
+            Napište mi svou představu a společně nastavíme správný směr, rozsah, cenu i termín realizace.
+        </p>
+        <a href="{{ '/#contact' | relative_url }}"
+            class="group inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
+            <span class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
+            <span
+                class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
+                <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                    </path>
+                </svg>
+            </span>
+        </a>
+    </div>
+</section>
+
+<button id="scroll-top-btn" aria-label="Nahoru" type="button"
+    class="fixed bottom-8 right-8 w-12 h-12 bg-brand text-onbrand rounded-full flex items-center justify-center cursor-pointer opacity-0 pointer-events-none transition-opacity duration-300 hover:scale-110 z-40">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    </svg>
+</button>
+
+<script>
+    (function () {
+        /* ============================================================
+           Sdílené sady tříd (psané celé, aby je Tailwind našel při buildu)
+           ============================================================ */
+        const C = {
+            panel: 'bg-base border border-line/10 rounded-2xl p-6 md:p-7',
+            stepTag: 'block text-brand text-xs font-semibold tracking-widest uppercase mb-3',
+            fieldLabel: 'text-fg font-semibold mb-1',
+            fieldHint: 'text-muted text-sm mb-4',
+            subhead: 'text-muted/70 text-xs font-semibold tracking-widest uppercase mt-7 mb-3',
+            note: 'text-muted/70 text-xs mt-2 leading-relaxed',
+            accentNote: 'text-brand text-xs mt-2 leading-relaxed',
+            sep: 'border-0 border-t border-line/10 my-6',
+            optBase: 'w-full flex items-start gap-3 text-left rounded-xl border p-4 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
+            optIdle: 'bg-surface border-line/15 hover:border-line/35',
+            optActive: 'bg-brand/10 border-brand',
+            input: 'cenik-num bg-surface border border-line/15 rounded-xl text-fg px-4 py-3 text-[15px] w-full focus:outline-none focus:border-brand/60 transition-colors placeholder-muted/60'
+        };
+
+        const arrow = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6"></path></svg>';
+
+        /* Přepínač: kolečko (radio) nebo čtvereček (checkbox) */
+        function marker(active, isCheckbox) {
+            if (isCheckbox) {
+                return `<span class="mt-0.5 shrink-0 w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center transition-colors ${active ? 'border-brand bg-brand' : 'border-line/40'}">
+                    <svg class="w-3 h-3 text-onbrand ${active ? '' : 'hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </span>`;
+            }
+            return `<span class="mt-0.5 shrink-0 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-colors ${active ? 'border-brand' : 'border-line/40'}">
+                <span class="w-2 h-2 rounded-full bg-brand ${active ? '' : 'hidden'}"></span>
+            </span>`;
+        }
+
+        /* Jedna volba (radio/checkbox) */
+        function opt(o) {
+            const active = !!o.active;
+            return `<button type="button" class="${C.optBase} ${active ? C.optActive : C.optIdle} ${o.cls || ''}" ${o.attrs || ''}>
+                ${marker(active, o.checkbox)}
+                <span class="flex flex-col min-w-0">
+                    <span class="text-fg text-[14.5px] font-medium">${o.title}</span>
+                    ${o.desc ? `<span class="text-muted/70 text-xs leading-snug mt-1">${o.desc}</span>` : ''}
+                    ${o.price ? `<span class="text-[13.5px] font-semibold mt-1 ${active ? 'text-brand' : 'text-muted'}">${o.price}</span>` : ''}
+                </span>
+            </button>`;
+        }
+
+        /* ============================================================
+           Stav aplikace
+           ============================================================ */
+        const state = {
+            type: null,          // 'reality' | 'reel' | 'studio' | 'wedding' | 'firemni'
+            reality: { property: null, reelAddon: 'none', ai: false, bigCity: false, express: false, km: '', trutnov: false, liberec: false },
+            reel: { variant: 'zakladni', count: 1, music: false, musicScope: 'each', express: false, km: '', trutnov: false, liberec: false },
+            studio: { count: 1, music: false, musicScope: 'each', footage: false, express: false, km: '', trutnov: false, liberec: false },
+            wedding: { express: false, km: '', trutnov: false, liberec: false },
+            discountCode: '',
+            appliedCode: ''
+        };
+
+        /* Slevové kódy (nikde se nezobrazují) */
+        const DISCOUNTS = {
+            'ODfriend': { type: 'pct', value: 0.10 },
+            'ODstart': { type: 'pct', value: 0.50 },
+            'ODmodify': { type: 'pct', value: 0.15 },
+            'ODhavic': { type: 'fixed', value: 750 }
+        };
+
+        function kc(n) { return Math.round(n).toLocaleString('cs-CZ') + ' Kč'; }
+
+        /* ============================================================
+           Ceníková logika
+           ============================================================ */
+        const PROPERTY = {
+            '1kk': { label: 'Byt 1+kk / 1+1', price: 5000, from: false },
+            '2kk': { label: 'Byt 2+kk / 2+1', price: 6000, from: false },
+            '3kk': { label: 'Byt 3+kk / 3+1', price: 6750, from: false },
+            '4kk': { label: 'Byt 4+kk / 4+1 a větší', price: 7500, from: false },
+            'rd': { label: 'Rodinný dům', price: 7000, from: true }
+        };
+
+        const TYPES = [
+            { id: 'reality', label: 'Videoprohlídka nemovitosti' },
+            { id: 'reel', label: 'Krátké video (Reel)' },
+            { id: 'wedding', label: 'Svatební video' },
+            { id: 'firemni', label: 'Firemní akce' },
+            { id: 'studio', label: 'Studiové video' }
+        ];
+
+        function reelUnitPrice(variant, count) {
+            if (count <= 1) return variant === 'zakladni' ? 2000 : 3000;
+            if (count === 2) return variant === 'zakladni' ? 1800 : 2500;
+            return variant === 'zakladni' ? 1500 : 2000;
+        }
+        function studioUnitPrice(count) {
+            if (count <= 1) return 4000;
+            if (count === 2) return 3750;
+            if (count <= 9) return 3500;   // 3–9 ks
+            return 3250;                   // 10 ks a více
+        }
+
+        function kmCost(km) {
+            const n = parseInt(km, 10);
+            if (isNaN(n) || n < 0) return 0;
+            return n * 10;
+        }
+        /* Doprava = km × 10 Kč + případné fixní cesty (Trutnov / Liberec) */
+        function transportCost(kind) {
+            const s = state[kind];
+            let c = kmCost(s.km);
+            if (s.trutnov) c += 200;
+            if (s.liberec) c += 150;
+            return c;
+        }
+
+        function calculate() {
+            const t = state.type;
+            if (!t || t === 'firemni') return null;
+
+            const items = [];
+            let doprava = 0;
+            let hasBase = false;
+
+            if (t === 'reality') {
+                const p = state.reality.property;
+                if (p) {
+                    const pr = PROPERTY[p];
+                    items.push({ label: pr.label + (pr.from ? ' (od)' : ''), amount: pr.price });
+                    hasBase = true;
+                }
+                if (state.reality.reelAddon === 'fromVideo') {
+                    items.push({ label: 'Reel ze záběrů z videoprohlídky', amount: 1000 });
+                } else if (state.reality.reelAddon === 'newFootage') {
+                    items.push({ label: 'Reel z nových záběrů (od)', amount: 2000 });
+                }
+                if (state.reality.ai) {
+                    items.push({ label: 'AI záběry (od)', amount: 500 });
+                }
+                doprava = transportCost('reality');
+            }
+
+            else if (t === 'reel') {
+                const c = Math.max(1, state.reel.count);
+                const unit = reelUnitPrice(state.reel.variant, c);
+                const label = (state.reel.variant === 'zakladni' ? 'Základní' : 'Pokročilé')
+                    + ' reel — ' + c + '× ' + kc(unit);
+                items.push({ label: '(od) ' + label, amount: unit * c });
+                hasBase = true;
+                if (state.reel.music) {
+                    if (state.reel.musicScope === 'project' && c >= 2) {
+                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: 500 });
+                    } else {
+                        items.push({ label: c + ' × 250 Kč · licencovaná hudba', amount: 250 * c, note: '250 Kč za jednu licenci (za každé video)' });
+                    }
+                }
+                doprava = transportCost('reel');
+            }
+
+            else if (t === 'studio') {
+                const c = Math.max(1, state.studio.count);
+                const unit = studioUnitPrice(c);
+                items.push({ label: '(od) Studiové video — ' + c + '× ' + kc(unit), amount: unit * c });
+                hasBase = true;
+                if (state.studio.music) {
+                    if (state.studio.musicScope === 'project' && c >= 2) {
+                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: 500 });
+                    } else {
+                        items.push({ label: c + ' × 250 Kč · licencovaná hudba', amount: 250 * c, note: '250 Kč za jednu licenci (za každé video)' });
+                    }
+                }
+                if (state.studio.footage) {
+                    const aiUnit = c >= 10 ? 400 : 500;
+                    items.push({ label: c + ' × ' + kc(aiUnit) + ' · AI záběry', amount: aiUnit * c });
+                }
+                doprava = transportCost('studio');
+            }
+
+            else if (t === 'wedding') {
+                items.push({ label: 'Svatební video', amount: 12000 });
+                hasBase = true;
+                doprava = transportCost('wedding');
+            }
+
+            const itemsSum = items.reduce((s, i) => s + i.amount, 0);
+
+            // Příplatek za velké město (Praha / Brno) — +10 % z ceny včetně dopravy
+            let cityFee = 0;
+            if (t === 'reality' && state.reality.bigCity) {
+                cityFee = Math.round((itemsSum + doprava) * 0.10);
+            }
+
+            // Expresní dodání — +20 % (základ + přídavky + doprava + velké město)
+            let express = 0;
+            if (state[t] && state[t].express) {
+                express = Math.round((itemsSum + doprava + cityFee) * 0.20);
+            }
+
+            const subtotal = itemsSum + doprava + cityFee + express;
+
+            let discountAmount = 0, discountLabel = '';
+            const code = state.appliedCode.trim();
+            if (code && DISCOUNTS.hasOwnProperty(code)) {
+                const d = DISCOUNTS[code];
+                if (d.type === 'pct') {
+                    discountAmount = Math.round(subtotal * d.value);
+                    discountLabel = 'Sleva −' + Math.round(d.value * 100) + ' %';
+                } else {
+                    discountAmount = Math.min(d.value, subtotal);
+                    discountLabel = 'Sleva ' + kc(d.value);
+                }
+            }
+            const total = subtotal - discountAmount;
+
+            return { items, doprava, cityFee, express, subtotal, discountAmount, discountLabel, total, hasBase };
+        }
+
+        /* ============================================================
+           Výběr typu videa
+           ============================================================ */
+        const typeGrid = document.getElementById('typeGrid');
+        const tools = document.getElementById('tools');
+
+        function renderTypeGrid() {
+            typeGrid.innerHTML = TYPES.map(t => opt({
+                title: t.label,
+                active: state.type === t.id,
+                cls: 'js-type',
+                attrs: `data-type="${t.id}"`
+            })).join('');
+
+            typeGrid.querySelectorAll('.js-type').forEach(b => b.addEventListener('click', () => {
+                selectType(b.dataset.type);
+            }));
+        }
+
+        function selectType(t) {
+            state.type = t;
+            renderTypeGrid();
+            renderTools();
+            renderOutput();
+        }
+
+        /* ============================================================
+           Dílčí bloky nástrojů
+           ============================================================ */
+        function counterHTML(kind) {
+            const val = kind === 'reel' ? state.reel.count : state.studio.count;
+            return `<div class="inline-flex items-center bg-surface border border-line/15 rounded-xl overflow-hidden" data-counter="${kind}">
+                <button type="button" data-step="-1" aria-label="Ubrat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand/10 hover:text-brand transition-colors">−</button>
+                <span class="w-14 text-center text-fg text-lg font-semibold">${val}</span>
+                <button type="button" data-step="1" aria-label="Přidat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand/10 hover:text-brand transition-colors">+</button>
+            </div>`;
+        }
+
+        function infoboxHTML(inner) {
+            return `<div class="mt-4 rounded-xl border border-brand/45 border-l-[3px] border-l-brand bg-brand/[0.12] px-4 py-3.5 text-[13.5px] leading-relaxed text-fg/80">${inner}</div>`;
+        }
+
+        function musicHTML(kind) {
+            const s = state[kind];
+            const c = Math.max(1, s.count);
+            let scope = '';
+            if (s.music && c >= 2) {
+                scope = `<div class="space-y-2.5 mt-3">
+                    ${opt({ title: 'Zvlášť pro každé video', price: `250 Kč × ${c} = ${kc(250 * c)}`, active: s.musicScope === 'each', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="each"` })}
+                    ${opt({ title: 'Jedna licence pro celý projekt', price: `500 Kč za všech ${c} videí`, active: s.musicScope === 'project', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="project"` })}
+                </div>`;
+            }
+            return `<div class="${C.subhead}">Licencovaná hudba</div>
+                ${opt({ title: 'Licencovaná hudba', price: '+250 Kč za každé video', checkbox: true, active: s.music, cls: 'js-music-toggle', attrs: `data-kind="${kind}"` })}
+                <p class="${C.note}">Licencovaná hudba je pouze pro firmy s méně než 100 zaměstnanci.</p>
+                ${scope}`;
+        }
+
+        function dopravaHTML(kind) {
+            const s = state[kind];
+            return `<hr class="${C.sep}">
+                <div class="${C.fieldLabel}">Doprava</div>
+                <p class="${C.fieldHint}">Vyberte jednu variantu — 10 Kč/km, nebo fixní cestu. Poslední volba přepíše předchozí.</p>
+                <div class="flex items-center gap-3 flex-wrap">
+                    <input class="${C.input} js-km max-w-[140px]" data-km="${kind}" type="number" min="0" inputmode="numeric" placeholder="0" value="${s.km}">
+                    <span class="text-muted text-sm">km × 10 Kč/km</span>
+                </div>
+                <div class="space-y-2.5 mt-4">
+                    ${opt({ title: 'Natáčení v Trutnově', price: '200 Kč za cestu', checkbox: true, active: s.trutnov, cls: 'js-trip-trutnov', attrs: `data-trip="${kind}"` })}
+                    ${opt({ title: 'Natáčení v Liberci', price: '150 Kč za cestu (v období školního roku)', checkbox: true, active: s.liberec, cls: 'js-trip-liberec', attrs: `data-trip="${kind}"` })}
+                </div>`;
+        }
+
+        function expressHTML(kind) {
+            const s = state[kind];
+            return `<hr class="${C.sep}">
+                <div class="${C.fieldLabel}">Expresní dodání</div>
+                <div class="mt-3">
+                    ${opt({ title: 'Expresní dodání', price: '+20 % z celkové ceny', checkbox: true, active: s.express, cls: 'js-express', attrs: `data-kind="${kind}"` })}
+                </div>
+                <p class="${C.note}">Pokud váš projekt spěchá a potřebujete ho mít hotový do 3. dne od natáčení (závisí na velikosti projektu).</p>`;
+        }
+
+        function discountHTML() {
+            return `<hr class="${C.sep}">
+                <div class="${C.fieldLabel}">Slevový kód</div>
+                <div class="flex items-center gap-3 flex-wrap mt-3">
+                    <input class="${C.input} js-code max-w-[200px]" type="text" placeholder="Zadejte kód" value="${state.discountCode}">
+                    <button type="button" class="js-apply bg-brand/10 text-brand border border-brand/45 rounded-xl px-6 py-3 text-sm font-semibold hover:bg-brand hover:text-onbrand transition-colors">Uplatnit</button>
+                </div>
+                <div class="text-sm mt-2 min-h-[20px]" id="discountStatus"></div>`;
+        }
+
+        /* ============================================================
+           Vykreslení nástrojů podle typu
+           ============================================================ */
+        function renderTools() {
+            const t = state.type;
+            if (!t) { tools.innerHTML = ''; return; }
+
+            let html = '';
+
+            if (t === 'reality') {
+                html = `<div class="${C.panel}">
+                    <span class="${C.stepTag}">Krok 2 · Videoprohlídka nemovitosti</span>
+                    <div class="${C.fieldLabel}">Výběr nemovitosti <span class="text-brand text-xs font-semibold ml-1">povinné</span></div>
+                    <p class="${C.fieldHint}">Vyberte jednu možnost.</p>
+                    <div class="space-y-2.5">
+                        ${Object.entries(PROPERTY).map(([k, v]) => opt({
+                    title: v.label,
+                    price: (v.from ? 'od ' : '') + kc(v.price),
+                    active: state.reality.property === k,
+                    cls: 'js-prop',
+                    attrs: `data-prop="${k}"`
+                })).join('')}
+                    </div>
+
+                    ${infoboxHTML(`<b class="text-fg font-semibold">Co je v ceně:</b> dronové záběry, licencovaná hudba, možné nahrání voiceoveru s makléřem a talking head záběry makléře.
+                        <div class="mt-3 pt-3 border-t border-line/20"><b class="text-fg font-semibold">Neobsahuje:</b> AI záběry (lze přidat).</div>`)}
+
+                    <div class="${C.subhead}">Přídavek Reel · volitelné</div>
+                    <div class="space-y-2.5">
+                        ${opt({ title: 'Reel ze záběrů z videoprohlídky', price: '+1 000 Kč', active: state.reality.reelAddon === 'fromVideo', cls: 'js-reel-addon', attrs: 'data-reel="fromVideo"' })}
+                        ${opt({ title: 'Reel z nových záběrů (nutné natočit znovu na výšku)', price: 'od +2 000 Kč', active: state.reality.reelAddon === 'newFootage', cls: 'js-reel-addon', attrs: 'data-reel="newFootage"' })}
+                    </div>
+                    <p class="${C.accentNote}">V balíčku ušetříte 1 000 Kč oproti samostatnému reelu, který stojí od 3 000 Kč.</p>
+
+                    <div class="${C.subhead}">Přídavek AI záběry</div>
+                    ${opt({ title: 'AI záběry', price: '+ od 500 Kč', checkbox: true, active: state.reality.ai, cls: 'js-ai' })}
+
+                    <div class="${C.subhead}">Velké město</div>
+                    ${opt({ title: 'Praha / Brno', price: '+10 % z celkové ceny', checkbox: true, active: state.reality.bigCity, cls: 'js-city' })}
+
+                    ${dopravaHTML('reality')}
+                    ${expressHTML('reality')}
+                    ${discountHTML()}
+                </div>`;
+            }
+
+            else if (t === 'reel') {
+                html = `<div class="${C.panel}">
+                    <span class="${C.stepTag}">Krok 2 · Krátké video na sociální sítě (Reel)</span>
+                    <div class="${C.fieldLabel}">Varianta</div>
+                    <p class="${C.fieldHint}">Vyberte jednu možnost.</p>
+                    <div class="space-y-2.5">
+                        ${opt({ title: 'Základní', desc: 'jednoduché natáčení a střih', price: 'od 2 000 Kč', active: state.reel.variant === 'zakladni', cls: 'js-reel-var', attrs: 'data-var="zakladni"' })}
+                        ${opt({ title: 'Pokročilé', desc: 'složitější záběry, natáčení, střih a postprodukce · obsahuje možné AI záběry', price: 'od 3 000 Kč', active: state.reel.variant === 'pokrocile', cls: 'js-reel-var', attrs: 'data-var="pokrocile"' })}
+                    </div>
+
+                    <div class="${C.subhead}">Počet reelů</div>
+                    ${counterHTML('reel')}
+                    <p class="${C.note}">2 ks = zvýhodněná cena/ks · 3 a více ks = nejnižší cena/ks.</p>
+
+                    ${musicHTML('reel')}
+
+                    ${infoboxHTML('Reely obsahují <b class="text-fg font-semibold">designové animované titulky</b> pro talking head content.')}
+
+                    ${dopravaHTML('reel')}
+                    ${expressHTML('reel')}
+                    ${discountHTML()}
+                </div>`;
+            }
+
+            else if (t === 'studio') {
+                html = `<div class="${C.panel}">
+                    <span class="${C.stepTag}">Krok 2 · Studiové video</span>
+                    <div class="${C.fieldLabel}">Počet videí</div>
+                    <div class="mt-3">${counterHTML('studio')}</div>
+                    <p class="${C.note}">1 ks = od 4 000 Kč · 2 ks = 3 750 Kč/ks · 3–9 ks = 3 500 Kč/ks · 10 a více ks = 3 250 Kč/ks.</p>
+
+                    ${musicHTML('studio')}
+
+                    <div class="${C.subhead}">AI záběry</div>
+                    ${opt({ title: 'AI záběry', price: '+500 Kč za každé video', checkbox: true, active: state.studio.footage, cls: 'js-studio-footage' })}
+                    <p class="${C.note}">Od 10 videí 400 Kč za každé video.</p>
+
+                    ${infoboxHTML('Vhodné pro edukační videa a content, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje <b class="text-fg font-semibold">techniku navíc a důkladnější přípravu</b>.')}
+
+                    ${dopravaHTML('studio')}
+                    ${expressHTML('studio')}
+                    ${discountHTML()}
+                </div>`;
+            }
+
+            else if (t === 'wedding') {
+                html = `<div class="${C.panel}">
+                    <span class="${C.stepTag}">Krok 2 · Svatební video</span>
+                    <div class="${C.fieldLabel}">Pevná cena 12 000 Kč</div>
+                    <p class="${C.fieldHint}">Celý den natáčení, postprodukce a dronové záběry v ceně.</p>
+                    ${dopravaHTML('wedding')}
+                    ${expressHTML('wedding')}
+                    ${discountHTML()}
+                </div>`;
+            }
+
+            else if (t === 'firemni') {
+                html = `<div class="${C.panel}">
+                    <span class="${C.stepTag}">Firemní akce</span>
+                    <div class="text-center py-8 px-2">
+                        <p class="text-muted text-base max-w-md mx-auto mb-6">Domluvte si s námi schůzku a společně připravíme cenovou nabídku na míru.</p>
+                        <a href="{{ '/#contact' | relative_url }}" class="inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-[15px] px-6 py-4 rounded-xl hover:-translate-y-0.5 hover:brightness-110 transition-all duration-200">
+                            Domluvit schůzku ${arrow}
+                        </a>
+                    </div>
+                </div>`;
+            }
+
+            tools.innerHTML = html;
+            bindToolEvents();
+        }
+
+        /* ============================================================
+           Události v nástrojích
+           ============================================================ */
+        function bindToolEvents() {
+            const on = (sel, fn) => tools.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => fn(b)));
+
+            // Reality
+            on('.js-prop', b => { state.reality.property = b.dataset.prop; refresh(); });
+            on('.js-reel-addon', b => {
+                const v = b.dataset.reel;
+                state.reality.reelAddon = (state.reality.reelAddon === v) ? 'none' : v;
+                refresh();
+            });
+            on('.js-ai', () => { state.reality.ai = !state.reality.ai; refresh(); });
+            on('.js-city', () => { state.reality.bigCity = !state.reality.bigCity; refresh(); });
+
+            // Reel
+            on('.js-reel-var', b => { state.reel.variant = b.dataset.var; refresh(); });
+
+            // Licencovaná hudba (reel + studio)
+            on('.js-music-toggle', b => { const k = b.dataset.kind; state[k].music = !state[k].music; refresh(); });
+            on('.js-music-scope', b => { const k = b.dataset.kind; state[k].musicScope = b.dataset.scope; refresh(); });
+
+            // Studio
+            on('.js-studio-footage', () => { state.studio.footage = !state.studio.footage; refresh(); });
+
+            // Expresní dodání
+            on('.js-express', b => { const k = b.dataset.kind; state[k].express = !state[k].express; refresh(); });
+
+            // Číselníky
+            tools.querySelectorAll('[data-counter]').forEach(c => {
+                const kind = c.dataset.counter;
+                c.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+                    const step = parseInt(btn.dataset.step, 10);
+                    const cur = kind === 'reel' ? state.reel.count : state.studio.count;
+                    const next = Math.max(1, cur + step);
+                    if (kind === 'reel') state.reel.count = next; else state.studio.count = next;
+                    refresh();
+                }));
+            });
+
+            // Doprava — km (bez re-renderu, ať nepřijdeme o focus)
+            tools.querySelectorAll('.js-km').forEach(inp => inp.addEventListener('input', () => {
+                const k = inp.dataset.km;
+                state[k].km = inp.value;
+                if (inp.value.trim() !== '') {
+                    state[k].trutnov = false;
+                    state[k].liberec = false;
+                    tools.querySelectorAll('.js-trip-trutnov, .js-trip-liberec').forEach(b => {
+                        b.className = `${C.optBase} ${C.optIdle} ` + (b.classList.contains('js-trip-trutnov') ? 'js-trip-trutnov' : 'js-trip-liberec');
+                        const box = b.querySelector('span');
+                        if (box) {
+                            box.className = 'mt-0.5 shrink-0 w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center transition-colors border-line/40';
+                            const tick = box.querySelector('svg');
+                            if (tick) tick.classList.add('hidden');
+                        }
+                    });
+                }
+                renderOutput();
+            }));
+
+            // Doprava — fixní cesty (jen jedna volba; poslední přepíše km i druhou cestu)
+            on('.js-trip-trutnov', b => {
+                const k = b.dataset.trip, now = !state[k].trutnov;
+                state[k].trutnov = now;
+                if (now) { state[k].liberec = false; state[k].km = ''; }
+                refresh();
+            });
+            on('.js-trip-liberec', b => {
+                const k = b.dataset.trip, now = !state[k].liberec;
+                state[k].liberec = now;
+                if (now) { state[k].trutnov = false; state[k].km = ''; }
+                refresh();
+            });
+
+            // Slevový kód (bez re-renderu, ať nepřijdeme o focus)
+            const code = tools.querySelector('.js-code');
+            const applyBtn = tools.querySelector('.js-apply');
+            const statusEl = tools.querySelector('#discountStatus');
+
+            function setStatus(text, kind) {
+                if (!statusEl) return;
+                statusEl.textContent = text;
+                statusEl.className = 'text-sm mt-2 min-h-[20px] ' +
+                    (kind === 'ok' ? 'text-emerald-500' : kind === 'bad' ? 'text-red-500' : 'text-muted');
+            }
+
+            function applyCode() {
+                const val = code.value.trim();
+                if (val && DISCOUNTS.hasOwnProperty(val)) {
+                    state.appliedCode = val;
+                    setStatus('Kód uplatněn.', 'ok');
+                } else {
+                    state.appliedCode = '';
+                    setStatus(val ? 'Kód není platný.' : 'Zadejte slevový kód.', 'bad');
+                }
+                renderOutput();
+            }
+
+            if (code) {
+                code.addEventListener('input', () => {
+                    state.discountCode = code.value;
+                    // změna textu zruší dřívější uplatnění — je nutné znovu kliknout na Uplatnit
+                    state.appliedCode = '';
+                    setStatus('', '');
+                    renderOutput();
+                });
+                code.addEventListener('keydown', e => {
+                    if (e.key === 'Enter') { e.preventDefault(); applyCode(); }
+                });
+            }
+            if (applyBtn) applyBtn.addEventListener('click', applyCode);
+        }
+
+        function refresh() { renderTools(); renderOutput(); }
+
+        /* ============================================================
+           Vykreslení výstupního panelu
+           ============================================================ */
+        const bigPrice = document.getElementById('bigPrice');
+        const breakdown = document.getElementById('breakdown');
+        const disclaimer = document.getElementById('disclaimer');
+
+        const rowCls = 'flex justify-between gap-4 py-2.5 border-b border-dashed border-line/15 text-sm last:border-b-0';
+
+        function renderOutput() {
+            if (state.type === 'firemni') {
+                bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle">Individuální</span>`;
+                breakdown.innerHTML = '';
+                disclaimer.textContent = 'Cenu firemní akce připravíme na míru po schůzce.';
+                return;
+            }
+
+            const calc = calculate();
+
+            if (!calc || !calc.hasBase) {
+                bigPrice.innerHTML = `<span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč`;
+                breakdown.innerHTML = '';
+                disclaimer.textContent = state.type
+                    ? 'Doplňte možnosti výše — cena se dopočítá.'
+                    : 'Vyberte typ videa a možnosti — cena se dopočítá.';
+                return;
+            }
+
+            bigPrice.innerHTML = `<span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>${kc(calc.total)}`;
+
+            let rows = calc.items.map(i => `
+                <div class="${rowCls}">
+                    <span class="text-muted">${i.label}${i.note ? `<br><span class="text-xs text-muted/70">${i.note}</span>` : ''}</span>
+                    <span class="text-fg font-semibold whitespace-nowrap">${kc(i.amount)}</span>
+                </div>`).join('');
+
+            if (calc.doprava > 0) {
+                rows += `<div class="${rowCls}"><span class="text-muted">Doprava</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.doprava)}</span></div>`;
+            }
+            if (calc.cityFee > 0) {
+                rows += `<div class="${rowCls}"><span class="text-muted">Velké město (Praha / Brno) · +10 %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.cityFee)}</span></div>`;
+            }
+            if (calc.express > 0) {
+                rows += `<div class="${rowCls}"><span class="text-muted">Expresní dodání · +20 %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.express)}</span></div>`;
+            }
+            if (calc.discountAmount > 0) {
+                rows += `<div class="${rowCls}"><span class="text-emerald-500">${calc.discountLabel}</span><span class="text-emerald-500 font-semibold whitespace-nowrap">−${kc(calc.discountAmount)}</span></div>`;
+            }
+            rows += `<div class="flex justify-between gap-4 pt-4 mt-2 border-t border-line/25 text-base">
+                <span class="text-fg font-semibold">Orientační cena od</span>
+                <span class="text-brand font-extrabold whitespace-nowrap">${kc(calc.total)}</span>
+            </div>`;
+
+            breakdown.innerHTML = rows;
+            disclaimer.textContent = 'Jde o orientační cenu, finální částku potvrdíme po konzultaci.';
+        }
+
+        /* ============================================================
+           Předvyplnění z dlaždic
+           ============================================================ */
+        function applyPreset(name) {
+            if (name === 'reels3') {
+                state.reel = { variant: 'zakladni', count: 3, music: false, musicScope: 'each', express: false, km: '', trutnov: false, liberec: false };
+                selectType('reel');
+            }
+            else if (name === 'reality2kk') {
+                state.reality = { property: '1kk', reelAddon: 'fromVideo', ai: false, bigCity: false, express: false, km: '', trutnov: false, liberec: false };
+                selectType('reality');
+            }
+            else if (name === 'realityFeatured') {
+                state.reality = { property: '2kk', reelAddon: 'newFootage', ai: true, bigCity: false, express: false, km: '', trutnov: false, liberec: false };
+                selectType('reality');
+            }
+            else if (name === 'wedding') {
+                state.wedding = { express: false, km: '', trutnov: false, liberec: false };
+                selectType('wedding');
+            }
+            document.getElementById('kalkulacka').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.querySelectorAll('.cenik-tile').forEach(tile => {
+            tile.addEventListener('click', () => applyPreset(tile.dataset.preset));
+        });
+
+        /* init */
+        renderTypeGrid();
+        renderOutput();
+    })();
+</script>
