@@ -1,9 +1,10 @@
 ---
 layout: default
 title: "Ceník"
-og_description: "Spočítejte si orientační cenu videa. Vyberte hotový balíček, nebo si poskládejte vlastní zakázku."
+og_description: "Spočítejte si orientační cenu videa. Vyberte hotový balíček nebo si poskládejte vlastní zakázku —
+videoprohlídky nemovitostí, reely na sociální sítě, studiová, svatební i firemní videa."
 priority: 0.9
-permalink: /cenik
+permalink: /cenik/
 ---
 
 <style>
@@ -36,17 +37,16 @@ permalink: /cenik
 </section>
 
 <!-- Balíčky -->
-<section class="bg-base pb-20 md:pb-28 px-4 md:px-8">
+<section class="bg-base pb-14 md:pb-20 px-4 md:px-8">
     <div class="max-w-6xl mx-auto">
 
         <div class="opacity-fade mb-8 md:mb-10">
-            <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Základní balíčky</h2>
-            <p class="text-muted text-lg">Klikněte na balíček — předvyplní se kalkulačka a doladíte už jen detaily.</p>
+            <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight">Základní balíčky</h2>
         </div>
 
         <!-- Čtyři dlaždice se stejnou stavbou: kategorie / název / cena / obsah.
              Pevná minimální výška názvu drží ceny na jedné lince napříč řadou. -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 opacity-fade">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-5 pt-3 opacity-fade">
 
             <!-- Sada 3 Reels -->
             <button type="button" data-preset="reels3"
@@ -54,7 +54,7 @@ permalink: /cenik
                 <span class="text-muted/70 text-[11px] font-semibold tracking-widest uppercase">Sociální sítě</span>
                 <h3 class="text-fg text-base md:text-lg font-semibold leading-snug mt-2 min-h-[2.75rem] md:min-h-[3.25rem]">
                     Sada 3 Reels</h3>
-                <div class="text-brand text-2xl md:text-3xl font-bold tracking-tight mb-5">
+                <div class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">
                     <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>4 500 Kč
                 </div>
                 <ul class="space-y-2 text-[13px] leading-relaxed text-muted border-t border-line/10 pt-4">
@@ -71,7 +71,7 @@ permalink: /cenik
                 <span class="text-muted/70 text-[11px] font-semibold tracking-widest uppercase">Reality</span>
                 <h3 class="text-fg text-base md:text-lg font-semibold leading-snug mt-2 min-h-[2.75rem] md:min-h-[3.25rem]">
                     Videoprohlídka 1+kk&nbsp;+ Reel</h3>
-                <div class="text-brand text-2xl md:text-3xl font-bold tracking-tight mb-5">
+                <div class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">
                     <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>6 000 Kč
                 </div>
                 <ul class="space-y-2 text-[13px] leading-relaxed text-muted border-t border-line/10 pt-4">
@@ -84,11 +84,13 @@ permalink: /cenik
 
             <!-- Videoprohlídka 2+kk + Reel — populární, stejná dlaždice, jen zvýrazněná -->
             <button type="button" data-preset="reality2kk"
-                class="cenik-tile group flex flex-col text-left h-full bg-surface border border-brand rounded-2xl p-5 md:p-6 transition-colors duration-300 hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
-                <span class="text-brand text-[11px] font-semibold tracking-widest uppercase">Reality · populární</span>
+                class="cenik-tile group relative flex flex-col text-left h-full bg-surface border-2 border-brand rounded-2xl p-5 md:p-6 transition-colors duration-300 hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                <span
+                    class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand text-onbrand text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap">Populární</span>
+                <span class="text-muted/70 text-[11px] font-semibold tracking-widest uppercase">Reality</span>
                 <h3 class="text-fg text-base md:text-lg font-semibold leading-snug mt-2 min-h-[2.75rem] md:min-h-[3.25rem]">
                     Videoprohlídka 2+kk&nbsp;+ Reel</h3>
-                <div class="text-brand text-2xl md:text-3xl font-bold tracking-tight mb-5">
+                <div class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">
                     <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>8 500 Kč
                 </div>
                 <ul class="space-y-2 text-[13px] leading-relaxed text-muted border-t border-brand/25 pt-4">
@@ -105,7 +107,7 @@ permalink: /cenik
                 <span class="text-muted/70 text-[11px] font-semibold tracking-widest uppercase">Svatba</span>
                 <h3 class="text-fg text-base md:text-lg font-semibold leading-snug mt-2 min-h-[2.75rem] md:min-h-[3.25rem]">
                     Svatební video</h3>
-                <div class="text-brand text-2xl md:text-3xl font-bold tracking-tight mb-5">
+                <div class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">
                     <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>12 000 Kč
                 </div>
                 <ul class="space-y-2 text-[13px] leading-relaxed text-muted border-t border-line/10 pt-4">
@@ -119,17 +121,36 @@ permalink: /cenik
     </div>
 </section>
 
+<!-- Výchozí ceny podle typu videa -->
+<section class="bg-base pb-20 md:pb-28 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto opacity-fade">
+        <p class="text-muted text-xs font-semibold tracking-widest uppercase mb-6">Ceny začínají na</p>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 border-t border-line/15">
+            {% assign starting = "Videoprohlídka nemovitosti|od 5 000 Kč;Krátké video (Reel)|od 2 000 Kč;Studiové video|od 4 000 Kč;Svatební video|12 000 Kč;Firemní akce|individuálně" | split: ";" %}
+            {% for row in starting %}
+            {% assign rp = row | split: "|" %}
+            <div class="border-b border-line/15 md:border-b-0 md:border-r md:last:border-r-0 border-line/15 py-5 md:py-6 md:px-5 md:first:pl-0">
+                <div class="text-muted text-[13px] leading-snug mb-2 min-h-[2.5rem]">{{ rp[0] }}</div>
+                <div class="text-brand text-lg md:text-xl font-bold tracking-tight">{{ rp[1] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 <!-- Kalkulačka -->
 <section id="kalkulacka" class="bg-surface py-20 md:py-28 px-4 md:px-8">
     <div class="max-w-3xl mx-auto">
 
         <div class="opacity-fade mb-10">
             <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Poskládejte si vlastní zakázku</h2>
-            <p class="text-muted text-lg">Vyberte typ videa — podle výběru se rozbalí možnosti a cena se dopočítá.</p>
+            <p class="text-muted text-lg">Vyberte si z balíčků výše, nebo si tady poskládejte zakázku přesně podle
+                svého — cena se dopočítá živě.</p>
         </div>
 
         <div class="opacity-fade">
-            <div class="text-fg font-semibold text-[15px] mb-1">Typ videa</div>
+            <h3 class="text-fg text-xl md:text-2xl font-bold tracking-tight mb-1">Typ videa</h3>
             <p class="text-muted text-sm mb-4">Podle výběru se rozbalí další možnosti.</p>
             <div id="typeSelect"></div>
 
