@@ -46,7 +46,7 @@ permalink: /cenik
 
         <!-- Čtyři dlaždice se stejnou stavbou: kategorie / název / cena / obsah.
              Pevná minimální výška názvu drží ceny na jedné lince napříč řadou. -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5 opacity-fade">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 opacity-fade">
 
             <!-- Sada 3 Reels -->
             <button type="button" data-preset="reels3"
@@ -130,8 +130,8 @@ permalink: /cenik
 
         <div class="opacity-fade">
             <div class="text-fg font-semibold text-[15px] mb-1">Typ videa</div>
-            <p class="text-muted text-sm mb-4">Vyberte jednu možnost.</p>
-            <div id="typeSeg" class="flex flex-wrap gap-1 bg-base border border-line/15 rounded-2xl p-1.5"></div>
+            <p class="text-muted text-sm mb-4">Podle výběru se rozbalí další možnosti.</p>
+            <div id="typeSelect"></div>
 
             <div id="tools"></div>
 
@@ -146,7 +146,7 @@ permalink: /cenik
                         </div>
                     </div>
 
-                    <a href="{{ '/#contact' | relative_url }}"
+                    <a href="#poptavka"
                         class="group inline-flex items-center gap-3 bg-brand text-onbrand font-bold text-[15px] px-7 py-4 rounded-xl hover:brightness-110 transition-all duration-200">
                         Nezávazně poptat
                         <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
@@ -157,7 +157,8 @@ permalink: /cenik
                     </a>
                 </div>
 
-                <div id="breakdown" class="mt-9"></div>
+                <div id="summaryHead" class="hidden mt-10 mb-1 text-fg text-sm font-semibold tracking-wide">Shrnutí</div>
+                <div id="breakdown" class="mt-4"></div>
                 <p id="disclaimer" class="text-muted/80 text-xs leading-relaxed mt-5">Vyberte typ videa a možnosti —
                     cena se dopočítá.</p>
             </div>
@@ -165,28 +166,84 @@ permalink: /cenik
     </div>
 </section>
 
-<!-- Závěrečné CTA -->
-<section class="bg-base py-20 md:py-28 px-4 md:px-8 relative overflow-hidden">
+<!-- Poptávka -->
+<section id="poptavka" class="bg-base py-20 md:py-28 px-4 md:px-8 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
     </div>
-    <div class="max-w-3xl mx-auto text-center relative z-10 opacity-fade">
-        <h2 class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">Máte v hlavě něco, co se do ceníku
-            nevejde?</h2>
-        <p class="text-fg text-lg leading-relaxed mb-10">
-            Napište mi svou představu a společně nastavíme správný směr, rozsah, cenu i termín realizace.
-        </p>
-        <a href="{{ '/#contact' | relative_url }}"
-            class="group inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
-            <span class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
-            <span
-                class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
-                <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
-                    </path>
-                </svg>
-            </span>
-        </a>
+
+    <div class="max-w-3xl mx-auto relative z-10 opacity-fade">
+        <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Odeslat poptávku</h2>
+        <p class="text-muted text-lg mb-10">Kalkulaci připojím k poptávce automaticky — nemusíte nic přepisovat.
+            Ozvu se do 24 hodin.</p>
+
+        <!-- Shrnutí kalkulace; text se doplní z kalkulačky -->
+        <div id="formSummary"
+            class="flex flex-wrap items-center justify-between gap-4 border border-line/20 rounded-xl px-5 py-4 mb-9">
+            <span id="formSummaryText" class="text-muted text-sm">Zatím nemáte spočítanou cenu — napište mi rovnou, co
+                potřebujete.</span>
+            <a href="#kalkulacka" class="text-brand text-sm font-semibold hover:underline shrink-0">Otevřít
+                kalkulačku</a>
+        </div>
+
+        <form id="cenik-form" action="https://formsubmit.co/od.videomaker@gmail.com" method="POST" class="space-y-6">
+
+            <!-- Nastavení FormSubmit -->
+            <input type="hidden" name="_subject" value="Nová poptávka z ceníku OD videos">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://odvideos.cz/dekujeme.html">
+            <!-- Honeypot: skryté pole proti spamu -->
+            <input type="text" name="_honey" style="display:none">
+            <!-- Kalkulace se doplňuje z kalkulačky -->
+            <input type="hidden" name="kalkulace" id="calcField" value="">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="cenik-name" class="block text-fg font-semibold text-[15px] mb-2">Jméno a příjmení</label>
+                    <input type="text" id="cenik-name" name="name" required autocomplete="name"
+                        class="w-full bg-surface border border-line/20 rounded-xl text-fg px-4 py-3.5 text-[15px] focus:outline-none focus:border-brand transition-colors placeholder-muted/60"
+                        placeholder="Jan Novák">
+                </div>
+                <div>
+                    <label for="cenik-phone" class="block text-fg font-semibold text-[15px] mb-2">Telefon</label>
+                    <input type="tel" id="cenik-phone" name="phone" required autocomplete="tel"
+                        class="w-full bg-surface border border-line/20 rounded-xl text-fg px-4 py-3.5 text-[15px] focus:outline-none focus:border-brand transition-colors placeholder-muted/60"
+                        placeholder="+420 777 123 456">
+                </div>
+            </div>
+
+            <div>
+                <label for="cenik-email" class="block text-fg font-semibold text-[15px] mb-2">E-mailová adresa</label>
+                <input type="email" id="cenik-email" name="email" required autocomplete="email"
+                    class="w-full bg-surface border border-line/20 rounded-xl text-fg px-4 py-3.5 text-[15px] focus:outline-none focus:border-brand transition-colors placeholder-muted/60"
+                    placeholder="jan@novak.cz">
+            </div>
+
+            <div>
+                <label for="cenik-message" class="block text-fg font-semibold text-[15px] mb-2">Zpráva</label>
+                <textarea id="cenik-message" name="message" rows="4" required
+                    class="w-full bg-surface border border-line/20 rounded-xl text-fg px-4 py-3.5 text-[15px] focus:outline-none focus:border-brand transition-colors placeholder-muted/60 resize-none"
+                    placeholder="Termín, místo natáčení, co potřebujete…"></textarea>
+            </div>
+
+            <!-- Zobrazí se přímo v místě, když odeslání selže -->
+            <p id="cenik-error" class="hidden text-sm text-red-600 dark:text-red-400 leading-relaxed">
+                Zprávu se nepodařilo odeslat. Zkuste to prosím znovu, nebo mi napište přímo na
+                <a href="mailto:od.videomaker@gmail.com" class="underline font-medium">od.videomaker@gmail.com</a>.
+            </p>
+
+            <div class="pt-2">
+                <button type="submit" id="cenik-submit"
+                    class="group inline-flex items-center gap-3 bg-brand text-onbrand font-bold text-[15px] px-7 py-4 rounded-xl hover:brightness-110 transition-all duration-200 disabled:opacity-60">
+                    <span id="cenik-submit-label">Odeslat poptávku</span>
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                            d="M5 12h14M13 6l6 6-6 6"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
     </div>
 </section>
 
@@ -256,7 +313,7 @@ permalink: /cenik
             const val = kind === 'reel' ? state.reel.count : state.studio.count;
             return `<div class="inline-flex items-center bg-base border border-line/20 rounded-xl overflow-hidden" data-counter="${kind}">
                 <button type="button" data-step="-1" aria-label="Ubrat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand hover:text-onbrand transition-colors">−</button>
-                <span class="w-14 text-center text-fg text-lg font-semibold">${val}</span>
+                <span data-count-value class="w-14 text-center text-fg text-lg font-semibold">${val}</span>
                 <button type="button" data-step="1" aria-label="Přidat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand hover:text-onbrand transition-colors">+</button>
             </div>`;
         }
@@ -440,21 +497,25 @@ permalink: /cenik
         /* ============================================================
            Výběr typu videa
            ============================================================ */
-        const typeSeg = document.getElementById('typeSeg');
+        const typeSelect = document.getElementById('typeSelect');
         const tools = document.getElementById('tools');
 
-        function renderTypeSeg() {
-            typeSeg.innerHTML = TYPES.map(t =>
-                `<button type="button" data-type="${t.id}" class="${C.segBtn} ${state.type === t.id ? C.segActive : C.segIdle} js-type">${t.label}</button>`
-            ).join('');
-            typeSeg.querySelectorAll('.js-type').forEach(b =>
-                b.addEventListener('click', () => selectType(b.dataset.type))
-            );
+        function renderTypeSelect() {
+            typeSelect.innerHTML = selectHTML({
+                value: state.type || '',
+                aria: 'Typ videa',
+                cls: 'js-type',
+                options: [{ v: '', t: 'Vyberte typ videa…' }].concat(
+                    TYPES.map(t => ({ v: t.id, t: t.label }))
+                )
+            });
+            const el = typeSelect.querySelector('.js-type');
+            el.addEventListener('change', () => { if (el.value) selectType(el.value); });
         }
 
         function selectType(t) {
             state.type = t;
-            renderTypeSeg();
+            renderTypeSelect();
             renderTools();
             renderOutput();
         }
@@ -688,14 +749,23 @@ permalink: /cenik
             onClick('.js-express', b => { const k = b.dataset.kind; state[k].express = !state[k].express; refresh(); });
 
             // Číselníky
+            /* Číselníky — hodnota se přepíše přímo v DOM, ať klikání nezadrhává.
+               Celý panel se překresluje jen tehdy, když na počtu závisí i jiná volba
+               (rozsah hudební licence). */
             tools.querySelectorAll('[data-counter]').forEach(c => {
                 const kind = c.dataset.counter;
+                const valueEl = c.querySelector('[data-count-value]');
                 c.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
                     const step = parseInt(btn.dataset.step, 10);
-                    const cur = kind === 'reel' ? state.reel.count : state.studio.count;
-                    const next = Math.max(1, cur + step);
-                    if (kind === 'reel') state.reel.count = next; else state.studio.count = next;
-                    refresh();
+                    const next = Math.max(1, state[kind].count + step);
+                    if (next === state[kind].count) return;
+                    state[kind].count = next;
+                    if (state[kind].music) {
+                        refresh();
+                    } else {
+                        if (valueEl) valueEl.textContent = next;
+                        renderOutput();
+                    }
                 }));
             });
 
@@ -750,7 +820,28 @@ permalink: /cenik
            ============================================================ */
         const bigPrice = document.getElementById('bigPrice');
         const breakdown = document.getElementById('breakdown');
+        const summaryHead = document.getElementById('summaryHead');
         const disclaimer = document.getElementById('disclaimer');
+        const calcField = document.getElementById('calcField');
+        const formSummaryText = document.getElementById('formSummaryText');
+
+        function typeLabel() {
+            const t = TYPES.find(x => x.id === state.type);
+            return t ? t.label : '';
+        }
+
+        /* Přenos kalkulace do formuláře: krátký text nad formulářem + skryté pole do e-mailu */
+        function setCalc(summary, detail) {
+            if (formSummaryText) formSummaryText.textContent = summary;
+            if (calcField) calcField.value = detail;
+        }
+
+        /* Nadpis "Shrnutí" se ukazuje jen když je co shrnout */
+        function showSummary(on) {
+            summaryHead.className = on
+                ? 'block mt-10 mb-1 text-fg text-sm font-semibold tracking-wide'
+                : 'hidden mt-10 mb-1 text-fg text-sm font-semibold tracking-wide';
+        }
 
         const rowCls = 'flex justify-between gap-6 py-3 border-b border-line/12 text-sm last:border-b-0';
 
@@ -758,6 +849,8 @@ permalink: /cenik
             if (state.type === 'firemni') {
                 bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle">Individuální</span>`;
                 breakdown.innerHTML = '';
+                showSummary(false);
+                setCalc('Firemní akce — cenovou nabídku připravím po schůzce.', 'Typ: Firemní akce (individuální nabídka)');
                 disclaimer.textContent = 'Cenu firemní akce připravíme na míru po schůzce.';
                 return;
             }
@@ -767,6 +860,8 @@ permalink: /cenik
             if (!calc || !calc.hasBase) {
                 bigPrice.innerHTML = `<span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč`;
                 breakdown.innerHTML = '';
+                showSummary(false);
+                setCalc('Zatím nemáte spočítanou cenu — napište mi rovnou, co potřebujete.', '');
                 disclaimer.textContent = state.type
                     ? 'Doplňte možnosti výše — cena se dopočítá.'
                     : 'Vyberte typ videa a možnosti — cena se dopočítá.';
@@ -794,7 +889,18 @@ permalink: /cenik
                 rows += `<div class="${rowCls}"><span class="text-emerald-500">${calc.discountLabel}</span><span class="text-emerald-500 font-semibold whitespace-nowrap">−${kc(calc.discountAmount)}</span></div>`;
             }
 
+            const lines = calc.items.map(i => '· ' + i.label + ': ' + kc(i.amount));
+            if (calc.doprava > 0) lines.push('· ' + transportLabel(state.type) + ': ' + kc(calc.doprava));
+            if (calc.cityFee > 0) lines.push('· Praha / Brno +10 %: ' + kc(calc.cityFee));
+            if (calc.express > 0) lines.push('· Expresní dodání +20 %: ' + kc(calc.express));
+            if (calc.discountAmount > 0) lines.push('· ' + calc.discountLabel + ': −' + kc(calc.discountAmount));
+            setCalc(
+                typeLabel() + ' — orientačně od ' + kc(calc.total),
+                typeLabel() + '\n' + lines.join('\n') + '\nOrientační cena od: ' + kc(calc.total)
+            );
+
             breakdown.innerHTML = rows;
+            showSummary(true);
             disclaimer.textContent = 'Jde o orientační cenu, finální částku potvrdíme po konzultaci.';
         }
 
@@ -826,7 +932,52 @@ permalink: /cenik
         });
 
         /* init */
-        renderTypeSeg();
+        renderTypeSelect();
         renderOutput();
+    })();
+</script>
+
+<script>
+    /* Postupné vylepšení: odeslání přes AJAX endpoint FormSubmit, aby se chyba
+       dala ukázat přímo u formuláře. Bez JS se formulář odešle klasicky. */
+    (function () {
+        var form = document.getElementById('cenik-form');
+        if (!form) return;
+        var errorEl = document.getElementById('cenik-error');
+        var btn = document.getElementById('cenik-submit');
+        var label = document.getElementById('cenik-submit-label');
+        var defaultLabel = label ? label.textContent : '';
+        var endpoint = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
+        var successUrl = '{{ '/dekujeme' | relative_url }}';
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            errorEl.classList.add('hidden');
+
+            var payload = {};
+            new FormData(form).forEach(function (v, k) { payload[k] = v; });
+
+            if (btn) btn.disabled = true;
+            if (label) label.textContent = 'Odesílám…';
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+                .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+                .then(function (res) {
+                    if (res && (res.success === 'true' || res.success === true)) {
+                        window.location.href = successUrl;
+                    } else {
+                        return Promise.reject();
+                    }
+                })
+                .catch(function () {
+                    if (btn) btn.disabled = false;
+                    if (label) label.textContent = defaultLabel;
+                    errorEl.classList.remove('hidden');
+                });
+        });
     })();
 </script>
