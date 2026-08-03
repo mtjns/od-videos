@@ -236,7 +236,7 @@ permalink: /
             | split: ","
             %}
             {% for logo in client_logos %}
-            {% assign logo_url = '/assets/images/clinets/' | append: logo | append: '.svg' | relative_url %}
+            {% assign logo_url = '/assets/images/clients/' | append: logo | append: '.svg' | relative_url %}
             <span role="img" aria-label="{{ logo }}"
                 class="block mx-auto w-full h-9 md:h-10 bg-muted/70 hover:bg-brand transition-colors duration-300"
                 style="-webkit-mask: url('{{ logo_url }}') center / contain no-repeat; mask: url('{{ logo_url }}') center / contain no-repeat;"></span>

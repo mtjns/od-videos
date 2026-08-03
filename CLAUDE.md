@@ -50,7 +50,7 @@ pages/                 Actual site pages (each sets its own `permalink`)
 assets/
   css/main.css         The stylesheet in use (theme tokens + animations)
   js/main.js           The script in use (menu, theme, analytics, forms)
-  images/              Logos, client logos (assets/images/clinets/), og-image, portrait
+  images/              Logos, client logos (assets/images/clients/), og-image, portrait
   videos/              Hero background videos
 google-apps-script/    Code.gs + README for the /recenze → Google Sheets backend
 _drafts/               Jekyll drafts (not published)
@@ -116,9 +116,6 @@ _drafts/               Jekyll drafts (not published)
 These are leftovers from the original template the site was forked from — do
 not treat them as the source of truth for how the site works:
 
-- **`css/styles.css`** and **`js/main.js`** (repo root) are **unused
-  duplicates**. The live assets are `assets/css/main.css` and
-  `assets/js/main.js`; nothing references the root versions.
 - **`pages/gallery.html`** and **`_drafts/gallery-detail.html`** still contain
   English placeholder gallery items and images that don't exist
   (`/assets/images/gallery-*.jpg`). The dead `/gallery-detail.html` links were
@@ -127,8 +124,6 @@ not treat them as the source of truth for how the site works:
 - `pages/404.html` is the **sole** 404 page (Czech, noindexed). The old root
   `404.html` template duplicate was deleted; don't reintroduce a competing
   `permalink: /404`.
-- `assets/images/clinets/` is a misspelled directory name ("clients") — keep it
-  as-is unless deliberately renaming, since markup references that path.
 
 `README.md` is now current — it accurately describes the OD Videos Jekyll site
 (tech stack, structure, local dev), so it can be trusted as a companion to this
