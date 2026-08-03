@@ -116,19 +116,23 @@ _drafts/               Jekyll drafts (not published)
 These are leftovers from the original template the site was forked from — do
 not treat them as the source of truth for how the site works:
 
-- **`README.md`** describes a "Photography Academy" template and is largely
-  obsolete (only the last line — the `jekyll serve` command — is current).
 - **`css/styles.css`** and **`js/main.js`** (repo root) are **unused
   duplicates**. The live assets are `assets/css/main.css` and
   `assets/js/main.js`; nothing references the root versions.
 - **`pages/gallery.html`** and **`_drafts/gallery-detail.html`** still contain
   English placeholder gallery items and images that don't exist
-  (`/assets/images/gallery-*.jpg`). `TODO.md` reads "Gallery" — this section is
-  unfinished.
-- Both `404.html` (root) and `pages/404.html` declare `permalink: /404`; prefer
-  editing `pages/404.html` and avoid introducing conflicting permalinks.
+  (`/assets/images/gallery-*.jpg`). The dead `/gallery-detail.html` links were
+  removed (the items are now non-clickable containers), but the content itself
+  is still placeholder. `TODO.md` reads "Gallery" — this section is unfinished.
+- `pages/404.html` is the **sole** 404 page (Czech, noindexed). The old root
+  `404.html` template duplicate was deleted; don't reintroduce a competing
+  `permalink: /404`.
 - `assets/images/clinets/` is a misspelled directory name ("clients") — keep it
   as-is unless deliberately renaming, since markup references that path.
+
+`README.md` is now current — it accurately describes the OD Videos Jekyll site
+(tech stack, structure, local dev), so it can be trusted as a companion to this
+file.
 
 ## Git workflow
 
