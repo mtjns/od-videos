@@ -152,16 +152,12 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         <!-- Sekce -->
         {%- for sekce in sekce_vse %}
         {%- assign videa = sekce.vimeo | compact %}
-        {%- assign pocet = videa | size %}
         <section id="kategorie-{{ forloop.index }}" data-kategorie="kategorie-{{ forloop.index }}"
             class="galerie-sekce mb-16 md:mb-24 scroll-mt-24">
 
             <div
                 class="opacity-fade flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-6 md:mb-8 pb-4 border-b border-line/10">
                 <h2 class="text-fg text-2xl md:text-3xl font-bold tracking-tight">{{ sekce.nadpis }}</h2>
-                {%- if pocet > 0 %}
-                <span class="text-muted text-sm">{{ pocet }}
-                    {% if pocet == 1 %}video{% elsif pocet < 5 %}videa{% else %}videí{% endif %}</span>
                 {%- endif %}
                 {%- if sekce.popis %}
                 <p class="text-muted text-base w-full">{{ sekce.popis }}</p>
