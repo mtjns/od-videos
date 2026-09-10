@@ -29,7 +29,7 @@
 balicky:
   sada_3_reels:
     typ: reel
-    varianta: zakladni
+    varianta: pokrocile
     pocet: 3
 
   videoprohlidka_reel:
@@ -37,8 +37,9 @@ balicky:
     dispozice: byt_1kk
     reel: reel_ze_zaberu
 
-  svatebni_video:
-    typ: svatba
+  sada_3_studiová videa:
+    typ: studio
+    pocet: 3
 
   # Zvýrazněná dlaždice "Populární volba"
   top_videoprohlidka_reel:
@@ -86,7 +87,7 @@ studio:
 
 
 # === Svatební video (pevná cena) ===========================================
-svatba: 12000
+svatba: 15000
 
 
 # === Licencovaná hudba (u reelů a studiových videí) ========================
