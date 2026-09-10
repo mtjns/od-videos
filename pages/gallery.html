@@ -7,17 +7,98 @@ permalink: /galerie
 ---
 
 <style>
-    /* Filtr kategorií: aktivní stav (zlatá výplň, tmavý text jako `bg-brand text-onbrand`) */
-    .galerie-filtr[aria-pressed="true"] {
-        background-color: hsl(var(--brand));
-        color: hsl(0 0% 8%);
-        border-color: hsl(var(--brand));
+    /* Filtr kategorií je rozbalovačka: zavřená je to jen text se šipkou,
+       žádný rámeček ani pozadí. */
+    .galerie-filtr-sipka {
+        transition: transform 0.2s ease;
     }
 
-    /* Dlaždice s videem drží 16/9, dokud skript nezjistí skutečný poměr stran
-       z Vimea (viz níže). Svislé reels se tím po načtení narovnají na 9/16. */
+    .galerie-filtr-spoustec[aria-expanded="true"] .galerie-filtr-sipka {
+        transform: rotate(180deg);
+    }
+
+    /* Nabídka musí být plně krycí – pod ní se posouvají dlaždice s videem.
+       Barvu bereme rovnou z proměnné, aby do ní nemohla vstoupit průhlednost. */
+    .galerie-filtr-nabidka {
+        background-color: hsl(var(--surface));
+    }
+
+    /* Obal filtru vytváří kvůli .opacity-fade (transform) vlastní vrstvu, takže
+       samotné z-index na nabídce nestačí – dlaždice s videem, které jsou v DOM
+       níž, by se vykreslily přes ni. Zvednutím celého obalu se to srovná. */
+    .galerie-filtr-obal {
+        z-index: 30;
+    }
+
+    /* Vybraná položka v nabídce. */
+    .galerie-filtr-polozka[aria-checked="true"] {
+        color: hsl(var(--brand));
+        font-weight: 600;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .galerie-filtr-sipka {
+            transition: none;
+        }
+    }
+
+    /* Mřížka galerie: dlaždice se skládají zleva doprava a zalamují se, mezery
+       mezi nimi jsou pořád stejné (--mezera) bez ohledu na tvar videa.
+
+       Každá dlaždice má dva stropy a použije se ten, který sedne dřív:
+         – na šířku: šířka sloupce (v řádku je --sloupcu sloupců),
+         – na výšku: --galerie-max-vyska.
+       Poměr stran zůstává v obou případech zachovaný, protože šířku ze stropu
+       výšky dopočítáme vynásobením poměrem (--pomer = šířka/výška, doplní ho
+       skript z Vimea). Vodorovné video tak vyplní sloupec, svislé se zúží tak,
+       aby nepřerostlo do výšky – a do řádku se jich pak vejde víc.
+       Bez --pomer (fallback 99) se uplatní jen strop na šířku.
+
+       Proč flexbox a ne sloupce (columns): sloupce plní nejdřív celý první
+       sloupec shora dolů a teprve pak druhý, takže se dlaždice neskládají
+       zleva doprava. Tohle ano. */
+    .galerie-mrizka {
+        --mezera: 1.25rem;
+        --sloupcu: 1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: var(--mezera);
+    }
+
+    @media (min-width: 640px) {
+        .galerie-mrizka {
+            --sloupcu: 2;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .galerie-mrizka {
+            --mezera: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .galerie-mrizka {
+            --sloupcu: 3;
+        }
+    }
+
+    /* Dlaždice drží 16/9, dokud skript nezjistí skutečný poměr stran z Vimea. */
     .galerie-video {
+        --galerie-max-vyska: min(60vh, 420px);
+        flex: 0 0 auto;
         aspect-ratio: 16 / 9;
+        width: min(calc((100% - (var(--sloupcu) - 1) * var(--mezera)) / var(--sloupcu)),
+                calc(var(--galerie-max-vyska) * var(--pomer, 99)));
+    }
+
+    /* Na mobilu je sloupec jen jeden, ale dvě svislá videa se vedle sebe vejdou.
+       Strop na šířku je tu proto půl řádku místo celého. */
+    @media (max-width: 639px) {
+        .galerie-video.je-nastojato {
+            width: calc((100% - var(--mezera)) / 2);
+        }
     }
 </style>
 
@@ -42,17 +123,30 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         </div>
 
         {%- if sekce_vse and sekce_vse != empty %}
-        <!-- Filtr kategorií -->
-        <div class="opacity-fade flex flex-wrap gap-2 md:gap-3 mb-12 md:mb-16" role="group"
-            aria-label="Filtr kategorií">
-            <button type="button"
-                class="galerie-filtr border border-line/15 text-fg bg-line/5 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200 hover:border-brand hover:text-brand"
-                data-kategorie="vse" aria-pressed="true">Vše</button>
-            {%- for sekce in sekce_vse %}
-            <button type="button"
-                class="galerie-filtr border border-line/15 text-fg bg-line/5 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200 hover:border-brand hover:text-brand"
-                data-kategorie="kategorie-{{ forloop.index }}" aria-pressed="false">{{ sekce.nadpis }}</button>
-            {%- endfor %}
+        <!-- Filtr kategorií: rozbalovačka, zavřená jen text + šipka -->
+        <div class="galerie-filtr-obal opacity-fade relative inline-block mb-12 md:mb-16">
+            <button type="button" id="galerie-filtr-spoustec"
+                class="galerie-filtr-spoustec inline-flex items-center gap-2 text-fg text-lg md:text-xl font-medium tracking-tight hover:text-brand transition-colors duration-200 focus-visible:outline-none focus-visible:text-brand"
+                aria-haspopup="true" aria-expanded="false" aria-controls="galerie-filtr-nabidka">
+                <span id="galerie-filtr-popisek">Vše</span>
+                <svg class="galerie-filtr-sipka w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
+                </svg>
+            </button>
+
+            <div id="galerie-filtr-nabidka" role="menu" aria-labelledby="galerie-filtr-spoustec" hidden
+                class="galerie-filtr-nabidka absolute left-0 top-full z-20 mt-2 min-w-[14rem] py-2 rounded-xl border border-line/10 shadow-xl shadow-black/5">
+                <button type="button" role="menuitemradio" aria-checked="true"
+                    class="galerie-filtr-polozka block w-full text-left px-5 py-2.5 text-sm text-fg hover:text-brand hover:bg-line/5 transition-colors duration-150 focus-visible:outline-none focus-visible:text-brand focus-visible:bg-line/5"
+                    data-kategorie="vse">Vše</button>
+                {%- for sekce in sekce_vse %}
+                <button type="button" role="menuitemradio" aria-checked="false"
+                    class="galerie-filtr-polozka block w-full text-left px-5 py-2.5 text-sm text-fg hover:text-brand hover:bg-line/5 transition-colors duration-150 focus-visible:outline-none focus-visible:text-brand focus-visible:bg-line/5"
+                    data-kategorie="kategorie-{{ forloop.index }}">{{ sekce.nadpis }}</button>
+                {%- endfor %}
+            </div>
         </div>
 
         <!-- Sekce -->
@@ -75,14 +169,15 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             </div>
 
             {%- if pocet > 0 %}
-            <!-- Sloupce (masonry): svislá i vodorovná videa vedle sebe -->
-            <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
+            <!-- Dlaždice se skládají zleva doprava, mezery mají pořád stejné.
+                 Velikost řídí .galerie-video v CSS nahoře. -->
+            <div class="galerie-mrizka">
                 {%- for id in videa %}
                 {%- assign casti = id | split: "/" %}
                 {%- assign vimeo_id = casti[0] %}
                 {%- assign vimeo_hash = casti[1] %}
                 <figure
-                    class="galerie-video opacity-fade relative overflow-hidden rounded-xl border border-line/10 bg-surface break-inside-avoid mb-5 md:mb-6">
+                    class="galerie-video opacity-fade relative overflow-hidden rounded-xl border border-line/10 bg-surface">
                     <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=1&title=0&byline=0&portrait=0&dnt=1"
                         class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
                         allow="fullscreen; picture-in-picture" allowfullscreen
@@ -108,26 +203,81 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
 
 <script>
     (function () {
-        const tlacitka = document.querySelectorAll('.galerie-filtr');
+        const spoustec = document.getElementById('galerie-filtr-spoustec');
+        const nabidka = document.getElementById('galerie-filtr-nabidka');
+        const popisek = document.getElementById('galerie-filtr-popisek');
+        const polozky = nabidka ? [...nabidka.querySelectorAll('.galerie-filtr-polozka')] : [];
         const sekce = document.querySelectorAll('.galerie-sekce');
-        if (!tlacitka.length || !sekce.length) return;
+        if (!spoustec || !nabidka || !polozky.length || !sekce.length) return;
 
         function filtruj(klic) {
             sekce.forEach(s => {
                 s.hidden = klic !== 'vse' && s.dataset.kategorie !== klic;
             });
-            tlacitka.forEach(t => {
-                t.setAttribute('aria-pressed', String(t.dataset.kategorie === klic));
+            polozky.forEach(p => {
+                const vybrano = p.dataset.kategorie === klic;
+                p.setAttribute('aria-checked', String(vybrano));
+                if (vybrano) popisek.textContent = p.textContent.trim();
             });
         }
 
-        tlacitka.forEach(t => {
-            t.addEventListener('click', () => filtruj(t.dataset.kategorie));
+        function otevri() {
+            nabidka.hidden = false;
+            spoustec.setAttribute('aria-expanded', 'true');
+        }
+
+        function zavri(vratFocus) {
+            nabidka.hidden = true;
+            spoustec.setAttribute('aria-expanded', 'false');
+            if (vratFocus) spoustec.focus();
+        }
+
+        spoustec.addEventListener('click', () => {
+            if (nabidka.hidden) {
+                otevri();
+                polozky[0].focus();
+            } else {
+                zavri(false);
+            }
+        });
+
+        polozky.forEach(p => {
+            p.addEventListener('click', () => {
+                filtruj(p.dataset.kategorie);
+                zavri(true);
+            });
+        });
+
+        // Šipkami mezi položkami, Esc zavře a vrátí focus na spouštěč.
+        nabidka.addEventListener('keydown', e => {
+            const i = polozky.indexOf(document.activeElement);
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const posun = e.key === 'ArrowDown' ? 1 : -1;
+                polozky[(i + posun + polozky.length) % polozky.length].focus();
+            } else if (e.key === 'Escape') {
+                zavri(true);
+            }
+        });
+
+        spoustec.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' && nabidka.hidden) {
+                e.preventDefault();
+                otevri();
+                polozky[0].focus();
+            }
+        });
+
+        // Klik mimo nabídku ji zavře.
+        document.addEventListener('click', e => {
+            if (!nabidka.hidden && !nabidka.contains(e.target) && !spoustec.contains(e.target)) {
+                zavri(false);
+            }
         });
 
         // Předvolba sekce přes odkaz, např. /galerie#kategorie-2
         const hash = window.location.hash.replace('#', '');
-        if (hash && document.querySelector('.galerie-filtr[data-kategorie="' + hash + '"]')) {
+        if (hash && polozky.some(p => p.dataset.kategorie === hash)) {
             filtruj(hash);
         }
     })();
@@ -154,6 +304,11 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 .then(data => {
                     if (data.width && data.height) {
                         dlazdice.style.aspectRatio = data.width + ' / ' + data.height;
+                        // Strop velikosti svislých dlaždic – viz .je-nastojato v CSS.
+                        dlazdice.style.setProperty('--pomer', data.width / data.height);
+                        if (data.height > data.width) {
+                            dlazdice.classList.add('je-nastojato');
+                        }
                     }
                 })
                 .catch(() => { /* ponech výchozích 16/9 */ });
