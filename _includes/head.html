@@ -65,26 +65,16 @@
             },
         };
     </script>
-    <!-- Preconnect to both Google server domains so the font fetch starts sooner -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Host Grotesk (body/UI) + Story Script (accent), one request. Preload so the
-         browser fetches the CSS immediately, then swap media to apply without blocking render. -->
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Story+Script&display=swap">
+    <!-- Self-hosted fonts: the @font-face rules live in main.css, so preload the two
+         Host Grotesk subsets here to start the fetch before that stylesheet parses.
+         `crossorigin` is required on font preloads even for same-origin files. -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="{{ '/assets/fonts/host-grotesk-latin.woff2' | relative_url }}">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+        href="{{ '/assets/fonts/host-grotesk-latin-ext.woff2' | relative_url }}">
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Story+Script&display=swap"
-        media="print" onload="this.media='all'">
-
-    <!-- Fallback for users with JavaScript disabled -->
-    <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Story+Script&display=swap">
-    </noscript>
-
-    <!-- Main stylesheet loads normally -->
+    <!-- Main stylesheet: @font-face, theme tokens, animations -->
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
 

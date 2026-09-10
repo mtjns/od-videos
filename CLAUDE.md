@@ -50,6 +50,7 @@ pages/                 Actual site pages (each sets its own `permalink`)
 assets/
   css/main.css         The stylesheet in use (theme tokens + animations)
   js/main.js           The script in use (menu, theme, analytics, forms)
+  fonts/               Self-hosted woff2 (Host Grotesk, Story Script) + OFL licenses
   images/              Logos, client logos (assets/images/clients/), og-image, portrait
   videos/              Hero background videos
 google-apps-script/    Code.gs + README for the /recenze → Google Sheets backend
@@ -90,8 +91,14 @@ _drafts/               Jekyll drafts (not published)
   services, or contact info change.
 
 ### Fonts
-- **Host Grotesk** (body/UI) + **Story Script** (accent), loaded from Google
-  Fonts in `head.html`. Don't add an `@import` in CSS (render-blocking).
+- **Host Grotesk** (body/UI) + **Story Script** (accent), **self-hosted** from
+  `assets/fonts/` as woff2 — no Google Fonts request. The `@font-face` rules are
+  at the top of `assets/css/main.css`; `head.html` preloads the two Host Grotesk
+  subsets. Don't add an `@import` in CSS (render-blocking).
+- Host Grotesk is a **variable** font (wght 300-800): one file per subset serves
+  every weight, so don't add per-weight files. Both `latin` and `latin-ext` are
+  needed — Czech ě/š/č/ř/ž/ů/ť/ď live in `latin-ext`.
+- Both families are OFL 1.1; keep the `OFL-*.txt` files next to the woff2s.
 
 ### JavaScript (`assets/js/main.js`)
 - Vanilla JS, no framework. Handles: mobile menu, smooth scroll, scroll-to-top,
