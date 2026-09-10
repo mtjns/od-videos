@@ -37,7 +37,7 @@ balicky:
     dispozice: byt_1kk
     reel: reel_ze_zaberu
 
-  sada_3_studiová videa:
+  sada_3_studiová_videa:
     typ: studio
     pocet: 3
 
@@ -52,15 +52,15 @@ balicky:
 # === Videoprohlídka nemovitosti ============================================
 reality:
   # Základní cena podle dispozice
-  byt_1kk: 5000
-  byt_2kk: 6000
-  byt_3kk: 6750
-  byt_4kk: 7500
-  rodinny_dum: 7000          # zobrazuje se jako "od"
+  byt_1kk: 5500
+  byt_2kk: 6500
+  byt_3kk: 7250
+  byt_4kk: 8000
+  rodinny_dum: 8000          # zobrazuje se jako "od"
 
   # Volitelné přídavky
-  reel_ze_zaberu: 1000
-  reel_nove_zabery: 2000     # zobrazuje se jako "od"
+  reel_ze_zaberu: 1500
+  reel_nove_zabery: 2500     # zobrazuje se jako "od"
   ai_zabery: 500             # zobrazuje se jako "od"
 
 
@@ -71,16 +71,15 @@ reel:
   zakladni_3ks_a_vic: 1500
 
   pokrocile_1ks: 3000
-  pokrocile_2ks: 2500
-  pokrocile_3ks_a_vic: 2000
+  pokrocile_2ks: 2750
+  pokrocile_3ks_a_vic: 2500
 
 
 # === Studiové video — cena za JEDEN kus podle počtu ========================
 studio:
   za_1ks: 4000
   za_2ks: 3750
-  za_3_9ks: 3500
-  za_10ks_a_vic: 3250
+  za_3ks_a_vic: 3500
 
   ai_zabery: 500
   ai_zabery_od_10ks: 400     # od 10 videí
@@ -123,9 +122,6 @@ slevove_kody:
   - kod: "ODstart"
     typ: procenta
     hodnota: 50
-  - kod: "ODmodify"
-    typ: procenta
-    hodnota: 15
   - kod: "ODhavic"
     typ: castka
-    hodnota: 750
+    hodnota: 1000
