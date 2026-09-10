@@ -296,3 +296,19 @@ body {
 .scroll-to-top:hover {
     transform: scale(1.1);
 }
+
+/* Hero background video (pages/index.html).
+   iOS Safari decorates any <video> that hasn't begun playing with a native
+   "start playback" button. That fires exactly when autoplay is blocked — Low
+   Power Mode / Data Saver — so the button lands on top of the hero still.
+   The hero is decoration, not a player (it's pointer-events-none, so the button
+   isn't even tappable), hence hiding the media chrome outright. The poster is a
+   separate layer in the markup so it never sits under this chrome to begin with;
+   these rules are the backstop for iOS versions that draw the button anyway. */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+}

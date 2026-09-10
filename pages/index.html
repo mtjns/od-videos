@@ -17,11 +17,18 @@ permalink: /
             class="w-[70%] max-w-xl opacity-[0.06]" />
     </div>
 
+    <!-- Poster frame for the hero video, deliberately its OWN layer rather than the
+         video's poster= attribute: iOS Safari draws a native play button over any
+         <video> that hasn't started, which is exactly what happens in Low Power Mode
+         (autoplay blocked). As a separate div the still is never decorated by media
+         chrome; the video just covers it once it plays. Matches object-cover framing. -->
+    <div class="absolute inset-0 bg-cover bg-center pointer-events-none"
+        style="background-image:url('{{ '/assets/images/hero-poster.jpg' | relative_url }}')"></div>
+
     <!-- Background video: browser plays the first source it can decode.
          HEVC/H.265 first (smaller file, used by Safari), H.264 fallback for everyone else. -->
-    <video class="absolute inset-0 w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline
-        preload="auto"
-        poster="{{ '/assets/images/hero-poster.jpg' | relative_url }}">
+    <video class="hero-video absolute inset-0 w-full h-full object-cover pointer-events-none" autoplay muted loop
+        playsinline preload="auto">
         <source src="{{ '/assets/videos/header-video-265.mp4' | relative_url }}" type='video/mp4; codecs="hvc1"'>
         <source src="{{ '/assets/videos/header-video-264.mp4' | relative_url }}" type='video/mp4; codecs="avc1.42E01E"'>
     </video>
@@ -71,6 +78,26 @@ permalink: /
             </div>
             {% endfor %}
         </div>
+    </div>
+</section>
+
+<!-- Intro / mission statement between the marquee band and the About section.
+     Same brand glow as the contact section, mirrored to the left edge. -->
+<section class="bg-base py-20 md:py-32 px-4 md:px-8 relative overflow-hidden">
+
+    <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10 opacity-fade">
+        <h2 class="text-fg text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            Tvoříme videa, která mají co říct.
+        </h2>
+        <p class="text-muted text-lg md:text-xl leading-relaxed">
+            OD Videos je videoprodukce zaměřená především na realitní videa. Rádi ale tvoříme také videa pro firmy,
+            obsah na sociální sítě, záznamy z akcí i osobní příběhy. Od prvního nápadu až po finální střih vzniká
+            obsah, který zaujme, udrží pozornost a vystihne to podstatné. Ke každému projektu přistupujeme
+            individuálně a hledáme způsob, jak jeho příběh ukázat co nejlépe.
+        </p>
     </div>
 </section>
 
