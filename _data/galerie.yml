@@ -1,0 +1,37 @@
+# Galerie OD Videos
+# Umístění v repozitáři: _data/galerie.yml  (Jekyll data soubor)
+# Vykresluje se na stránce pages/gallery.html (/galerie)
+#
+# Každá položka = jedna sekce galerie:
+#   nadpis – název sekce (zobrazí se jako nadpis i jako filtr nahoře)
+#   popis  – volitelný podtitulek pod nadpisem
+#   vimeo  – seznam ID videí z Vimea; vykreslí se v tomto pořadí
+#
+# Videa se do repozitáře NENAHRÁVAJÍ – jsou na Vimeu, tady je jen jejich ID.
+#
+# Kde ID vzít: v odkazu na video za posledním lomítkem.
+#   https://vimeo.com/912345678            → 912345678
+# U neveřejného (unlisted) videa je v odkazu ještě privátní hash – zapiš ho
+# včetně lomítka:
+#   https://vimeo.com/912345678/a1b2c3d4e5 → 912345678/a1b2c3d4e5
+#
+# ID piš v uvozovkách, ať se nevykládá jako číslo.
+# Sekce bez videí se zobrazí jako „Připravujeme“.
+# Pořadí sekcí zde = pořadí na stránce.
+
+- nadpis: "Videoprohlídky"
+  popis: "Videoprohlídky bytů, domů a komerčních prostor"
+  vimeo:
+    # - "912345678"
+
+- nadpis: "Reels"
+  popis: "Krátká svislá videa pro Instagram, TikTok a Facebook"
+  vimeo:
+
+- nadpis: "Realitní videa na sociální sítě"
+  popis: "Nemovitosti sestříhané pro sociální sítě"
+  vimeo:
+
+- nadpis: "Svatby"
+  popis: "Svatební videa"
+  vimeo:

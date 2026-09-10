@@ -108,6 +108,26 @@ _drafts/               Jekyll drafts (not published)
   clicks, section-depth, form submit). It no-ops when GoatCounter is absent
   (local dev), so never let analytics throw into the page.
 
+### Gallery (`/galerie`)
+- Content comes from **`_data/galerie.yml`**: a list of sections, each with
+  `nadpis`, an optional `popis`, and a `vimeo` array of **Vimeo video IDs**.
+  Adding work = adding an ID; there is no per-file markup to write.
+- **No media is committed to the repo.** Gallery video lives on Vimeo — the repo
+  holds IDs only. Keep it that way: GitHub rejects files over 100 MB, Pages caps
+  the site at 1 GB and 100 GB/month, git history keeps every binary forever, and
+  Git LFS is useless here (Pages serves the LFS pointer, not the file). The two
+  hero videos in `assets/videos/` predate this rule and stay.
+- An unlisted Vimeo video needs its privacy hash: write the ID as
+  `"123456789/a1b2c3d4e5"`; the page splits on `/` into `?h=`.
+- The player URL carries **`dnt=1`** (Vimeo's Do Not Track). That is what keeps
+  the embed cookieless and consistent with `/ochrana-soukromi`, which promises
+  non-essential embeds load only after consent. **Don't drop `dnt=1`** without
+  adding a click-to-load consent gate.
+- Tiles are a CSS-columns masonry and default to 16/9; inline JS then fetches
+  Vimeo's public **oEmbed** endpoint (no API key) per video and sets the real
+  `aspect-ratio`, so vertical reels render tall. If the fetch fails the tile
+  stays 16/9 — verified that the endpoint allows cross-origin `fetch()`.
+
 ### Forms
 - **Contact form** (home `#contact`): posts to **formsubmit.co** via AJAX;
   on success redirects to `/dekujeme`.
@@ -123,11 +143,12 @@ _drafts/               Jekyll drafts (not published)
 These are leftovers from the original template the site was forked from — do
 not treat them as the source of truth for how the site works:
 
-- **`pages/gallery.html`** and **`_drafts/gallery-detail.html`** still contain
-  English placeholder gallery items and images that don't exist
-  (`/assets/images/gallery-*.jpg`). The dead `/gallery-detail.html` links were
-  removed (the items are now non-clickable containers), but the content itself
-  is still placeholder. `TODO.md` reads "Gallery" — this section is unfinished.
+- **`_drafts/gallery-detail.html`** still contains English placeholder gallery
+  items and images that don't exist (`/assets/images/gallery-*.jpg`). It is a
+  draft and is not built; don't mine it for markup. `pages/gallery.html` itself
+  was rewritten and is current — see "Gallery" above.
+- `TODO.md` reads "Gallery": the page works, but `_data/galerie.yml` has no
+  Vimeo IDs in it yet, so every section renders its "Připravujeme" empty state.
 - `pages/404.html` is the **sole** 404 page (Czech, noindexed). The old root
   `404.html` template duplicate was deleted; don't reintroduce a competing
   `permalink: /404`.

@@ -1,70 +1,162 @@
 ---
 layout: minimal
 title: "Galerie"
-description: "Ukázky realitních videoprohlídek, leteckých záběrů z dronu a fotografií nemovitostí z tvorby."
+description: "Ukázky z tvorby OD Videos – videoprohlídky nemovitostí, reels na sociální sítě a svatební videa."
+og_description: "Ukázky naší tvorby – videoprohlídky nemovitostí, realitní videa a reels na sociální sítě, svatební videa."
 permalink: /galerie
 ---
 
 <style>
-    /* page-scoped background color preserved from original */
-    body {
-        background-color: #111827;
-        color: #ffffff;
+    /* Filtr kategorií: aktivní stav (zlatá výplň, tmavý text jako `bg-brand text-onbrand`) */
+    .galerie-filtr[aria-pressed="true"] {
+        background-color: hsl(var(--brand));
+        color: hsl(0 0% 8%);
+        border-color: hsl(var(--brand));
     }
 
-    .header-nav {
-        background-color: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(12px);
+    /* Dlaždice s videem drží 16/9, dokud skript nezjistí skutečný poměr stran
+       z Vimea (viz níže). Svislé reels se tím po načtení narovnají na 9/16. */
+    .galerie-video {
+        aspect-ratio: 16 / 9;
     }
 </style>
 
-<!-- Gallery Content -->
-<div class="min-h-screen pt-28 pb-24 px-4 md:px-8">
+{%- comment -%}
+Videa nejsou v repozitáři – jsou na Vimeu a v _data/galerie.yml je u každé sekce
+jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehrávače.
+{%- endcomment -%}
+{%- assign sekce_vse = site.data.galerie -%}
+
+<div class="bg-base min-h-screen pt-8 md:pt-12 pb-24 px-4 md:px-8">
     <div class="max-w-7xl mx-auto">
-        <h1 class="text-white text-4xl md:text-5xl font-bold tracking-tight mb-4">Galerie</h1>
-        <p class="text-gray-400 text-xl mb-16">Ukázky z realizovaných videí a fotografií</p>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Gallery Item 1 -->
-            <div class="group relative block overflow-hidden rounded-xl h-80">
-                <img src="{{ '/assets/images/gallery-1.jpg' | relative_url }}" alt="Portrait in golden hour light"
-                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-white text-lg font-semibold mb-2">Golden Hour Portrait</h3>
-                    <p class="text-amber-400 text-sm">by Aisha Thompson</p>
-                </div>
+        <!-- Hlavička -->
+        <div class="opacity-fade mb-10 md:mb-14">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-1 bg-brand rounded-full"></div>
+                <span class="text-brand text-sm font-semibold tracking-widest uppercase">Naše práce</span>
             </div>
-
-            <!-- Gallery Item 2 -->
-            <div class="group relative block overflow-hidden rounded-xl h-80">
-                <img src="{{ '/assets/images/gallery-2.jpg' | relative_url }}" alt="Aerial landscape of autumn forest"
-                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-white text-lg font-semibold mb-2">Aerial Autumn</h3>
-                    <p class="text-amber-400 text-sm">by David Kim</p>
-                </div>
-            </div>
-
-            <!-- Gallery Item 3 -->
-            <div class="group relative block overflow-hidden rounded-xl h-80">
-                <img src="{{ '/assets/images/gallery-3.jpg' | relative_url }}" alt="Street photography candid moment"
-                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all rounded-xl" />
-                <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div class="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <h3 class="text-white text-lg font-semibold mb-2">Urban Street</h3>
-                    <p class="text-amber-400 text-sm">by Marcus Rivera</p>
-                </div>
-            </div>
-
-            <!-- More items... replace paths to /assets/images/... as needed -->
+            <h1 class="text-fg text-4xl md:text-5xl font-bold tracking-tight mb-4">Galerie</h1>
+            <p class="text-muted text-lg md:text-xl max-w-2xl">Ukázky z realizovaných videí. Vyberte si kategorii,
+                která vás zajímá.</p>
         </div>
+
+        {%- if sekce_vse and sekce_vse != empty %}
+        <!-- Filtr kategorií -->
+        <div class="opacity-fade flex flex-wrap gap-2 md:gap-3 mb-12 md:mb-16" role="group"
+            aria-label="Filtr kategorií">
+            <button type="button"
+                class="galerie-filtr border border-line/15 text-fg bg-line/5 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200 hover:border-brand hover:text-brand"
+                data-kategorie="vse" aria-pressed="true">Vše</button>
+            {%- for sekce in sekce_vse %}
+            <button type="button"
+                class="galerie-filtr border border-line/15 text-fg bg-line/5 px-5 py-2.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200 hover:border-brand hover:text-brand"
+                data-kategorie="kategorie-{{ forloop.index }}" aria-pressed="false">{{ sekce.nadpis }}</button>
+            {%- endfor %}
+        </div>
+
+        <!-- Sekce -->
+        {%- for sekce in sekce_vse %}
+        {%- assign videa = sekce.vimeo | compact %}
+        {%- assign pocet = videa | size %}
+        <section id="kategorie-{{ forloop.index }}" data-kategorie="kategorie-{{ forloop.index }}"
+            class="galerie-sekce mb-16 md:mb-24 scroll-mt-24">
+
+            <div
+                class="opacity-fade flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-6 md:mb-8 pb-4 border-b border-line/10">
+                <h2 class="text-fg text-2xl md:text-3xl font-bold tracking-tight">{{ sekce.nadpis }}</h2>
+                {%- if pocet > 0 %}
+                <span class="text-muted text-sm">{{ pocet }}
+                    {% if pocet == 1 %}video{% elsif pocet < 5 %}videa{% else %}videí{% endif %}</span>
+                {%- endif %}
+                {%- if sekce.popis %}
+                <p class="text-muted text-base w-full">{{ sekce.popis }}</p>
+                {%- endif %}
+            </div>
+
+            {%- if pocet > 0 %}
+            <!-- Sloupce (masonry): svislá i vodorovná videa vedle sebe -->
+            <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
+                {%- for id in videa %}
+                {%- assign casti = id | split: "/" %}
+                {%- assign vimeo_id = casti[0] %}
+                {%- assign vimeo_hash = casti[1] %}
+                <figure
+                    class="galerie-video opacity-fade relative overflow-hidden rounded-xl border border-line/10 bg-surface break-inside-avoid mb-5 md:mb-6">
+                    <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}dnt=1"
+                        class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                        title="{{ sekce.nadpis }} – video {{ forloop.index }}"></iframe>
+                </figure>
+                {%- endfor %}
+            </div>
+            {%- else %}
+            <div
+                class="opacity-fade rounded-xl border border-dashed border-line/20 bg-line/5 px-6 py-12 text-center">
+                <p class="text-muted text-base">Připravujeme – ukázky z této kategorie brzy doplníme.</p>
+            </div>
+            {%- endif %}
+        </section>
+        {%- endfor %}
+
+        {%- else %}
+        <p class="text-muted text-lg">Galerie se připravuje.</p>
+        {%- endif %}
+
     </div>
 </div>
+
+<script>
+    (function () {
+        const tlacitka = document.querySelectorAll('.galerie-filtr');
+        const sekce = document.querySelectorAll('.galerie-sekce');
+        if (!tlacitka.length || !sekce.length) return;
+
+        function filtruj(klic) {
+            sekce.forEach(s => {
+                s.hidden = klic !== 'vse' && s.dataset.kategorie !== klic;
+            });
+            tlacitka.forEach(t => {
+                t.setAttribute('aria-pressed', String(t.dataset.kategorie === klic));
+            });
+        }
+
+        tlacitka.forEach(t => {
+            t.addEventListener('click', () => filtruj(t.dataset.kategorie));
+        });
+
+        // Předvolba sekce přes odkaz, např. /galerie#kategorie-2
+        const hash = window.location.hash.replace('#', '');
+        if (hash && document.querySelector('.galerie-filtr[data-kategorie="' + hash + '"]')) {
+            filtruj(hash);
+        }
+    })();
+
+    // Skutečný poměr stran videa z Vimea (oEmbed, bez API klíče). Dokud se
+    // nenačte, drží dlaždice výchozích 16/9 z CSS; když dotaz selže, zůstane.
+    (function () {
+        document.querySelectorAll('.galerie-video').forEach(dlazdice => {
+            const iframe = dlazdice.querySelector('iframe');
+            if (!iframe) return;
+
+            let odkaz;
+            try {
+                const adresa = new URL(iframe.src);
+                const id = adresa.pathname.split('/').pop();
+                const hash = adresa.searchParams.get('h');
+                odkaz = 'https://vimeo.com/' + id + (hash ? '/' + hash : '');
+            } catch (e) {
+                return;
+            }
+
+            fetch('https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(odkaz))
+                .then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))
+                .then(data => {
+                    if (data.width && data.height) {
+                        dlazdice.style.aspectRatio = data.width + ' / ' + data.height;
+                    }
+                })
+                .catch(() => { /* ponech výchozích 16/9 */ });
+        });
+    })();
+</script>
