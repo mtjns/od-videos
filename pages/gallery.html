@@ -83,9 +83,9 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 {%- assign vimeo_hash = casti[1] %}
                 <figure
                     class="galerie-video opacity-fade relative overflow-hidden rounded-xl border border-line/10 bg-surface break-inside-avoid mb-5 md:mb-6">
-                    <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}dnt=1"
+                    <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=1&title=0&byline=0&portrait=0&dnt=1"
                         class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
-                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                        allow="fullscreen; picture-in-picture" allowfullscreen
                         title="{{ sekce.nadpis }} – video {{ forloop.index }}"></iframe>
                 </figure>
                 {%- endfor %}
