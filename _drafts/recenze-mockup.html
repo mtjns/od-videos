@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recenze — OD Videos</title>
+    <meta name="description"
+        content="Co o spolupráci říkají klienti OD Videos. Reference na realitní, firemní, svatební i sociální videa od Ondřeje Demutha.">
+
+    <link rel="icon" type="image/png" href="https://odvideos.cz/assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="https://odvideos.cz/assets/images/logo/favicon.png">
+
+    <!-- Resolve theme before first paint to avoid a flash:
+         stored choice wins, otherwise follow the OS setting, otherwise default to dark. -->
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('theme');
+                if (stored === 'light') return;
+                if (stored === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Same semantic, theme-aware color tokens as the main site.
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        base: 'hsl(var(--bg) / <alpha-value>)',
+                        surface: 'hsl(var(--surface) / <alpha-value>)',
+                        fg: 'hsl(var(--fg) / <alpha-value>)',
+                        muted: 'hsl(var(--muted) / <alpha-value>)',
+                        line: 'hsl(var(--line) / <alpha-value>)',
+                        brand: 'hsl(var(--brand) / <alpha-value>)',
+                        onbrand: 'hsl(0 0% 8% / <alpha-value>)',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Story+Script&display=swap">
+
+    <style>
+        /* Theme tokens — identical to odvideos.cz (assets/css/main.css). */
+        :root {
+            --bg: 0 0% 100%;
+            --surface: 240 5% 96%;
+            --fg: 0 0% 10%;
+            --muted: 0 0% 38%;
+            --line: 0 0% 0%;
+            --brand: 38 82% 40%;
+            --radius: 0.75rem;
+        }
+
+        .dark {
+            --bg: 0 0% 0%;
+            --surface: 0 0% 9%;
+            --fg: 0 0% 100%;
+            --muted: 0 0% 65%;
+            --line: 0 0% 100%;
+            --brand: 41 76% 53%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+        }
+
+        body {
+            background-color: hsl(var(--bg));
+            color: hsl(var(--fg));
+            font-family: 'Host Grotesk', system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .accent {
+            font-family: 'Story Script', cursive;
+            font-weight: 400;
+        }
+
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .opacity-fade {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .opacity-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.7s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============ HEADER ============ -->
+    <header class="fixed w-full z-50 border-b border-line/10 bg-base/90 backdrop-blur-md">
+        <nav class="relative flex items-center justify-between px-6 md:px-8 py-4 max-w-7xl mx-auto w-full">
+            <a href="https://odvideos.cz/" aria-label="OD Videos" class="flex items-center">
+                <img src="https://odvideos.cz/assets/images/logo/logo-color.png" alt="OD Videos"
+                    class="h-12 w-auto block dark:hidden" />
+                <img src="https://odvideos.cz/assets/images/logo/logo-white.png" alt="OD Videos"
+                    class="h-12 w-auto hidden dark:block" />
+            </a>
+            <div class="flex items-center gap-4 md:gap-8">
+                <div class="hidden md:flex items-center gap-10">
+                    <a href="https://odvideos.cz/#about"
+                        class="text-fg hover:text-brand transition font-medium uppercase tracking-wider">O Mně</a>
+                    <a href="https://odvideos.cz/#services"
+                        class="text-fg hover:text-brand transition font-medium uppercase tracking-wider">Služby</a>
+                    <a href="https://odvideos.cz/#gallery"
+                        class="text-fg hover:text-brand transition font-medium uppercase tracking-wider">Galerie</a>
+                    <a href="https://odvideos.cz/#contact"
+                        class="rounded-full bg-brand px-6 py-2.5 text-base font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-brand/90 hover:shadow-md transition-all">Kontaktovat</a>
+                </div>
+                <button id="theme-toggle" type="button" aria-label="Přepnout světlý/tmavý režim"
+                    class="w-10 h-10 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section class="pt-40 pb-16 px-4 md:px-8 border-b border-line/10">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-brand uppercase tracking-[0.3em] text-sm font-semibold mb-4">Reference</p>
+            <h1 class="text-fg text-5xl md:text-6xl font-bold tracking-tight mb-6">
+                Co říkají <span class="accent text-brand text-[1.2em] align-baseline">klienti</span>
+            </h1>
+            <p class="text-muted text-lg max-w-2xl mx-auto">
+                Skutečné ohlasy lidí a firem, se kterými jsme spolupracovali — od realitních videí přes firemní
+                prezentace až po svatební filmy.
+            </p>
+
+            <!-- Souhrn hodnocení -->
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-8">
+                <div class="text-center">
+                    <div class="flex items-center justify-center gap-1 mb-1" aria-label="Průměrné hodnocení 4,9 z 5">
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>
+                    </div>
+                    <p class="text-fg font-bold text-lg">4,9 / 5</p>
+                    <p class="text-muted text-sm">průměrné hodnocení</p>
+                </div>
+                <div class="w-px h-12 bg-line/15 hidden sm:block"></div>
+                <div class="text-center">
+                    <p class="text-fg font-bold text-3xl">100 %</p>
+                    <p class="text-muted text-sm">by nás doporučilo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ RECENZE ============ -->
+    <section class="py-20 px-4 md:px-8">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8" id="reviews-grid">
+            <!-- Karty se vloží skriptem níže -->
+        </div>
+
+        <!-- CTA -->
+        <div class="max-w-2xl mx-auto text-center mt-20">
+            <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Přidejte se k <span class="accent text-brand text-[1.15em]">spokojeným</span> klientům
+            </h2>
+            <p class="text-muted mb-8">Máte nápad na video? Ozvěte se a domluvíme se na dalším postupu.</p>
+            <a href="https://odvideos.cz/#contact"
+                class="inline-block rounded-full bg-brand px-8 py-3 text-base font-semibold uppercase tracking-wider text-white shadow-sm hover:bg-brand/90 hover:shadow-md transition-all">Kontaktovat</a>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="bg-surface py-16 px-4 md:px-8 border-t border-line/10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="https://odvideos.cz/assets/images/logo/logo-color.png" alt="OD Videos"
+                        class="h-14 w-auto block dark:hidden" />
+                    <img src="https://odvideos.cz/assets/images/logo/logo-white.png" alt="OD Videos"
+                        class="h-14 w-auto hidden dark:block" />
+                </div>
+                <p class="text-muted text-sm mb-2">Profesionální videa nejen pro reality. Zachytíme prostor, atmosféru
+                    i příběh tak, aby zaujaly na první pohled.</p>
+            </div>
+            <div>
+                <h3 class="text-fg text-sm font-semibold tracking-widest mb-6 uppercase">Kontakt</h3>
+                <p class="text-muted text-sm mb-2"><a href="mailto:od.videomaker@gmail.com"
+                        class="hover:text-brand transition-colors duration-300">od.videomaker@gmail.com</a></p>
+                <p class="text-muted text-sm mb-2"><a href="tel:+420604434409"
+                        class="hover:text-brand transition-colors duration-300">+420 604 434 409</a></p>
+                <div class="flex items-center gap-3 mt-6">
+                    <a href="https://www.instagram.com/od_videos/" target="_blank" rel="noopener noreferrer"
+                        class="w-10 h-10 bg-line/10 rounded-full flex items-center justify-center hover:bg-brand hover:text-onbrand transition-all duration-300"
+                        aria-label="Instagram">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.205 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/od_videos/" target="_blank" rel="noopener noreferrer"
+                        class="text-muted text-sm hover:text-brand transition-colors duration-300">@od_videos</a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-fg text-sm font-semibold tracking-widest mb-6 uppercase">Rychlé odkazy</h3>
+                <ul class="space-y-2">
+                    <li><a href="https://odvideos.cz/" class="text-muted text-sm hover:text-brand transition">Úvod</a></li>
+                    <li><a href="https://odvideos.cz/ochrana-soukromi" class="text-muted text-sm hover:text-brand transition">Ochrana soukromí</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-fg text-sm font-semibold tracking-widest mb-6 uppercase">Provozovatel</h3>
+                <p class="text-muted text-sm mb-2">Ondřej Demuth</p>
+                <p class="text-muted text-sm mb-2">Žacléř, Bobr 163</p>
+                <p class="text-muted text-sm mb-2">IČO: 21919631</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-line/10 text-center text-muted text-sm">
+            &copy; 2026 OD Videos. Všechna práva vyhrazena.
+        </div>
+    </footer>
+
+    <script>
+        /* ---- Data recenzí (stejná struktura jako reviews.yml) ---- */
+        const reviews = [
+            {
+                name: "Lucie Hlaváčková",
+                role: "HR konzultantka, Pepperl+Fuchs Manufacturing s.r.o.",
+                type: "Video na sociální sítě",
+                rating: 5,
+                appreciated: "Improvizace, kreativita a dobrá komunikace.",
+                summary: "Spolupráci mohu jednoznačně doporučit. Od prvního zadání zakázky až po finální úpravy videí byla komunikace naprosto bezproblémová, profesionální a zároveň velmi příjemná. Oceňuji především kreativní přístup, ochotu naslouchat našim představám a schopnost proměnit je ve skvělý výsledek. Po celou dobu byla spolupráce vstřícná a flexibilní a všechny naše požadavky byly pečlivě zohledněny. Finální videa splnila naše očekávání po obsahové i vizuální stránce. Pokud hledáte spolehlivého tvůrce videí s profesionálním přístupem, kreativitou a smyslem pro detail, mohu tuto spolupráci s čistým svědomím doporučit."
+            },
+            {
+                name: "Michal Kolář",
+                role: "MODIFY real estate",
+                type: "Videoprohlídka nemovitosti",
+                rating: 4,
+                appreciated: "Rychlé pochopení zadání a navnímání požadovaného výsledku. Velkým benefitem je rychle se zlepšující kvalita výstupů díky nové technice, práci s kamerou, efektům i zvukům. K tomu otevřená hlava pro kritiku.",
+                summary: "I na takovou dálku funguje velice dobrá komunikace, časová flexibilita a rychlé zpracování výstupu. Oceňuji ochotu věci opravovat, učit se a posouvat se dál — a dobré cenové podmínky vůči kvalitě videa."
+            },
+            {
+                name: "Adam Horáček",
+                role: "realitní makléř a jednatel firmy IKKA Private Gym",
+                type: "Video na sociální sítě",
+                rating: 5,
+                appreciated: "Bezvadná komunikace a společné nápady během natáčení, um s technikou, příznivá cena a přátelská atmosféra.",
+                summary: "Nenuceně přátelská spolupráce se skvělým výsledkem."
+            },
+            {
+                name: "Summit submission z.s.",
+                role: "firemní video",
+                type: "Firemní video",
+                rating: 5,
+                appreciated: "Skvělý přístup i domluva.",
+                summary: "Velká spokojenost, rychlost i cena."
+            },
+            {
+                name: "Kristýna Valášková",
+                role: "nevěsta",
+                type: "Svatební video",
+                rating: 5,
+                appreciated: "Velmi jsme ocenili, že i přes ne příliš konkrétní požadavky si Ondra s touto „volností“ poradil a výsledek předčil naše očekávání.",
+                summary: "Spolupráce s Ondrou byla velice příjemná a profesionální. Svatební video bylo precizní a plné kreativních prvků."
+            }
+        ];
+
+        /* ---- Vykreslení hvězdiček ---- */
+        function stars(n) {
+            let out = '';
+            for (let i = 1; i <= 5; i++) {
+                const cls = i <= n ? 'fill-brand' : 'fill-line/20';
+                out += `<svg class="w-5 h-5 ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z"/></svg>`;
+            }
+            return out;
+        }
+
+        /* ---- Vykreslení karet ---- */
+        const grid = document.getElementById('reviews-grid');
+        grid.innerHTML = reviews.map(r => `
+            <article class="opacity-fade bg-surface rounded-2xl border border-line/10 p-8 flex flex-col hover:border-brand/40 transition-colors duration-300">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <h3 class="text-fg text-xl font-bold leading-tight">${r.name}</h3>
+                        <p class="text-muted text-sm mt-1">${r.role}</p>
+                    </div>
+                    <svg class="w-9 h-9 fill-brand/20 shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z"/></svg>
+                </div>
+                <div class="flex items-center gap-1 mb-5" aria-label="Hodnocení ${r.rating} z 5">
+                    ${stars(r.rating)}
+                    <span class="text-muted text-sm ml-2 font-medium">${r.rating}/5</span>
+                </div>
+                <p class="text-fg/90 mb-4 leading-relaxed">${r.summary}</p>
+                <div class="mt-auto pt-4 border-t border-line/10">
+                    <p class="text-brand text-xs font-semibold uppercase tracking-wider mb-1">Co ocenili</p>
+                    <p class="text-muted text-sm leading-relaxed">${r.appreciated}</p>
+                    <span class="inline-block mt-4 text-xs text-muted/80 bg-line/5 border border-line/10 rounded-full px-3 py-1">${r.type}</span>
+                </div>
+            </article>
+        `).join('');
+
+        /* ---- Postupné odkrytí karet při scrollu ---- */
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    e.target.style.transitionDelay = (Array.prototype.indexOf.call(grid.children, e.target) % 2) * 0.1 + 's';
+                    e.target.classList.add('visible');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.opacity-fade').forEach(el => io.observe(el));
+
+        /* ---- Přepínač světlého/tmavého režimu ---- */
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+        });
+    </script>
+</body>
+
+</html>
