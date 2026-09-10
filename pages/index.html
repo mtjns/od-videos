@@ -10,8 +10,8 @@ permalink: /
 ---
 <!-- Hero Section -->
 <section class="dark relative min-h-screen bg-base flex items-center justify-center pt-20 overflow-hidden">
-    <!-- Faint logo watermark behind the video: this is what shows while the video
-         loads (instead of a portrait poster), echoing the recenze section's mark. -->
+    <!-- Faint logo watermark behind the video, echoing the recenze section's mark.
+         Sits under the poster frame, so it only shows if that image itself fails. -->
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
         <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt=""
             class="w-[70%] max-w-xl opacity-[0.06]" />
@@ -20,7 +20,8 @@ permalink: /
     <!-- Background video: browser plays the first source it can decode.
          HEVC/H.265 first (smaller file, used by Safari), H.264 fallback for everyone else. -->
     <video class="absolute inset-0 w-full h-full object-cover pointer-events-none" autoplay muted loop playsinline
-        preload="auto">
+        preload="auto"
+        poster="{{ '/assets/images/hero-poster.jpg' | relative_url }}">
         <source src="{{ '/assets/videos/header-video-265.mp4' | relative_url }}" type='video/mp4; codecs="hvc1"'>
         <source src="{{ '/assets/videos/header-video-264.mp4' | relative_url }}" type='video/mp4; codecs="avc1.42E01E"'>
     </video>
