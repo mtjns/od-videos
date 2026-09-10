@@ -1,18 +1,21 @@
 # Recenze klientů OD Videos
-# Umístění v repozitáři: _data/reviews.yml  (Jekyll data soubor)
-# Použití v šabloně:  {% for r in site.data.reviews %} ... {% endfor %}
+# Umístění v repozitáři: _data/recenze.yml  (Jekyll data soubor)
+# Použití v šabloně:  {% for r in site.data.recenze %} ... {% endfor %}
 #
 # Pole:
 #   name        – Kdo (jméno klienta)
 #   role        – firma / role
-#   type        – typ videa
+#   type        – typy videa (seznam; vypíšou se všechny)
 #   rating      – kvalita 1–5 (počet hvězdiček)
 #   appreciated – „Co ocenili“
 #   summary     – „Shrnutí spolupráce“
 
 - name: "Lucie Hlaváčková"
   role: "HR konzultantka, Pepperl+Fuchs Manufacturing s.r.o."
-  type: "Video na sociální sítě"
+  type:
+    - "Video na sociální sítě"
+    - "Firemní video"
+    - "Studiové video"
   rating: 5
   appreciated: "Improvizace, kreativita a dobrá komunikace."
   summary: >-
@@ -28,7 +31,9 @@
 
 - name: "Michal Kolář"
   role: "MODIFY real estate"
-  type: "Videoprohlídka nemovitosti"
+  type:
+    - "Videoprohlídka nemovitosti"
+    - "Video na sociální sítě"
   rating: 4
   appreciated: >-
     Rychlé pochopení zadání a navnímání požadovaného výsledku. Velkým benefitem
@@ -41,7 +46,9 @@
 
 - name: "Adam Horáček"
   role: "realitní makléř a jednatel firmy IKKA Private Gym"
-  type: "Video na sociální sítě"
+  type:
+    - "Video na sociální sítě"
+    - "Videoprohlídka nemovitosti"
   rating: 5
   appreciated: >-
     Bezvadná komunikace a společné nápady během natáčení, um s technikou,
@@ -50,14 +57,17 @@
 
 - name: "Summit submission z.s."
   role: "firemní video"
-  type: "Firemní video"
+  type:
+    - "Firemní video"
+    - "Video na sociální sítě"
   rating: 5
   appreciated: "Skvělý přístup i domluva."
   summary: "Velká spokojenost, rychlost i cena."
 
 - name: "Kristýna Valášková"
   role: "nevěsta"
-  type: "Svatební video"
+  type:
+    - "Svatební video"
   rating: 5
   appreciated: >-
     Velmi jsme ocenili, že i přes ne příliš konkrétní požadavky si Ondra

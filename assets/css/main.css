@@ -150,6 +150,92 @@ body {
     transition: all 0.7s ease-out;
 }
 
+/* Reviews carousel: a coverflow ring. The track gives the cards a shared
+   perspective and a fixed height; main.js sets each card's transform, opacity
+   and stacking so the active one sits in front and its neighbours read as
+   further away. touch-action keeps vertical page scrolling while the track
+   handles horizontal swipes. */
+.review-track {
+    position: relative;
+    perspective: 1400px;
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+/* The track is focusable (arrow keys move the ring), so it keeps a visible
+   focus ring for keyboard users. */
+.review-track:focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+}
+
+.review-card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: min(100%, 34rem);
+    transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.55s ease,
+        border-color 0.3s ease;
+    /* Set by main.js before first paint; keeps cards centred until then. */
+    transform: translateX(-50%);
+    will-change: transform, opacity;
+}
+
+/* Side cards are decoration only: no clicks, no text selection, and their
+   controls are out of the tab order (set in main.js). Pointer events falling
+   through to the track is what lets a swipe start on top of a side card. */
+.review-card:not(.is-active) {
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.review-card.is-active {
+    border-color: hsl(var(--brand) / 0.4);
+}
+
+/* Thin scrollbar for the card body, so long reviews scroll inside the card
+   instead of stretching it. */
+.review-body {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--line) / 0.25) transparent;
+}
+
+.review-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.review-body::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--line) / 0.25);
+    border-radius: 999px;
+}
+
+.review-dot.is-active {
+    width: 1.5rem;
+    background-color: hsl(var(--brand));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .review-card {
+        transition: none;
+    }
+}
+
+/* Review summaries: clamped to five lines until the "číst dále" button in
+   main.js adds .expanded. The button only appears on cards that overflow. */
+.review-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+}
+
+.review-clamp.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
 /* Utilities */
 .container {
     width: 100%;

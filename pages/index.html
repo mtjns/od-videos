@@ -246,6 +246,141 @@ permalink: /
     </div>
 </section>
 
+<!-- Reviews Section — rendered from _data/recenze.yml, so adding a review
+     means editing that file only. -->
+{% assign revs = site.data.recenze %}
+<section id="reviews" class="bg-surface py-20 md:py-32 px-4 md:px-8">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="opacity-fade text-center mb-14">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-8 h-1 bg-brand rounded-full"></div>
+                <span class="text-brand text-sm font-semibold tracking-widest uppercase">Reference</span>
+                <div class="w-8 h-1 bg-brand rounded-full"></div>
+            </div>
+            <h2 class="text-fg text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+                Co říkají <em
+                    class="not-italic text-brand text-[1.25em] align-baseline font-normal [font-family:'Story_Script',cursive]">klienti</em>
+            </h2>
+            <p class="text-muted text-xl">Skutečné ohlasy lidí a firem, se kterými jsme spolupracovali</p>
+
+            <!-- Souhrn hodnocení — napevno, převzato z návrhu (_drafts/recenze-mockup.html) -->
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-8">
+                <div class="text-center">
+                    <div class="flex items-center justify-center gap-1 mb-1" aria-hidden="true">
+                        {% for i in (1..5) %}
+                        <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24">
+                            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
+                        </svg>
+                        {% endfor %}
+                    </div>
+                    <p class="text-fg font-bold text-lg">4,9 / 5</p>
+                    <p class="text-muted text-sm">průměrné hodnocení</p>
+                </div>
+                <div class="w-px h-12 bg-line/15 hidden sm:block"></div>
+                <div class="text-center">
+                    <p class="text-fg font-bold text-3xl">100 %</p>
+                    <p class="text-muted text-sm">by nás doporučilo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coverflow karusel: aktivní recenze vepředu, sousední zmenšené
+             a ztlumené, takže působí vzdáleněji. Pozice počítá main.js. -->
+        <div class="opacity-fade">
+            <div class="relative">
+
+                <div id="reviews-track" class="review-track h-[34rem] sm:h-[30rem]" tabindex="0"
+                    role="group" aria-roledescription="karusel" aria-label="Recenze klientů">
+                    {% for r in revs %}
+                    <article class="review-card bg-base rounded-2xl border border-line/10 p-6 sm:p-8 flex flex-col">
+
+                        <div class="flex items-start justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-fg text-xl font-bold leading-tight">{{ r.name }}</h3>
+                                <p class="text-muted text-sm mt-1">{{ r.role }}</p>
+                            </div>
+                            <svg class="w-9 h-9 fill-brand/20 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+                            </svg>
+                        </div>
+
+                        <div class="flex items-center gap-1 mb-5" aria-label="Hodnocení {{ r.rating }} z 5">
+                            {% for i in (1..5) %}
+                            <svg class="w-5 h-5 {% if i <= r.rating %}fill-brand{% else %}fill-line/20{% endif %}"
+                                viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
+                            </svg>
+                            {% endfor %}
+                            <span class="text-muted text-sm ml-2 font-medium" aria-hidden="true">{{ r.rating }}/5</span>
+                        </div>
+
+                        <!-- Karta má pevnou výšku, takže delší recenze roluje uvnitř. -->
+                        <div class="review-body flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1">
+                            <p id="review-text-{{ forloop.index }}" class="review-clamp text-fg/90 leading-relaxed">{{ r.summary }}</p>
+                            <!-- Odkryje se v main.js jen tehdy, když se text opravdu nevejde -->
+                            <button type="button"
+                                class="review-more hidden mt-2 text-brand text-sm font-semibold hover:text-fg transition-colors"
+                                aria-expanded="false" aria-controls="review-text-{{ forloop.index }}">číst dále</button>
+
+                            <div class="mt-6 pt-6 border-t border-line/10">
+                                <p class="text-brand text-xs font-semibold uppercase tracking-wider mb-1">Co ocenili</p>
+                                <p class="text-muted text-sm leading-relaxed">{{ r.appreciated }}</p>
+                                <!-- `type` je seznam, takže se vypíšou všechny typy videa -->
+                                <div class="flex flex-wrap gap-2 mt-4">
+                                    {% for t in r.type %}
+                                    <span
+                                        class="text-xs text-muted/80 bg-line/5 border border-line/10 rounded-full px-3 py-1">{{ t }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+
+                <!-- Šipky po stranách jen od sm výš, kde je pro ně vedle karty místo;
+                     na mobilu jsou v řádku s tečkami, aby nepřekrývaly text recenze. -->
+                <button type="button" aria-label="Předchozí recenze"
+                    class="reviews-prev hidden sm:flex absolute z-40 top-1/2 -translate-y-1/2 left-0 md:-left-2 w-12 h-12 rounded-full border border-line/20 bg-base/80 backdrop-blur-sm items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button type="button" aria-label="Další recenze"
+                    class="reviews-next hidden sm:flex absolute z-40 top-1/2 -translate-y-1/2 right-0 md:-right-2 w-12 h-12 rounded-full border border-line/20 bg-base/80 backdrop-blur-sm items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex items-center justify-center gap-5 mt-10">
+                <button type="button" aria-label="Předchozí recenze"
+                    class="reviews-prev sm:hidden w-11 h-11 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+
+                <div id="reviews-dots" class="flex items-center justify-center gap-2">
+                    {% for r in revs %}
+                    <button type="button" data-index="{{ forloop.index0 }}" aria-label="Recenze: {{ r.name }}"
+                        class="review-dot h-2 w-2 rounded-full bg-line/20 hover:bg-brand/60 transition-all duration-300"></button>
+                    {% endfor %}
+                </div>
+
+                <button type="button" aria-label="Další recenze"
+                    class="reviews-next sm:hidden w-11 h-11 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Contact Form Section -->
 <section id="contact"
     class="bg-[hsl(240_5%_94%)] dark:bg-[hsl(0_0%_10%)] pt-24 md:pt-56 pb-28 md:pb-48 px-4 md:px-8 relative overflow-hidden">
