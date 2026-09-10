@@ -265,7 +265,7 @@ permalink: /
         <p class="text-center text-muted text-xs font-semibold tracking-widest uppercase mb-10">
             Spolupracovali jsme s
         </p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-10 md:gap-x-14 md:gap-y-14 items-center">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-10 md:gap-x-14 md:gap-y-14 items-center justify-items-center">
             {% assign client_logos =
             "ikka,modify-real-estate,pepperl-fuchs,tul,summit-submission,silvego,havic_liberecky_makler_jednobarevne,holka_co_maka_gold_vector,linserka"
             | split: ","
@@ -273,7 +273,7 @@ permalink: /
             {% for logo in client_logos %}
             {% assign logo_url = '/assets/images/clients/' | append: logo | append: '.svg' | relative_url %}
             <span role="img" aria-label="{{ logo }}"
-                class="block mx-auto w-full h-9 md:h-10 bg-muted/70 hover:bg-brand transition-colors duration-300"
+                class="block w-5/6 h-9 md:h-10 bg-muted/70 hover:bg-brand transition-colors duration-300 {% if forloop.last %}col-span-2 md:col-span-2 md:col-start-2{% endif %}"
                 style="-webkit-mask: url('{{ logo_url }}') center / contain no-repeat; mask: url('{{ logo_url }}') center / contain no-repeat;"></span>
             {% endfor %}
         </div>
