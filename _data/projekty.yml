@@ -30,8 +30,19 @@
 #     - "912345679/a1b2c3d4e5"
 #
 
-- nadpis:
-  podnadpis:
-  popis:
+- nadpis: "Studiová videa"
+  podnadpis: "Projekt 10 senzorů pro Pepperl+Fuchs"
+  popis: "Pro trutnovský závod společnosti Pepperl+Fuchs jsme vytvořili sérii 10 videí, která srozumitelně představují využití produktů vyráběných právě v Trutnově a ukazují, kde se s nimi lidé setkávají v každodenním životě. Výsledná série získala velmi pozitivní ohlasy."
+
   vimeo:
-    -
+    - 1225638604 #uvodni
+    - 1225638602 #F31
+    - 1225638603 #Mobil equipment
+    - 1225638605 #R1 senzor
+    - 1225638757 #metalface
+    - 1225638775 #float
+    - 1225638791 #varikont
+    - 1225638848 #závora
+    - 1225638917 #R2000
+    - 1225638920 #F135
+    - 1225638930 #enkodér
