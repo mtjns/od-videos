@@ -265,7 +265,8 @@ permalink: /
         <p class="text-center text-muted text-xs font-semibold tracking-widest uppercase mb-10">
             Spolupracovali jsme s
         </p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-10 md:gap-x-14 md:gap-y-14 items-center justify-items-center">
+        <div
+            class="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-10 md:gap-x-14 md:gap-y-14 items-center justify-items-center">
             {% assign client_logos =
             "ikka,modify-real-estate,pepperl-fuchs,tul,summit-submission,silvego,havic_liberecky_makler_jednobarevne,holka_co_maka_gold_vector,linserka"
             | split: ","
@@ -304,7 +305,8 @@ permalink: /
                     <div class="flex items-center justify-center gap-1 mb-1" aria-hidden="true">
                         {% for i in (1..5) %}
                         <svg class="w-6 h-6 fill-brand" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
+                            <path
+                                d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
                         </svg>
                         {% endfor %}
                     </div>
@@ -324,8 +326,8 @@ permalink: /
         <div class="opacity-fade">
             <div class="relative">
 
-                <div id="reviews-track" class="review-track h-[34rem] sm:h-[30rem]" tabindex="0"
-                    role="group" aria-roledescription="karusel" aria-label="Recenze klientů">
+                <div id="reviews-track" class="review-track h-[34rem] sm:h-[30rem]" tabindex="0" role="group"
+                    aria-roledescription="karusel" aria-label="Recenze klientů">
                     {% for r in revs %}
                     <article class="review-card bg-base rounded-2xl border border-line/10 p-6 sm:p-8 flex flex-col">
 
@@ -335,7 +337,8 @@ permalink: /
                                 <p class="text-muted text-sm mt-1">{{ r.role }}</p>
                             </div>
                             <svg class="w-9 h-9 fill-brand/20 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
+                                <path
+                                    d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
                             </svg>
                         </div>
 
@@ -343,7 +346,8 @@ permalink: /
                             {% for i in (1..5) %}
                             <svg class="w-5 h-5 {% if i <= r.rating %}fill-brand{% else %}fill-line/20{% endif %}"
                                 viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
+                                <path
+                                    d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" />
                             </svg>
                             {% endfor %}
                             <span class="text-muted text-sm ml-2 font-medium" aria-hidden="true">{{ r.rating }}/5</span>
@@ -351,7 +355,8 @@ permalink: /
 
                         <!-- Karta má pevnou výšku, takže delší recenze roluje uvnitř. -->
                         <div class="review-body flex-1 min-h-0 overflow-y-auto overscroll-contain pr-1">
-                            <p id="review-text-{{ forloop.index }}" class="review-clamp text-fg/90 leading-relaxed">{{ r.summary }}</p>
+                            <p id="review-text-{{ forloop.index }}" class="review-clamp text-fg/90 leading-relaxed">{{
+                                r.summary }}</p>
                             <!-- Odkryje se v main.js jen tehdy, když se text opravdu nevejde -->
                             <button type="button"
                                 class="review-more hidden mt-2 text-brand text-sm font-semibold hover:text-fg transition-colors"
@@ -364,7 +369,8 @@ permalink: /
                                 <div class="flex flex-wrap gap-2 mt-4">
                                     {% for t in r.type %}
                                     <span
-                                        class="text-xs text-muted/80 bg-line/5 border border-line/10 rounded-full px-3 py-1">{{ t }}</span>
+                                        class="text-xs text-muted/80 bg-line/5 border border-line/10 rounded-full px-3 py-1">{{
+                                        t }}</span>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -532,8 +538,7 @@ permalink: /
                 </div>
 
                 <div class="relative group mt-8">
-                    <textarea id="message" name="message" rows="3" placeholder="Zpráva..."
-                        required
+                    <textarea id="message" name="message" rows="3" placeholder="Zpráva..." required
                         class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none"></textarea>
                 </div>
 
@@ -546,8 +551,8 @@ permalink: /
                 <div class="pt-4">
                     <button type="submit" id="contact-submit"
                         class="group relative inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300 disabled:opacity-60">
-                        <span id="contact-submit-label"
-                            class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
+                        <span id="contact-submit-label" class="text-xl font-bold uppercase tracking-widest">Odeslat
+                            poptávku</span>
                         <span
                             class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
                             <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300"
@@ -572,7 +577,7 @@ permalink: /
                     var label = document.getElementById('contact-submit-label');
                     var defaultLabel = label ? label.textContent : '';
                     var endpoint = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
-                    var successUrl = '{{ '/dekujeme' | relative_url }}';
+                    var successUrl = '{{ ' / dekujeme' | relative_url }}';
 
                     form.addEventListener('submit', function (e) {
                         e.preventDefault();
