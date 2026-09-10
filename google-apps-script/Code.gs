@@ -1,5 +1,5 @@
 /**
- * OD Videos – ukládání recenzí z formuláře /recenze do Google Sheets.
+ * OD Videos – ukládání recenzí z formuláře /dotaznik do Google Sheets.
  *
  * Nasazení: viz README.md ve stejné složce.
  * Formulář posílá POST (application/x-www-form-urlencoded) s poli:

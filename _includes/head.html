@@ -27,7 +27,7 @@
     Custom document + share title. Home renders as just "OD Videos"; every other page as
     "OD Videos | <page title>". Emitted before {% seo %} (which runs with title=false) so we
     fully own <title>, og:title and twitter:title with no duplicates. jekyll-seo-tag's own
-    og:title would otherwise be the bare page name ("Recenze") with no brand.
+    og:title would otherwise be the bare page name ("Dotazník") with no brand.
     {%- endcomment -%}
     {%- if page.title == nil or page.title == site.title or page.url == "/" -%}
     {%- assign full_title = site.title -%}

@@ -1,10 +1,10 @@
 # Napojení formuláře recenzí na Google Sheets
 
-Formulář na `/recenze` posílá odpovědi do Google tabulky přes **Google Apps Script Web App**.
+Formulář na `/dotaznik` posílá odpovědi do Google tabulky přes **Google Apps Script Web App**.
 Nastavení zabere ~5 minut a nevyžaduje žádný server.
 
 ## 1. Vytvořte tabulku
-1. Otevřete [sheets.new](https://sheets.new) a tabulku pojmenujte např. **OD Videos – Recenze**.
+1. Otevřete [sheets.new](https://sheets.new) a tabulku pojmenujte např. **OD Videos – Dotaznik**.
 2. Hlavičku sloupců řešit nemusíte – skript ji vytvoří sám při první odpovědi (list `Recenze`).
 
 ## 2. Vložte skript
@@ -66,4 +66,4 @@ Kvůli `mode: "no-cors"` dostane prohlížeč tzv. **neprůhlednou (opaque) odpo
 
 Proto po nasazení a po každé změně `Code.gs` **ověřte uložení reálným odesláním** (viz sekce *Ověření*) a hlídejte, že v listu `Recenze` řádky skutečně přibývají.
 
-**Jak omezení plně odstranit:** přepnout frontend z `no-cors` na běžný `fetch` a nechat skript vracet CORS hlavičky (`Access-Control-Allow-Origin`), aby prohlížeč mohl přečíst skutečný status a odlišit úspěch od chyby serveru. To je větší zásah do `Code.gs` i do skriptu na `/recenze` a zatím není implementováno – aktuálně se spolehlivě ošetřuje pouze výpadek sítě.
+**Jak omezení plně odstranit:** přepnout frontend z `no-cors` na běžný `fetch` a nechat skript vracet CORS hlavičky (`Access-Control-Allow-Origin`), aby prohlížeč mohl přečíst skutečný status a odlišit úspěch od chyby serveru. To je větší zásah do `Code.gs` i do skriptu na `/dotaznik` a zatím není implementováno – aktuálně se spolehlivě ošetřuje pouze výpadek sítě.

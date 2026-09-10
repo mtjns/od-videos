@@ -41,7 +41,7 @@ social‑media and wedding videography by Ondřej Demuth. Built as a static
 │   ├── index.html            # Homepage (Hero, O Mně, Služby, Galerie, Kontakt) → /
 │   ├── cenik.html            # Pricing
 │   ├── gallery.html          # Gallery → /galerie
-│   ├── recenze.html          # Review form → /recenze (noindex)
+│   ├── dotaznik.html          # Review form → /dotaznik (noindex)
 │   ├── dekujeme.html         # Thank-you page
 │   ├── privacy-policy.html
 │   └── 404.html
@@ -51,7 +51,7 @@ social‑media and wedding videography by Ondřej Demuth. Built as a static
 │   ├── js/main.js            # Menu, smooth scroll, theme toggle, scroll animations
 │   ├── images/               # Logos, portrait, client logos, OG image
 │   └── videos/               # Hero background video (H.265 + H.264 fallback)
-├── google-apps-script/       # Serverless backend for the /recenze form
+├── google-apps-script/       # Serverless backend for the /dotaznik form
 │   ├── Code.gs
 │   └── README.md             # Setup guide (in Czech)
 ├── CNAME                     # Custom domain for GitHub Pages
@@ -93,7 +93,7 @@ The site supports light and dark modes:
   choice to `localStorage`; the site also follows OS changes live until the
   visitor picks a theme manually.
 
-## Review form (`/recenze`)
+## Review form (`/dotaznik`)
 
 The review page posts submissions to a **Google Apps Script Web App**, which
 appends them to a Google Sheet — no server required. The endpoint URL is set in

@@ -43,7 +43,7 @@ pages/                 Actual site pages (each sets its own `permalink`)
   index.html           Home (/)  — hero, about, services, contact form, gallery
   cenik.html           Price calculator (/cenik)
   gallery.html         Gallery (/galerie)  ⚠ still placeholder content
-  recenze.html         Review form (/recenze) → Google Apps Script
+  dotaznik.html        Review form (/dotaznik) → Google Apps Script
   dekujeme.html        Thank-you page (/dekujeme) — contact-form success target
   privacy-policy.html  Privacy policy (/ochrana-soukromi)
   404.html             Not-found page (/404)
@@ -53,7 +53,7 @@ assets/
   fonts/               Self-hosted woff2 (Host Grotesk, Story Script) + OFL licenses
   images/              Logos, client logos (assets/images/clients/), og-image, portrait
   videos/              Hero background videos
-google-apps-script/    Code.gs + README for the /recenze → Google Sheets backend
+google-apps-script/    Code.gs + README for the /dotaznik → Google Sheets backend
 _drafts/               Jekyll drafts (not published)
 ```
 
@@ -63,9 +63,9 @@ _drafts/               Jekyll drafts (not published)
 - Content pages live in `pages/` and each declares an explicit `permalink`
   (e.g. `/cenik`, `/galerie`). `permalink: pretty` is the site default.
 - Use `layout: default` for the home page (full nav + footer); use
-  `layout: minimal` for standalone subpages (ceník, galerie, recenze, etc.).
+  `layout: minimal` for standalone subpages (ceník, galerie, dotaznik, etc.).
 - Utility pages that shouldn't be indexed set `noindex: true` and
-  `sitemap: false` in front matter (recenze, dekujeme, privacy, 404).
+  `sitemap: false` in front matter (dotaznik, dekujeme, privacy, 404).
 
 ### Theming (light/dark)
 - Light is the default; dark is toggled by adding the `.dark` class to `<html>`.
@@ -131,7 +131,7 @@ _drafts/               Jekyll drafts (not published)
 ### Forms
 - **Contact form** (home `#contact`): posts to **formsubmit.co** via AJAX;
   on success redirects to `/dekujeme`.
-- **Review form** (`/recenze`): posts to a **Google Apps Script Web App**. The
+- **Review form** (`/dotaznik`): posts to a **Google Apps Script Web App**. The
   endpoint is `site.google_script_url` in `_config.yml`; the backend lives in
   `google-apps-script/` (see its `README.md`, in Czech). It uses
   `mode: "no-cors"`, so the browser can't read the response — server-side errors
