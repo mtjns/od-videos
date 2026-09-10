@@ -1,0 +1,67 @@
+# Recenze klientů OD Videos
+# Umístění v repozitáři: _data/reviews.yml  (Jekyll data soubor)
+# Použití v šabloně:  {% for r in site.data.reviews %} ... {% endfor %}
+#
+# Pole:
+#   name        – Kdo (jméno klienta)
+#   role        – firma / role
+#   type        – typ videa
+#   rating      – kvalita 1–5 (počet hvězdiček)
+#   appreciated – „Co ocenili“
+#   summary     – „Shrnutí spolupráce“
+
+- name: "Lucie Hlaváčková"
+  role: "HR konzultantka, Pepperl+Fuchs Manufacturing s.r.o."
+  type: "Video na sociální sítě"
+  rating: 5
+  appreciated: "Improvizace, kreativita a dobrá komunikace."
+  summary: >-
+    Spolupráci mohu jednoznačně doporučit. Od prvního zadání zakázky až po
+    finální úpravy videí byla komunikace naprosto bezproblémová, profesionální
+    a zároveň velmi příjemná. Oceňuji především kreativní přístup, ochotu
+    naslouchat našim představám a schopnost proměnit je ve skvělý výsledek.
+    Po celou dobu byla spolupráce vstřícná a flexibilní a všechny naše
+    požadavky byly pečlivě zohledněny. Finální videa splnila naše očekávání
+    po obsahové i vizuální stránce. Pokud hledáte spolehlivého tvůrce videí
+    s profesionálním přístupem, kreativitou a smyslem pro detail, mohu tuto
+    spolupráci s čistým svědomím doporučit.
+
+- name: "Michal Kolář"
+  role: "MODIFY real estate"
+  type: "Videoprohlídka nemovitosti"
+  rating: 4
+  appreciated: >-
+    Rychlé pochopení zadání a navnímání požadovaného výsledku. Velkým benefitem
+    je rychle se zlepšující kvalita výstupů díky nové technice, práci s kamerou,
+    efektům i zvukům. K tomu otevřená hlava pro kritiku.
+  summary: >-
+    I na takovou dálku funguje velice dobrá komunikace, časová flexibilita
+    a rychlé zpracování výstupu. Oceňuji ochotu věci opravovat, učit se
+    a posouvat se dál — a dobré cenové podmínky vůči kvalitě videa.
+
+- name: "Adam Horáček"
+  role: "realitní makléř a jednatel firmy IKKA Private Gym"
+  type: "Video na sociální sítě"
+  rating: 5
+  appreciated: >-
+    Bezvadná komunikace a společné nápady během natáčení, um s technikou,
+    příznivá cena a přátelská atmosféra.
+  summary: "Nenuceně přátelská spolupráce se skvělým výsledkem."
+
+- name: "Summit submission z.s."
+  role: "firemní video"
+  type: "Firemní video"
+  rating: 5
+  appreciated: "Skvělý přístup i domluva."
+  summary: "Velká spokojenost, rychlost i cena."
+
+- name: "Kristýna Valášková"
+  role: "nevěsta"
+  type: "Svatební video"
+  rating: 5
+  appreciated: >-
+    Velmi jsme ocenili, že i přes ne příliš konkrétní požadavky si Ondra
+    s touto „volností“ poradil a výsledek předčil naše očekávání.
+  summary: >-
+    Spolupráce s Ondrou byla velice příjemná a profesionální. Svatební video
+    bylo precizní a plné kreativních prvků.
