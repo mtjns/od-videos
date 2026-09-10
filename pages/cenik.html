@@ -7,6 +7,13 @@ priority: 0.8
 permalink: /cenik
 ---
 
+{%- comment -%}
+Všechny ceny této stránky žijí v _data/cenik.yml — texty jsou napsané tady.
+Nepiš sem částky ručně: v HTML použij include cena.html castka=… (viz _includes/cena.html),
+v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
+{%- endcomment -%}
+{%- assign ceny = site.data.cenik -%}
+
 <style>
     /* Přejíždějící odlesk na zvýrazněné dlaždici */
     @keyframes cenik-sheen {
@@ -41,7 +48,7 @@ permalink: /cenik
             <div class="w-8 h-1 bg-brand rounded-full"></div>
         </div>
 
-        <h1 class="text-fg text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
+        <h1 class="text-fg text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-6">
             Spočítejte si <em
                 class="normal-case not-italic text-brand text-[1.2em] align-baseline font-normal [font-family:'Story_Script',cursive]">cenu</em>
             videa
@@ -71,13 +78,13 @@ permalink: /cenik
         <div class="grid md:grid-cols-3 gap-6 opacity-fade">
 
             <!-- Balíček 1 -->
-            <button type="button" data-preset="reels3"
+            <button type="button" data-preset="sada_3_reels"
                 class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span
                     class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Sociální&nbsp;sítě</span>
                 <h3 class="text-fg text-lg font-semibold pr-24 mb-1">Sada 3 Reels</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>4 500 Kč
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.sada_3_reels %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
                     <li class="relative pl-6">
@@ -117,12 +124,12 @@ permalink: /cenik
             </button>
 
             <!-- Balíček 2 -->
-            <button type="button" data-preset="reality2kk"
+            <button type="button" data-preset="videoprohlidka_reel"
                 class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Reality</span>
                 <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Videoprohlídka + Reel</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>6 000 Kč
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.videoprohlidka_reel %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
                     <li class="relative pl-6">
@@ -161,12 +168,12 @@ permalink: /cenik
             </button>
 
             <!-- Balíček 3 -->
-            <button type="button" data-preset="wedding"
+            <button type="button" data-preset="svatebni_video"
                 class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Svatba</span>
                 <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Svatební video</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>12 000 Kč
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.svatebni_video %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
                     <li class="relative pl-6">
@@ -206,7 +213,7 @@ permalink: /cenik
         </div>
 
         <!-- Zvýrazněný balíček -->
-        <button type="button" data-preset="realityFeatured"
+        <button type="button" data-preset="top_videoprohlidka_reel"
             class="cenik-tile cenik-featured opacity-fade group relative block w-full text-left overflow-hidden mt-6 rounded-2xl border-2 border-brand p-8 md:p-10 bg-gradient-to-br from-brand/20 via-brand/5 to-surface transition-all duration-300 hover:-translate-y-1 hover:border-fg hover:shadow-[0_30px_80px_-20px_hsl(var(--brand)/0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
 
             <!-- odlesk -->
@@ -216,7 +223,7 @@ permalink: /cenik
 
             <span
                 class="md:absolute md:top-6 md:right-7 inline-flex items-center gap-1.5 bg-brand text-onbrand text-[12px] font-extrabold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5 md:mb-0">
-                ★ Populární volba
+                Populární volba
             </span>
 
             <div class="grid md:grid-cols-2 gap-8 items-center relative z-10">
@@ -226,7 +233,7 @@ permalink: /cenik
                     <h3 class="text-fg text-2xl md:text-3xl font-bold tracking-tight mb-1">Videoprohlídka nemovitosti +
                         Reel</h3>
                     <div class="text-brand text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-2">
-                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>8 500 Kč
+                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>{% include balicek-cena.html balicek=ceny.balicky.top_videoprohlidka_reel %}
                     </div>
                     <span class="mt-5 inline-flex items-center gap-2 text-brand text-base font-semibold">
                         Předvyplnit kalkulačku
@@ -361,6 +368,12 @@ permalink: /cenik
 <script>
     (function () {
         /* ============================================================
+           Ceny — z _data/cenik.yml. Jediné místo, kde se mění částky;
+           níže v kódu už žádné číslo v Kč být nemá.
+           ============================================================ */
+        const P = {{ site.data.cenik | jsonify }};
+
+        /* ============================================================
            Sdílené sady tříd (psané celé, aby je Tailwind našel při buildu)
            ============================================================ */
         const C = {
@@ -408,35 +421,42 @@ permalink: /cenik
         /* ============================================================
            Stav aplikace
            ============================================================ */
+        /* Výchozí (prázdný) stav — použije se při startu stránky
+           i při předvyplnění balíčku z dlaždice. */
+        function freshReality() { return { property: null, reelAddon: 'none', ai: false, bigCity: false, express: false, km: '', trutnov: false, liberec: false }; }
+        function freshReel() { return { variant: 'zakladni', count: 1, music: false, musicScope: 'each', express: false, km: '', trutnov: false, liberec: false }; }
+        function freshStudio() { return { count: 1, music: false, musicScope: 'each', footage: false, express: false, km: '', trutnov: false, liberec: false }; }
+        function freshWedding() { return { express: false, km: '', trutnov: false, liberec: false }; }
+
         const state = {
             type: null,          // 'reality' | 'reel' | 'studio' | 'wedding' | 'firemni'
-            reality: { property: null, reelAddon: 'none', ai: false, bigCity: false, express: false, km: '', trutnov: false, liberec: false },
-            reel: { variant: 'zakladni', count: 1, music: false, musicScope: 'each', express: false, km: '', trutnov: false, liberec: false },
-            studio: { count: 1, music: false, musicScope: 'each', footage: false, express: false, km: '', trutnov: false, liberec: false },
-            wedding: { express: false, km: '', trutnov: false, liberec: false },
+            reality: freshReality(),
+            reel: freshReel(),
+            studio: freshStudio(),
+            wedding: freshWedding(),
             discountCode: '',
             appliedCode: ''
         };
 
-        /* Slevové kódy (nikde se nezobrazují) */
-        const DISCOUNTS = {
-            'ODfriend': { type: 'pct', value: 0.10 },
-            'ODstart': { type: 'pct', value: 0.50 },
-            'ODmodify': { type: 'pct', value: 0.15 },
-            'ODhavic': { type: 'fixed', value: 750 }
-        };
+        /* Slevové kódy z _data/cenik.yml (nikde se nezobrazují) */
+        const DISCOUNTS = {};
+        P.slevove_kody.forEach(d => {
+            DISCOUNTS[d.kod] = { type: d.typ === 'procenta' ? 'pct' : 'fixed', value: d.hodnota };
+        });
 
         function kc(n) { return Math.round(n).toLocaleString('cs-CZ') + ' Kč'; }
 
         /* ============================================================
            Ceníková logika
            ============================================================ */
+        /* Klíče odpovídají názvům v _data/cenik.yml, aby se na ně mohlo
+           odkazovat složení balíčků (balicky.*.dispozice). */
         const PROPERTY = {
-            '1kk': { label: 'Byt 1+kk / 1+1', price: 5000, from: false },
-            '2kk': { label: 'Byt 2+kk / 2+1', price: 6000, from: false },
-            '3kk': { label: 'Byt 3+kk / 3+1', price: 6750, from: false },
-            '4kk': { label: 'Byt 4+kk / 4+1 a větší', price: 7500, from: false },
-            'rd': { label: 'Rodinný dům', price: 7000, from: true }
+            byt_1kk: { label: 'Byt 1+kk / 1+1', price: P.reality.byt_1kk, from: false },
+            byt_2kk: { label: 'Byt 2+kk / 2+1', price: P.reality.byt_2kk, from: false },
+            byt_3kk: { label: 'Byt 3+kk / 3+1', price: P.reality.byt_3kk, from: false },
+            byt_4kk: { label: 'Byt 4+kk / 4+1 a větší', price: P.reality.byt_4kk, from: false },
+            rodinny_dum: { label: 'Rodinný dům', price: P.reality.rodinny_dum, from: true }
         };
 
         const TYPES = [
@@ -448,28 +468,28 @@ permalink: /cenik
         ];
 
         function reelUnitPrice(variant, count) {
-            if (count <= 1) return variant === 'zakladni' ? 2000 : 3000;
-            if (count === 2) return variant === 'zakladni' ? 1800 : 2500;
-            return variant === 'zakladni' ? 1500 : 2000;
+            if (count <= 1) return variant === 'zakladni' ? P.reel.zakladni_1ks : P.reel.pokrocile_1ks;
+            if (count === 2) return variant === 'zakladni' ? P.reel.zakladni_2ks : P.reel.pokrocile_2ks;
+            return variant === 'zakladni' ? P.reel.zakladni_3ks_a_vic : P.reel.pokrocile_3ks_a_vic;
         }
         function studioUnitPrice(count) {
-            if (count <= 1) return 4000;
-            if (count === 2) return 3750;
-            if (count <= 9) return 3500;   // 3–9 ks
-            return 3250;                   // 10 ks a více
+            if (count <= 1) return P.studio.za_1ks;
+            if (count === 2) return P.studio.za_2ks;
+            if (count <= 9) return P.studio.za_3_9ks;   // 3–9 ks
+            return P.studio.za_10ks_a_vic;              // 10 ks a více
         }
 
         function kmCost(km) {
             const n = parseInt(km, 10);
             if (isNaN(n) || n < 0) return 0;
-            return n * 10;
+            return n * P.doprava.za_km;
         }
-        /* Doprava = km × 10 Kč + případné fixní cesty (Trutnov / Liberec) */
+        /* Doprava = km × cena/km + případné fixní cesty (Trutnov / Liberec) */
         function transportCost(kind) {
             const s = state[kind];
             let c = kmCost(s.km);
-            if (s.trutnov) c += 200;
-            if (s.liberec) c += 150;
+            if (s.trutnov) c += P.doprava.trutnov;
+            if (s.liberec) c += P.doprava.liberec;
             return c;
         }
 
@@ -488,13 +508,13 @@ permalink: /cenik
                     items.push({ label: pr.label + (pr.from ? ' (od)' : ''), amount: pr.price });
                     hasBase = true;
                 }
-                if (state.reality.reelAddon === 'fromVideo') {
-                    items.push({ label: 'Reel ze záběrů z videoprohlídky', amount: 1000 });
-                } else if (state.reality.reelAddon === 'newFootage') {
-                    items.push({ label: 'Reel z nových záběrů (od)', amount: 2000 });
+                if (state.reality.reelAddon === 'reel_ze_zaberu') {
+                    items.push({ label: 'Reel ze záběrů z videoprohlídky', amount: P.reality.reel_ze_zaberu });
+                } else if (state.reality.reelAddon === 'reel_nove_zabery') {
+                    items.push({ label: 'Reel z nových záběrů (od)', amount: P.reality.reel_nove_zabery });
                 }
                 if (state.reality.ai) {
-                    items.push({ label: 'AI záběry (od)', amount: 500 });
+                    items.push({ label: 'AI záběry (od)', amount: P.reality.ai_zabery });
                 }
                 doprava = transportCost('reality');
             }
@@ -508,9 +528,9 @@ permalink: /cenik
                 hasBase = true;
                 if (state.reel.music) {
                     if (state.reel.musicScope === 'project' && c >= 2) {
-                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: 500 });
+                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: P.hudba.cely_projekt });
                     } else {
-                        items.push({ label: c + ' × 250 Kč · licencovaná hudba', amount: 250 * c, note: '250 Kč za jednu licenci (za každé video)' });
+                        items.push({ label: c + ' × ' + kc(P.hudba.za_video) + ' · licencovaná hudba', amount: P.hudba.za_video * c, note: kc(P.hudba.za_video) + ' za jednu licenci (za každé video)' });
                     }
                 }
                 doprava = transportCost('reel');
@@ -523,36 +543,36 @@ permalink: /cenik
                 hasBase = true;
                 if (state.studio.music) {
                     if (state.studio.musicScope === 'project' && c >= 2) {
-                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: 500 });
+                        items.push({ label: 'Licencovaná hudba · 1 licence pro celý projekt', amount: P.hudba.cely_projekt });
                     } else {
-                        items.push({ label: c + ' × 250 Kč · licencovaná hudba', amount: 250 * c, note: '250 Kč za jednu licenci (za každé video)' });
+                        items.push({ label: c + ' × ' + kc(P.hudba.za_video) + ' · licencovaná hudba', amount: P.hudba.za_video * c, note: kc(P.hudba.za_video) + ' za jednu licenci (za každé video)' });
                     }
                 }
                 if (state.studio.footage) {
-                    const aiUnit = c >= 10 ? 400 : 500;
+                    const aiUnit = c >= 10 ? P.studio.ai_zabery_od_10ks : P.studio.ai_zabery;
                     items.push({ label: c + ' × ' + kc(aiUnit) + ' · AI záběry', amount: aiUnit * c });
                 }
                 doprava = transportCost('studio');
             }
 
             else if (t === 'wedding') {
-                items.push({ label: 'Svatební video', amount: 12000 });
+                items.push({ label: 'Svatební video', amount: P.svatba });
                 hasBase = true;
                 doprava = transportCost('wedding');
             }
 
             const itemsSum = items.reduce((s, i) => s + i.amount, 0);
 
-            // Příplatek za velké město (Praha / Brno) — +10 % z ceny včetně dopravy
+            // Příplatek za velké město (Praha / Brno) — % z ceny včetně dopravy
             let cityFee = 0;
             if (t === 'reality' && state.reality.bigCity) {
-                cityFee = Math.round((itemsSum + doprava) * 0.10);
+                cityFee = Math.round((itemsSum + doprava) * P.priplatky.velke_mesto / 100);
             }
 
-            // Expresní dodání — +20 % (základ + přídavky + doprava + velké město)
+            // Expresní dodání — % ze základu + přídavků + dopravy + velkého města
             let express = 0;
             if (state[t] && state[t].express) {
-                express = Math.round((itemsSum + doprava + cityFee) * 0.20);
+                express = Math.round((itemsSum + doprava + cityFee) * P.priplatky.expresni_dodani / 100);
             }
 
             const subtotal = itemsSum + doprava + cityFee + express;
@@ -562,8 +582,8 @@ permalink: /cenik
             if (code && DISCOUNTS.hasOwnProperty(code)) {
                 const d = DISCOUNTS[code];
                 if (d.type === 'pct') {
-                    discountAmount = Math.round(subtotal * d.value);
-                    discountLabel = 'Sleva −' + Math.round(d.value * 100) + ' %';
+                    discountAmount = Math.round(subtotal * d.value / 100);
+                    discountLabel = 'Sleva −' + d.value + ' %';
                 } else {
                     discountAmount = Math.min(d.value, subtotal);
                     discountLabel = 'Sleva ' + kc(d.value);
@@ -622,12 +642,12 @@ permalink: /cenik
             let scope = '';
             if (s.music && c >= 2) {
                 scope = `<div class="space-y-2.5 mt-3">
-                    ${opt({ title: 'Zvlášť pro každé video', price: `250 Kč × ${c} = ${kc(250 * c)}`, active: s.musicScope === 'each', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="each"` })}
-                    ${opt({ title: 'Jedna licence pro celý projekt', price: `500 Kč za všech ${c} videí`, active: s.musicScope === 'project', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="project"` })}
+                    ${opt({ title: 'Zvlášť pro každé video', price: `${kc(P.hudba.za_video)} × ${c} = ${kc(P.hudba.za_video * c)}`, active: s.musicScope === 'each', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="each"` })}
+                    ${opt({ title: 'Jedna licence pro celý projekt', price: `${kc(P.hudba.cely_projekt)} za všech ${c} videí`, active: s.musicScope === 'project', cls: 'js-music-scope', attrs: `data-kind="${kind}" data-scope="project"` })}
                 </div>`;
             }
             return `<div class="${C.subhead}">Licencovaná hudba</div>
-                ${opt({ title: 'Licencovaná hudba', price: '+250 Kč za každé video', checkbox: true, active: s.music, cls: 'js-music-toggle', attrs: `data-kind="${kind}"` })}
+                ${opt({ title: 'Licencovaná hudba', price: '+' + kc(P.hudba.za_video) + ' za každé video', checkbox: true, active: s.music, cls: 'js-music-toggle', attrs: `data-kind="${kind}"` })}
                 <p class="${C.note}">Licencovaná hudba je pouze pro firmy s méně než 100 zaměstnanci.</p>
                 ${scope}`;
         }
@@ -636,14 +656,14 @@ permalink: /cenik
             const s = state[kind];
             return `<hr class="${C.sep}">
                 <div class="${C.fieldLabel}">Doprava</div>
-                <p class="${C.fieldHint}">Vyberte jednu variantu — 10 Kč/km, nebo fixní cestu. Poslední volba přepíše předchozí.</p>
+                <p class="${C.fieldHint}">Vyberte jednu variantu — ${kc(P.doprava.za_km)}/km, nebo fixní cestu. Poslední volba přepíše předchozí.</p>
                 <div class="flex items-center gap-3 flex-wrap">
                     <input class="${C.input} js-km max-w-[140px]" data-km="${kind}" type="number" min="0" inputmode="numeric" placeholder="0" value="${s.km}">
-                    <span class="text-muted text-sm">km × 10 Kč/km</span>
+                    <span class="text-muted text-sm">km × ${kc(P.doprava.za_km)}/km</span>
                 </div>
                 <div class="space-y-2.5 mt-4">
-                    ${opt({ title: 'Natáčení v Trutnově', price: '200 Kč za cestu', checkbox: true, active: s.trutnov, cls: 'js-trip-trutnov', attrs: `data-trip="${kind}"` })}
-                    ${opt({ title: 'Natáčení v Liberci', price: '150 Kč za cestu (v období školního roku)', checkbox: true, active: s.liberec, cls: 'js-trip-liberec', attrs: `data-trip="${kind}"` })}
+                    ${opt({ title: 'Natáčení v Trutnově', price: kc(P.doprava.trutnov) + ' za cestu', checkbox: true, active: s.trutnov, cls: 'js-trip-trutnov', attrs: `data-trip="${kind}"` })}
+                    ${opt({ title: 'Natáčení v Liberci', price: kc(P.doprava.liberec) + ' za cestu (v období školního roku)', checkbox: true, active: s.liberec, cls: 'js-trip-liberec', attrs: `data-trip="${kind}"` })}
                 </div>`;
         }
 
@@ -652,7 +672,7 @@ permalink: /cenik
             return `<hr class="${C.sep}">
                 <div class="${C.fieldLabel}">Expresní dodání</div>
                 <div class="mt-3">
-                    ${opt({ title: 'Expresní dodání', price: '+20 % z celkové ceny', checkbox: true, active: s.express, cls: 'js-express', attrs: `data-kind="${kind}"` })}
+                    ${opt({ title: 'Expresní dodání', price: '+' + P.priplatky.expresni_dodani + ' % z celkové ceny', checkbox: true, active: s.express, cls: 'js-express', attrs: `data-kind="${kind}"` })}
                 </div>
                 <p class="${C.note}">Pokud váš projekt spěchá a potřebujete ho mít hotový do 3. dne od natáčení (závisí na velikosti projektu).</p>`;
         }
@@ -696,16 +716,16 @@ permalink: /cenik
 
                     <div class="${C.subhead}">Přídavek Reel · volitelné</div>
                     <div class="space-y-2.5">
-                        ${opt({ title: 'Reel ze záběrů z videoprohlídky', price: '+1 000 Kč', active: state.reality.reelAddon === 'fromVideo', cls: 'js-reel-addon', attrs: 'data-reel="fromVideo"' })}
-                        ${opt({ title: 'Reel z nových záběrů (nutné natočit znovu na výšku)', price: 'od +2 000 Kč', active: state.reality.reelAddon === 'newFootage', cls: 'js-reel-addon', attrs: 'data-reel="newFootage"' })}
+                        ${opt({ title: 'Reel ze záběrů z videoprohlídky', price: '+' + kc(P.reality.reel_ze_zaberu), active: state.reality.reelAddon === 'reel_ze_zaberu', cls: 'js-reel-addon', attrs: 'data-reel="reel_ze_zaberu"' })}
+                        ${opt({ title: 'Reel z nových záběrů (nutné natočit znovu na výšku)', price: 'od +' + kc(P.reality.reel_nove_zabery), active: state.reality.reelAddon === 'reel_nove_zabery', cls: 'js-reel-addon', attrs: 'data-reel="reel_nove_zabery"' })}
                     </div>
-                    <p class="${C.accentNote}">V balíčku ušetříte 1 000 Kč oproti samostatnému reelu, který stojí od 3 000 Kč.</p>
+                    <p class="${C.accentNote}">V balíčku ušetříte ${kc(P.reel.pokrocile_1ks - P.reality.reel_nove_zabery)} oproti samostatnému reelu, který stojí od ${kc(P.reel.pokrocile_1ks)}.</p>
 
                     <div class="${C.subhead}">Přídavek AI záběry</div>
-                    ${opt({ title: 'AI záběry', price: '+ od 500 Kč', checkbox: true, active: state.reality.ai, cls: 'js-ai' })}
+                    ${opt({ title: 'AI záběry', price: '+ od ' + kc(P.reality.ai_zabery), checkbox: true, active: state.reality.ai, cls: 'js-ai' })}
 
                     <div class="${C.subhead}">Velké město</div>
-                    ${opt({ title: 'Praha / Brno', price: '+10 % z celkové ceny', checkbox: true, active: state.reality.bigCity, cls: 'js-city' })}
+                    ${opt({ title: 'Praha / Brno', price: '+' + P.priplatky.velke_mesto + ' % z celkové ceny', checkbox: true, active: state.reality.bigCity, cls: 'js-city' })}
 
                     ${dopravaHTML('reality')}
                     ${expressHTML('reality')}
@@ -719,8 +739,8 @@ permalink: /cenik
                     <div class="${C.fieldLabel}">Varianta</div>
                     <p class="${C.fieldHint}">Vyberte jednu možnost.</p>
                     <div class="space-y-2.5">
-                        ${opt({ title: 'Základní', desc: 'jednoduché natáčení a střih', price: 'od 2 000 Kč', active: state.reel.variant === 'zakladni', cls: 'js-reel-var', attrs: 'data-var="zakladni"' })}
-                        ${opt({ title: 'Pokročilé', desc: 'složitější záběry, natáčení, střih a postprodukce · obsahuje možné AI záběry', price: 'od 3 000 Kč', active: state.reel.variant === 'pokrocile', cls: 'js-reel-var', attrs: 'data-var="pokrocile"' })}
+                        ${opt({ title: 'Základní', desc: 'jednoduché natáčení a střih', price: 'od ' + kc(P.reel.zakladni_1ks), active: state.reel.variant === 'zakladni', cls: 'js-reel-var', attrs: 'data-var="zakladni"' })}
+                        ${opt({ title: 'Pokročilé', desc: 'složitější záběry, natáčení, střih a postprodukce · obsahuje možné AI záběry', price: 'od ' + kc(P.reel.pokrocile_1ks), active: state.reel.variant === 'pokrocile', cls: 'js-reel-var', attrs: 'data-var="pokrocile"' })}
                     </div>
 
                     <div class="${C.subhead}">Počet reelů</div>
@@ -742,13 +762,13 @@ permalink: /cenik
                     <span class="${C.stepTag}">Krok 2 · Studiové video</span>
                     <div class="${C.fieldLabel}">Počet videí</div>
                     <div class="mt-3">${counterHTML('studio')}</div>
-                    <p class="${C.note}">1 ks = od 4 000 Kč · 2 ks = 3 750 Kč/ks · 3–9 ks = 3 500 Kč/ks · 10 a více ks = 3 250 Kč/ks.</p>
+                    <p class="${C.note}">1 ks = od ${kc(P.studio.za_1ks)} · 2 ks = ${kc(P.studio.za_2ks)}/ks · 3–9 ks = ${kc(P.studio.za_3_9ks)}/ks · 10 a více ks = ${kc(P.studio.za_10ks_a_vic)}/ks.</p>
 
                     ${musicHTML('studio')}
 
                     <div class="${C.subhead}">AI záběry</div>
-                    ${opt({ title: 'AI záběry', price: '+500 Kč za každé video', checkbox: true, active: state.studio.footage, cls: 'js-studio-footage' })}
-                    <p class="${C.note}">Od 10 videí 400 Kč za každé video.</p>
+                    ${opt({ title: 'AI záběry', price: '+' + kc(P.studio.ai_zabery) + ' za každé video', checkbox: true, active: state.studio.footage, cls: 'js-studio-footage' })}
+                    <p class="${C.note}">Od 10 videí ${kc(P.studio.ai_zabery_od_10ks)} za každé video.</p>
 
                     ${infoboxHTML('Vhodné pro edukační videa a content, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje <b class="text-fg font-semibold">techniku navíc a důkladnější přípravu</b>.')}
 
@@ -761,7 +781,7 @@ permalink: /cenik
             else if (t === 'wedding') {
                 html = `<div class="${C.panel}">
                     <span class="${C.stepTag}">Krok 2 · Svatební video</span>
-                    <div class="${C.fieldLabel}">Pevná cena 12 000 Kč</div>
+                    <div class="${C.fieldLabel}">Pevná cena ${kc(P.svatba)}</div>
                     <p class="${C.fieldHint}">Celý den natáčení, postprodukce a dronové záběry v ceně.</p>
                     ${dopravaHTML('wedding')}
                     ${expressHTML('wedding')}
@@ -941,10 +961,10 @@ permalink: /cenik
                 rows += `<div class="${rowCls}"><span class="text-muted">Doprava</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.doprava)}</span></div>`;
             }
             if (calc.cityFee > 0) {
-                rows += `<div class="${rowCls}"><span class="text-muted">Velké město (Praha / Brno) · +10 %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.cityFee)}</span></div>`;
+                rows += `<div class="${rowCls}"><span class="text-muted">Velké město (Praha / Brno) · +${P.priplatky.velke_mesto} %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.cityFee)}</span></div>`;
             }
             if (calc.express > 0) {
-                rows += `<div class="${rowCls}"><span class="text-muted">Expresní dodání · +20 %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.express)}</span></div>`;
+                rows += `<div class="${rowCls}"><span class="text-muted">Expresní dodání · +${P.priplatky.expresni_dodani} %</span><span class="text-fg font-semibold whitespace-nowrap">${kc(calc.express)}</span></div>`;
             }
             if (calc.discountAmount > 0) {
                 rows += `<div class="${rowCls}"><span class="text-emerald-500">${calc.discountLabel}</span><span class="text-emerald-500 font-semibold whitespace-nowrap">−${kc(calc.discountAmount)}</span></div>`;
@@ -961,23 +981,41 @@ permalink: /cenik
         /* ============================================================
            Předvyplnění z dlaždic
            ============================================================ */
+        /* Balíček z dlaždice = stejné složení, které si výše sečetl
+           i Liquid (_includes/balicek-cena.html) — viz balicky v cenik.yml. */
         function applyPreset(name) {
-            if (name === 'reels3') {
-                state.reel = { variant: 'zakladni', count: 3, music: false, musicScope: 'each', express: false, km: '', trutnov: false, liberec: false };
+            const b = P.balicky[name];
+            if (!b) return;
+
+            if (b.typ === 'reality') {
+                state.reality = Object.assign(freshReality(), {
+                    property: b.dispozice,
+                    reelAddon: b.reel || 'none',
+                    ai: !!b.ai
+                });
+                selectType('reality');
+            }
+            else if (b.typ === 'reel') {
+                state.reel = Object.assign(freshReel(), {
+                    variant: b.varianta,
+                    count: b.pocet || 1,
+                    music: !!b.hudba
+                });
                 selectType('reel');
             }
-            else if (name === 'reality2kk') {
-                state.reality = { property: '1kk', reelAddon: 'fromVideo', ai: false, bigCity: false, express: false, km: '', trutnov: false, liberec: false };
-                selectType('reality');
+            else if (b.typ === 'studio') {
+                state.studio = Object.assign(freshStudio(), {
+                    count: b.pocet || 1,
+                    music: !!b.hudba,
+                    footage: !!b.ai
+                });
+                selectType('studio');
             }
-            else if (name === 'realityFeatured') {
-                state.reality = { property: '2kk', reelAddon: 'newFootage', ai: true, bigCity: false, express: false, km: '', trutnov: false, liberec: false };
-                selectType('reality');
-            }
-            else if (name === 'wedding') {
-                state.wedding = { express: false, km: '', trutnov: false, liberec: false };
+            else if (b.typ === 'svatba') {
+                state.wedding = freshWedding();
                 selectType('wedding');
             }
+
             document.getElementById('kalkulacka').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 

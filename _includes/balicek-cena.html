@@ -1,0 +1,45 @@
+{%- comment -%}
+Sečte a vypíše cenu balíčku z jeho SLOŽENÍ v _data/cenik.yml.
+
+    {% include balicek-cena.html balicek=site.data.cenik.balicky.sada_3_reels %}
+
+Stejné složení čte i kalkulačka (funkce applyPreset v pages/cenik.html),
+takže dlaždice a kalkulačka nemohou ukázat rozdílnou částku.
+{%- endcomment -%}
+{%- assign ceny = site.data.cenik -%}
+{%- assign b = include.balicek -%}
+{%- assign pocet = b.pocet | default: 1 -%}
+{%- assign soucet = 0 -%}
+
+{%- if b.typ == 'reality' -%}
+    {%- assign soucet = ceny.reality[b.dispozice] -%}
+    {%- if b.reel %}{% assign soucet = soucet | plus: ceny.reality[b.reel] %}{% endif -%}
+    {%- if b.ai %}{% assign soucet = soucet | plus: ceny.reality.ai_zabery %}{% endif -%}
+
+{%- elsif b.typ == 'reel' -%}
+    {%- if pocet >= 3 %}{% assign pasmo = '_3ks_a_vic' %}
+    {%- elsif pocet == 2 %}{% assign pasmo = '_2ks' %}
+    {%- else %}{% assign pasmo = '_1ks' %}{% endif -%}
+    {%- assign klic = b.varianta | append: pasmo -%}
+    {%- assign zaKus = ceny.reel[klic] -%}
+    {%- if b.hudba %}{% assign zaKus = zaKus | plus: ceny.hudba.za_video %}{% endif -%}
+    {%- assign soucet = zaKus | times: pocet -%}
+
+{%- elsif b.typ == 'studio' -%}
+    {%- if pocet >= 10 %}{% assign klic = 'za_10ks_a_vic' %}
+    {%- elsif pocet >= 3 %}{% assign klic = 'za_3_9ks' %}
+    {%- elsif pocet == 2 %}{% assign klic = 'za_2ks' %}
+    {%- else %}{% assign klic = 'za_1ks' %}{% endif -%}
+    {%- assign zaKus = ceny.studio[klic] -%}
+    {%- if b.hudba %}{% assign zaKus = zaKus | plus: ceny.hudba.za_video %}{% endif -%}
+    {%- if b.ai -%}
+        {%- if pocet >= 10 %}{% assign zaKus = zaKus | plus: ceny.studio.ai_zabery_od_10ks %}
+        {%- else %}{% assign zaKus = zaKus | plus: ceny.studio.ai_zabery %}{% endif -%}
+    {%- endif -%}
+    {%- assign soucet = zaKus | times: pocet -%}
+
+{%- elsif b.typ == 'svatba' -%}
+    {%- assign soucet = ceny.svatba -%}
+{%- endif -%}
+
+{%- include cena.html castka=soucet -%}

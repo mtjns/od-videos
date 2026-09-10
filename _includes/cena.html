@@ -1,0 +1,16 @@
+{%- comment -%}
+Naformátuje částku v Kč po česku: include cena.html castka=4500 → 4 500 Kč
+Volitelně include cena.html castka=4500 mena=false vypíše jen číslo.
+Funguje pro částky do 999 999 Kč.
+{%- endcomment -%}
+{%- assign c = include.castka | round -%}
+{%- if c >= 1000 -%}
+  {%- assign tis = c | divided_by: 1000 -%}
+  {%- assign zbytek = c | modulo: 1000 -%}
+  {%- assign zbytek_pad = zbytek | prepend: '00' -%}
+  {%- assign zbytek_pad = zbytek_pad | slice: -3, 3 -%}
+  {{- tis }} {{ zbytek_pad -}}
+{%- else -%}
+  {{- c -}}
+{%- endif -%}
+{%- unless include.mena == false %} Kč{% endunless -%}

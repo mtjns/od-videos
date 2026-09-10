@@ -1,0 +1,130 @@
+# ---------------------------------------------------------------------------
+# CENY pro stránku /cenik
+#
+# V tomto souboru se mění POUZE čísla. Všechny texty (nadpisy, popisky,
+# odrážky balíčků, vysvětlivky) jsou napsané přímo v pages/cenik.html.
+#
+#   • částky jsou v Kč, celá čísla bez mezer:   4500   (ne "4 500 Kč")
+#   • procenta jako celé číslo:                 20     (= +20 %)
+#
+# Věty, které cenu zmiňují ("2 ks = 3 750 Kč/ks", "Od 10 videí 400 Kč…"),
+# si stránka skládá sama z čísel níže — nikde je nepřepisujte ručně.
+# ---------------------------------------------------------------------------
+
+
+# === Balíčky = dlaždice nad kalkulačkou ====================================
+# Tady se NEZADÁVÁ cena. Popisuje se jen to, CO balíček obsahuje — částku na
+# dlaždici si stránka sečte sama z cen níže a kliknutí na dlaždici předvyplní
+# kalkulačku úplně stejnou zakázkou. Ceny proto nikdy nemohou být rozdílné.
+#
+#   typ: reality   → dispozice: (byt_1kk … rodinny_dum)
+#                    reel:      (reel_ze_zaberu | reel_nove_zabery)  volitelné
+#                    ai:        true                                 volitelné
+#   typ: reel      → varianta:  (zakladni | pokrocile)
+#                    pocet:     kolik reelů
+#                    hudba:     true                                 volitelné
+#   typ: studio    → pocet:     kolik videí
+#                    ai:        true, hudba: true                    volitelné
+#   typ: svatba    → nic dalšího (pevná cena)
+balicky:
+  sada_3_reels:
+    typ: reel
+    varianta: zakladni
+    pocet: 3
+
+  videoprohlidka_reel:
+    typ: reality
+    dispozice: byt_1kk
+    reel: reel_ze_zaberu
+
+  svatebni_video:
+    typ: svatba
+
+  # Zvýrazněná dlaždice "Populární volba"
+  top_videoprohlidka_reel:
+    typ: reality
+    dispozice: byt_2kk
+    reel: reel_nove_zabery
+    ai: true
+
+
+# === Videoprohlídka nemovitosti ============================================
+reality:
+  # Základní cena podle dispozice
+  byt_1kk: 5000
+  byt_2kk: 6000
+  byt_3kk: 6750
+  byt_4kk: 7500
+  rodinny_dum: 7000          # zobrazuje se jako "od"
+
+  # Volitelné přídavky
+  reel_ze_zaberu: 1000
+  reel_nove_zabery: 2000     # zobrazuje se jako "od"
+  ai_zabery: 500             # zobrazuje se jako "od"
+
+
+# === Krátké video (Reel) — cena za JEDEN kus podle počtu ===================
+reel:
+  zakladni_1ks: 2000
+  zakladni_2ks: 1800
+  zakladni_3ks_a_vic: 1500
+
+  pokrocile_1ks: 3000
+  pokrocile_2ks: 2500
+  pokrocile_3ks_a_vic: 2000
+
+
+# === Studiové video — cena za JEDEN kus podle počtu ========================
+studio:
+  za_1ks: 4000
+  za_2ks: 3750
+  za_3_9ks: 3500
+  za_10ks_a_vic: 3250
+
+  ai_zabery: 500
+  ai_zabery_od_10ks: 400     # od 10 videí
+
+
+# === Svatební video (pevná cena) ===========================================
+svatba: 12000
+
+
+# === Licencovaná hudba (u reelů a studiových videí) ========================
+hudba:
+  za_video: 250
+  cely_projekt: 500          # jedna licence pro celý projekt (od 2 videí)
+
+
+# === Doprava ===============================================================
+doprava:
+  za_km: 10
+  trutnov: 200               # fixní cena za cestu
+  liberec: 150               # fixní cena za cestu
+
+
+# === Procentní příplatky ===================================================
+priplatky:
+  velke_mesto: 10            # Praha / Brno — % z ceny včetně dopravy
+  expresni_dodani: 20        # % ze základu + přídavků + dopravy + velkého města
+
+
+# === Slevové kódy ==========================================================
+#
+#   typ: procenta  → hodnota je sleva v %      (10  = −10 %)
+#   typ: castka    → hodnota je sleva v Kč     (750 = −750 Kč)
+#
+# POZOR: kódy se na stránce nikde nezobrazují, ale jsou součástí veřejného
+# zdrojového kódu webu — kdokoli si je v něm může najít.
+slevove_kody:
+  - kod: "ODfriend"
+    typ: procenta
+    hodnota: 10
+  - kod: "ODstart"
+    typ: procenta
+    hodnota: 50
+  - kod: "ODmodify"
+    typ: procenta
+    hodnota: 15
+  - kod: "ODhavic"
+    typ: castka
+    hodnota: 750
