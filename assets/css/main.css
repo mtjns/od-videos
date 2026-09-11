@@ -92,6 +92,19 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
+    /* head.html sets viewport-fit=cover, so the page spans the whole screen and
+       has to keep clear of the notch and rounded corners itself. This insets
+       everything in normal flow; each section's own padding adds on top. Both
+       values are 0 on hardware without cutouts, so nothing else changes. */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+/* Fixed elements are positioned against the viewport, not the body, so the
+   padding above misses them — they each clear the cutouts themselves. */
+.safe-x {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 /* Animations */

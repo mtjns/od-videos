@@ -142,7 +142,7 @@ hide_footer_mobile: true
             <!-- nav — fixed bottom bar on phones so the primary action is always thumb-reachable
                  and stays above the keyboard; reverts to inline on md+ -->
             <div
-                class="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-between gap-4 px-4 py-3 bg-base/95 backdrop-blur border-t border-line/10 md:static md:mt-10 md:px-0 md:py-0 md:bg-transparent md:border-0 md:backdrop-blur-none">
+                class="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-between gap-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-base/95 backdrop-blur border-t border-line/10 md:static md:mt-10 md:px-0 md:py-0 md:bg-transparent md:border-0 md:backdrop-blur-none">
                 <button id="btn-back" type="button"
                     class="inline-flex items-center gap-2 text-muted hover:text-fg transition-colors font-medium">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>

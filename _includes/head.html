@@ -1,6 +1,9 @@
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- viewport-fit=cover + the safe-area padding in main.css: on notched iPhones
+         (landscape especially) the page keeps its own gutters instead of running
+         under the notch and rounded corners. env() is 0 everywhere else. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
     <link rel="icon" type="image/png" href="{{ '/assets/images/logo/favicon.png' | relative_url }}">
     <link rel="apple-touch-icon" href="{{ '/assets/images/logo/favicon.png' | relative_url }}">
