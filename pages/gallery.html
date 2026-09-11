@@ -283,6 +283,11 @@ Videa nejsou v repozitáři – jsou na Vimeu a v _data/galerie.yml je u každé
 jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehrávače.
 {%- endcomment -%}
 {%- assign sekce_vse = site.data.galerie -%}
+{%- comment -%}
+Projekty se do filtru dostanou stejně jako kategorie, proto se seznam připravuje
+už tady – vykresluje se až níž pod sekcemi.
+{%- endcomment -%}
+{%- assign projekty_vse = site.data.projekty | where_exp: "p", "p.nadpis" -%}
 
 <div class="bg-base min-h-screen pt-8 md:pt-12 pb-24 px-4 md:px-8">
     <div class="max-w-7xl mx-auto">
@@ -312,6 +317,11 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 class="galerie-filtr-tab text-base font-medium tracking-tight"
                 data-kategorie="kategorie-{{ forloop.index }}" aria-pressed="false">{{ sekce.nadpis }}</button>
             {%- endfor %}
+            {%- for projekt in projekty_vse %}
+            <button type="button"
+                class="galerie-filtr-tab text-base font-medium tracking-tight"
+                data-kategorie="projekt-{{ forloop.index }}" aria-pressed="false">{{ projekt.nadpis }}</button>
+            {%- endfor %}
         </div>
 
         <!-- Rozbalovačka (mobil): zavřená jen text + šipka -->
@@ -336,6 +346,11 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 <button type="button" role="menuitemradio" aria-checked="false"
                     class="galerie-filtr-polozka block w-full text-left px-5 py-2.5 text-sm text-fg hover:text-brand hover:bg-line/5 transition-colors duration-150 focus-visible:outline-none focus-visible:text-brand focus-visible:bg-line/5"
                     data-kategorie="kategorie-{{ forloop.index }}">{{ sekce.nadpis }}</button>
+                {%- endfor %}
+                {%- for projekt in projekty_vse %}
+                <button type="button" role="menuitemradio" aria-checked="false"
+                    class="galerie-filtr-polozka block w-full text-left px-5 py-2.5 text-sm text-fg hover:text-brand hover:bg-line/5 transition-colors duration-150 focus-visible:outline-none focus-visible:text-brand focus-visible:bg-line/5"
+                    data-kategorie="projekt-{{ forloop.index }}">{{ projekt.nadpis }}</button>
                 {%- endfor %}
             </div>
         </div>
@@ -415,14 +430,14 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         v CSS nahoře a skript dole.
         Položky bez nadpisu (prázdná kostra v YAML) se přeskočí.
         {%- endcomment -%}
-        {%- assign projekty_vse = site.data.projekty | where_exp: "p", "p.nadpis" %}
         {%- if projekty_vse and projekty_vse != empty %}
         <section id="projekty" class="galerie-projekty scroll-mt-24">
             {%- for projekt in projekty_vse %}
             {%- assign index_projektu = forloop.index %}
             {%- assign videa = projekt.vimeo | compact %}
             {%- assign pocet = videa | size %}
-            <article class="galerie-projekt mb-16 md:mb-24 last:mb-0">
+            <article id="projekt-{{ index_projektu }}" data-kategorie="projekt-{{ index_projektu }}"
+                class="galerie-projekt mb-16 md:mb-24 last:mb-0 scroll-mt-24">
                 <!-- Nadpis má stejnou podobu jako nadpisy kategorií výš na stránce. -->
                 <div
                     class="opacity-fade flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-6 md:mb-8 pb-4 border-b border-line/10">
@@ -540,9 +555,10 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         const polozky = nabidka ? [...nabidka.querySelectorAll('.galerie-filtr-polozka')] : [];
         const taby = [...document.querySelectorAll('.galerie-filtr-tab')];
         const sekce = document.querySelectorAll('.galerie-sekce');
-        // Projekty jsou samostatný blok pod kategoriemi – při zvolené kategorii
-        // se schová, ať filtr platí na celou stránku.
+        // Projekty jsou samostatný blok pod kategoriemi, ale ve filtru mají vlastní
+        // položky – blok se schová jen tehdy, když zvolená kategorie není projekt.
         const projekty = document.getElementById('projekty');
+        const projektyPolozky = [...document.querySelectorAll('.galerie-projekt')];
         if (!spoustec || !nabidka || !polozky.length || !sekce.length) return;
 
         // Taby i rozbalovačka ovládají totéž, takže se stav promítne do obojího –
@@ -551,7 +567,11 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             sekce.forEach(s => {
                 s.hidden = klic !== 'vse' && s.dataset.kategorie !== klic;
             });
-            if (projekty) projekty.hidden = klic !== 'vse';
+            const jeProjekt = klic.indexOf('projekt-') === 0;
+            projektyPolozky.forEach(p => {
+                p.hidden = jeProjekt && p.dataset.kategorie !== klic;
+            });
+            if (projekty) projekty.hidden = klic !== 'vse' && !jeProjekt;
             polozky.forEach(p => {
                 const vybrano = p.dataset.kategorie === klic;
                 p.setAttribute('aria-checked', String(vybrano));
