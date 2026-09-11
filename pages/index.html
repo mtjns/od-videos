@@ -260,22 +260,30 @@ permalink: /
 </section>
 
 <!-- Client logos -->
-<section class="bg-base py-20 md:py-28 px-4 md:px-8">
-    <div class="max-w-6xl mx-auto">
-        <p class="text-center text-muted text-xs font-semibold tracking-widest uppercase mb-10">
+<section class="bg-base py-20 md:py-28 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 md:px-8">
+        <p class="text-center text-muted text-xs font-semibold tracking-widest uppercase mb-16">
             Spolupracovali jsme s
         </p>
-        <div
-            class="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-10 md:gap-x-14 md:gap-y-14 items-center justify-items-center">
-            {% assign client_logos =
-            "ikka,modify-real-estate,pepperl-fuchs,tul,summit-submission,silvego,havic_liberecky_makler_jednobarevne,holka_co_maka_gold_vector,linserka"
-            | split: ","
-            %}
-            {% for logo in client_logos %}
-            {% assign logo_url = '/assets/images/clients/' | append: logo | append: '.svg' | relative_url %}
-            <span role="img" aria-label="{{ logo }}"
-                class="block w-5/6 h-9 md:h-10 bg-muted/70 hover:bg-brand transition-colors duration-300 {% if forloop.last %}col-span-2 md:col-span-2 md:col-start-2{% endif %}"
-                style="-webkit-mask: url('{{ logo_url }}') center / contain no-repeat; mask: url('{{ logo_url }}') center / contain no-repeat;"></span>
+    </div>
+    {% assign client_logos =
+    "ikka,modify-real-estate,pepperl-fuchs,tul,summit-submission,silvego,havic_liberecky_makler_jednobarevne,holka_co_maka_gold_vector,linserka"
+    | split: ","
+    %}
+    <!-- Continuously sliding logo marquee; duplicated track scrolls -50% for a
+         seamless loop and fades out at both edges, matching the highlights band. -->
+    <div class="relative"
+        style="-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);">
+        <div class="flex items-center w-max animate-marquee">
+            {% for group in (1..2) %}
+            <div class="flex items-center shrink-0" {% if group==2 %} aria-hidden="true" {% endif %}>
+                {% for logo in client_logos %}
+                {% assign logo_url = '/assets/images/clients/' | append: logo | append: '.svg' | relative_url %}
+                <span role="img" aria-label="{{ logo }}"
+                    class="block shrink-0 mx-8 md:mx-12 w-40 md:w-52 h-12 md:h-14 bg-muted/70 hover:bg-brand transition-colors duration-300"
+                    style="-webkit-mask: url('{{ logo_url }}') center / contain no-repeat; mask: url('{{ logo_url }}') center / contain no-repeat;"></span>
+                {% endfor %}
+            </div>
             {% endfor %}
         </div>
     </div>
