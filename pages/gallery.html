@@ -30,6 +30,35 @@ permalink: /galerie
         z-index: 30;
     }
 
+    /* Taby (desktop): jen text, aktivní se podtrhne značkovou linkou. */
+    .galerie-filtr-tab {
+        position: relative;
+        padding-bottom: 0.4rem;
+        color: hsl(var(--muted));
+        transition: color 0.2s ease;
+    }
+
+    .galerie-filtr-tab:hover,
+    .galerie-filtr-tab:focus-visible {
+        color: hsl(var(--brand));
+        outline: none;
+    }
+
+    .galerie-filtr-tab[aria-pressed="true"] {
+        color: hsl(var(--fg));
+    }
+
+    .galerie-filtr-tab[aria-pressed="true"]::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        border-radius: 999px;
+        background-color: hsl(var(--brand));
+    }
+
     /* Vybraná položka v nabídce. */
     .galerie-filtr-polozka[aria-checked="true"] {
         color: hsl(var(--brand));
@@ -123,8 +152,23 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         </div>
 
         {%- if sekce_vse and sekce_vse != empty %}
-        <!-- Filtr kategorií: rozbalovačka, zavřená jen text + šipka -->
-        <div class="galerie-filtr-obal opacity-fade relative inline-block mb-12 md:mb-16">
+        <!-- Filtr kategorií. Na desktopu taby vedle sebe, na mobilu se na ně
+             nevejde místo, takže je nahradí rozbalovačka níž. Obojí je v DOM,
+             přepíná se přes display – schovaná varianta tak vypadne i z tabování. -->
+        <div class="galerie-filtr-taby opacity-fade hidden md:flex flex-wrap items-center gap-6 lg:gap-8 mb-12 md:mb-16"
+            role="group" aria-label="Filtr kategorií">
+            <button type="button"
+                class="galerie-filtr-tab text-base font-medium tracking-tight"
+                data-kategorie="vse" aria-pressed="true">Vše</button>
+            {%- for sekce in sekce_vse %}
+            <button type="button"
+                class="galerie-filtr-tab text-base font-medium tracking-tight"
+                data-kategorie="kategorie-{{ forloop.index }}" aria-pressed="false">{{ sekce.nadpis }}</button>
+            {%- endfor %}
+        </div>
+
+        <!-- Rozbalovačka (mobil): zavřená jen text + šipka -->
+        <div class="galerie-filtr-obal opacity-fade relative inline-block md:hidden mb-12">
             <button type="button" id="galerie-filtr-spoustec"
                 class="galerie-filtr-spoustec inline-flex items-center gap-2 text-fg text-lg md:text-xl font-medium tracking-tight hover:text-brand transition-colors duration-200 focus-visible:outline-none focus-visible:text-brand"
                 aria-haspopup="true" aria-expanded="false" aria-controls="galerie-filtr-nabidka">
@@ -202,9 +246,12 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         const nabidka = document.getElementById('galerie-filtr-nabidka');
         const popisek = document.getElementById('galerie-filtr-popisek');
         const polozky = nabidka ? [...nabidka.querySelectorAll('.galerie-filtr-polozka')] : [];
+        const taby = [...document.querySelectorAll('.galerie-filtr-tab')];
         const sekce = document.querySelectorAll('.galerie-sekce');
         if (!spoustec || !nabidka || !polozky.length || !sekce.length) return;
 
+        // Taby i rozbalovačka ovládají totéž, takže se stav promítne do obojího –
+        // po změně velikosti okna pak druhá varianta ukazuje správnou kategorii.
         function filtruj(klic) {
             sekce.forEach(s => {
                 s.hidden = klic !== 'vse' && s.dataset.kategorie !== klic;
@@ -214,7 +261,14 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 p.setAttribute('aria-checked', String(vybrano));
                 if (vybrano) popisek.textContent = p.textContent.trim();
             });
+            taby.forEach(t => {
+                t.setAttribute('aria-pressed', String(t.dataset.kategorie === klic));
+            });
         }
+
+        taby.forEach(t => {
+            t.addEventListener('click', () => filtruj(t.dataset.kategorie));
+        });
 
         function otevri() {
             nabidka.hidden = false;
