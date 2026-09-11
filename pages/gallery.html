@@ -171,6 +171,63 @@ permalink: /galerie
         }
     }
 
+
+    /* Karusel projektů: coverflow jako recenze na úvodní stránce (.review-track
+       v assets/css/main.css). Aktivní video je vepředu, sousední zmenšená,
+       otočená a ztlumená, takže působí vzdáleněji; pozice počítá skript dole.
+
+       Proti recenzním kartám je tu jeden rozdíl: snímky nemají pevnou šířku.
+       Drží výšku dráhy a šířku dopočítají z poměru stran videa (--pomer doplní
+       skript z Vimea), takže svislý reel je úzký a vysoký a 16/9 široké. Výšku
+       dráhy volí skript tak, aby se i to nejširší video vešlo do sloupce. */
+    .projekt-draha {
+        position: relative;
+        height: var(--vyska-drahy, 20rem);
+        perspective: 1400px;
+        overflow: hidden;
+        /* Svislé posouvání stránky nechává prohlížeči, vodorovné gesto bere karusel. */
+        touch-action: pan-y;
+    }
+
+    /* Dráha je ve fokusu ovladatelná šipkami, takže musí být fokus vidět. */
+    .projekt-draha:focus-visible {
+        outline: 2px solid hsl(var(--brand));
+        outline-offset: 4px;
+    }
+
+    .projekt-snimek {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 100%;
+        aspect-ratio: var(--pomer, 1.7778);
+        /* Než skript spočítá pozice, drží snímky uprostřed. */
+        transform: translateX(-50%);
+        transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.55s ease,
+            border-color 0.3s ease;
+        will-change: transform, opacity;
+    }
+
+    /* Snímky po stranách jsou jen kulisa: neklikatelné, aby gesto prošlo na
+       dráhu, a jejich iframe je mimo tabování (nastaví skript). */
+    .projekt-snimek:not(.je-aktivni) {
+        pointer-events: none;
+    }
+
+    .projekt-snimek.je-aktivni {
+        border-color: hsl(var(--brand) / 0.4);
+    }
+
+    .projekt-tecka.je-aktivni {
+        width: 1.5rem;
+        background-color: hsl(var(--brand));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .projekt-snimek {
+            transition: none;
+        }
+    }
 </style>
 
 {%- comment -%}
@@ -297,6 +354,123 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         <p class="text-muted text-lg">Galerie se připravuje.</p>
         {%- endif %}
 
+        {%- comment -%}
+        Projekty = konkrétní zakázky z _data/projekty.yml. Každý projekt má vlastní
+        karusel (na desktopu vlevo) a text (vpravo). V DOM je text první, takže na
+        mobilu je nad karuselem; na desktopu ho `order` přehodí doprava.
+        Karusel je coverflow jako recenze na úvodní stránce – viz .projekt-draha
+        v CSS nahoře a skript dole.
+        Položky bez nadpisu (prázdná kostra v YAML) se přeskočí.
+        {%- endcomment -%}
+        {%- assign projekty_vse = site.data.projekty | where_exp: "p", "p.nadpis" %}
+        {%- if projekty_vse and projekty_vse != empty %}
+        <section id="projekty" class="galerie-projekty scroll-mt-24">
+            {%- for projekt in projekty_vse %}
+            {%- assign index_projektu = forloop.index %}
+            {%- assign videa = projekt.vimeo | compact %}
+            {%- assign pocet = videa | size %}
+            <article class="galerie-projekt mb-16 md:mb-24 last:mb-0">
+                <!-- Nadpis má stejnou podobu jako nadpisy kategorií výš na stránce. -->
+                <div
+                    class="opacity-fade flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-6 md:mb-8 pb-4 border-b border-line/10">
+                    <h2 class="text-fg text-2xl md:text-3xl font-bold tracking-tight">{{ projekt.nadpis }}</h2>
+                </div>
+
+                <div class="grid items-center gap-8 md:gap-10 lg:grid-cols-12 lg:gap-12">
+                    <div class="opacity-fade min-w-0 lg:col-span-4 lg:order-2">
+                        <!-- Ozdobná linka nad textem, stejná jako u nadpisů sekcí. -->
+                        <div class="w-12 h-1 bg-brand rounded-full mb-5" aria-hidden="true"></div>
+                        {%- if projekt.podnadpis %}
+                        <p class="text-brand text-sm md:text-base font-semibold tracking-wide">{{ projekt.podnadpis }}</p>
+                        {%- endif %}
+                        {%- if projekt.popis %}
+                        <p class="text-muted text-base leading-relaxed mt-4">{{ projekt.popis }}</p>
+                        {%- endif %}
+                    </div>
+
+                    <div class="min-w-0 lg:col-span-8 lg:order-1">
+                        {%- if pocet > 0 %}
+                        <div class="projekt-karusel opacity-fade">
+                            <div class="relative">
+                                <div class="projekt-draha" id="projekt-draha-{{ index_projektu }}" tabindex="0"
+                                    role="group" aria-roledescription="karusel"
+                                    aria-label="{{ projekt.nadpis }} – ukázky">
+                                    {%- for id in videa %}
+                                    {%- assign casti = id | split: "/" %}
+                                    {%- assign vimeo_id = casti[0] %}
+                                    {%- assign vimeo_hash = casti[1] %}
+                                    <figure
+                                        class="projekt-snimek overflow-hidden rounded-2xl border border-line/10 bg-surface">
+                                        <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=1&title=0&byline=0&portrait=0&dnt=1"
+                                            class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
+                                            allow="fullscreen; picture-in-picture" allowfullscreen
+                                            title="{{ projekt.nadpis }} – video {{ forloop.index }}"></iframe>
+                                    </figure>
+                                    {%- endfor %}
+                                </div>
+
+                                <!-- Šipky po stranách jen od sm výš, kde je pro ně vedle videa místo;
+                                     na mobilu jsou v řádku s tečkami. -->
+                                <button type="button" aria-label="Předchozí video"
+                                    class="projekt-zpet hidden sm:flex absolute z-40 top-1/2 -translate-y-1/2 left-0 md:-left-2 w-12 h-12 rounded-full border border-line/20 bg-base/80 backdrop-blur-sm items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                <button type="button" aria-label="Další video"
+                                    class="projekt-vpred hidden sm:flex absolute z-40 top-1/2 -translate-y-1/2 right-0 md:-right-2 w-12 h-12 rounded-full border border-line/20 bg-base/80 backdrop-blur-sm items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-5 mt-6 md:mt-8">
+                                <button type="button" aria-label="Předchozí video"
+                                    class="projekt-zpet sm:hidden w-11 h-11 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+
+                                <div class="flex flex-wrap items-center justify-center gap-2">
+                                    {%- for id in videa %}
+                                    <button type="button"
+                                        class="projekt-tecka h-2 w-2 rounded-full bg-line/20 hover:bg-brand/60 transition-all duration-300"
+                                        data-index="{{ forloop.index0 }}"
+                                        aria-label="{{ projekt.nadpis }} – video {{ forloop.index }}"></button>
+                                    {%- endfor %}
+                                </div>
+
+                                <button type="button" aria-label="Další video"
+                                    class="projekt-vpred sm:hidden w-11 h-11 rounded-full border border-line/20 flex items-center justify-center text-fg hover:text-brand hover:border-brand/50 transition-colors shrink-0">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        {%- else %}
+                        <div
+                            class="opacity-fade rounded-xl border border-dashed border-line/20 bg-line/5 px-6 py-12 text-center">
+                            <p class="text-muted text-base">Připravujeme – ukázky z tohoto projektu brzy doplníme.</p>
+                        </div>
+                        {%- endif %}
+                    </div>
+                </div>
+            </article>
+            {%- endfor %}
+        </section>
+        {%- endif %}
+
     </div>
 </div>
 
@@ -308,6 +482,9 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         const polozky = nabidka ? [...nabidka.querySelectorAll('.galerie-filtr-polozka')] : [];
         const taby = [...document.querySelectorAll('.galerie-filtr-tab')];
         const sekce = document.querySelectorAll('.galerie-sekce');
+        // Projekty jsou samostatný blok pod kategoriemi – při zvolené kategorii
+        // se schová, ať filtr platí na celou stránku.
+        const projekty = document.getElementById('projekty');
         if (!spoustec || !nabidka || !polozky.length || !sekce.length) return;
 
         // Taby i rozbalovačka ovládají totéž, takže se stav promítne do obojího –
@@ -316,6 +493,7 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             sekce.forEach(s => {
                 s.hidden = klic !== 'vse' && s.dataset.kategorie !== klic;
             });
+            if (projekty) projekty.hidden = klic !== 'vse';
             polozky.forEach(p => {
                 const vybrano = p.dataset.kategorie === klic;
                 p.setAttribute('aria-checked', String(vybrano));
@@ -397,7 +575,7 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
     // Skutečný poměr stran videa z Vimea (oEmbed, bez API klíče). Dokud se
     // nenačte, drží dlaždice výchozích 16/9 z CSS; když dotaz selže, zůstane.
     (function () {
-        document.querySelectorAll('.galerie-video').forEach(dlazdice => {
+        document.querySelectorAll('.galerie-video, .projekt-snimek').forEach(dlazdice => {
             const iframe = dlazdice.querySelector('iframe');
             if (!iframe) return;
 
@@ -496,5 +674,152 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             casovac = setTimeout(vse, 150);
         });
         window.addEventListener('galerie:prepocitat', vse);
+    })();
+
+    // Karusel projektů: coverflow prstenec podle recenzí na úvodní stránce
+    // (assets/js/main.js). Aktivní video vepředu, sousedi zmenšení a ztlumení,
+    // prstenec se zacyklí – v žádném směru není konec. Ovládá se šipkami,
+    // tečkami, tahem do strany a šipkami na klávesnici.
+    (function () {
+        const karusely = [...document.querySelectorAll('.projekt-karusel')];
+        if (!karusely.length) return;
+
+        const siroko = window.matchMedia('(min-width: 768px)');
+        const prepocty = [];
+
+        karusely.forEach(karusel => {
+            const draha = karusel.querySelector('.projekt-draha');
+            const snimky = [...karusel.querySelectorAll('.projekt-snimek')];
+            const tecky = [...karusel.querySelectorAll('.projekt-tecka')];
+            if (!draha || !snimky.length) return;
+
+            let aktivni = 0;
+
+            // Výšku dráhy určí nejširší video: to se musí vejít do sloupce, ale
+            // tak, aby po stranách zbylo místo na sousedy. Strop drží svislé
+            // reely, aby nevytáhly sekci přes celou obrazovku.
+            function prepocitejVysku() {
+                const sirka = draha.clientWidth;
+                if (!sirka) return;
+                const pomery = snimky.map(s => parseFloat(s.style.getPropertyValue('--pomer')) || 16 / 9);
+                const nejsirsi = Math.max(...pomery);
+                const podil = siroko.matches ? 0.78 : 0.72;
+                const strop = Math.min(window.innerHeight * 0.62, 520);
+                draha.style.setProperty('--vyska-drahy', Math.round(Math.min(sirka * podil / nejsirsi, strop)) + 'px');
+            }
+
+            // Odsazení sousedů počítáme ze šířky dráhy, ne ze šířky snímku –
+            // snímky mají různou šířku podle poměru stran, takže procenta
+            // z vlastní šířky by u svislých videí sousedy schovala za aktivní.
+            function rozmisti() {
+                const n = snimky.length;
+                const sirka = draha.clientWidth || 1;
+                const blizko = sirka * (siroko.matches ? 0.27 : 0.29);
+                const daleko = sirka * (siroko.matches ? 0.45 : 0.48);
+
+                snimky.forEach((snimek, i) => {
+                    // Nejkratší cesta po prstenci, ať odstup zůstane v ±n/2.
+                    let d = i - aktivni;
+                    if (d > n / 2) d -= n;
+                    if (d < -n / 2) d += n;
+
+                    const krok = Math.abs(d);
+                    const smer = Math.sign(d);
+                    let x = 0, zvetseni = 1, otoceni = 0, pruhlednost = 1, hloubka = 30;
+
+                    if (krok === 1) {
+                        x = smer * blizko; zvetseni = 0.86; otoceni = smer * -14; pruhlednost = 0.5; hloubka = 20;
+                    } else if (krok > 1) {
+                        // Vidět je jen přední snímek a dva sousedi; zbytek čeká
+                        // za scénou a vynoří se, jak se prstenec otáčí.
+                        x = smer * daleko; zvetseni = 0.74; otoceni = smer * -20; pruhlednost = 0; hloubka = 10;
+                    }
+
+                    snimek.style.transform =
+                        'translateX(calc(-50% + ' + Math.round(x) + 'px)) rotateY(' + otoceni + 'deg) scale(' + zvetseni + ')';
+                    snimek.style.opacity = pruhlednost;
+                    snimek.style.zIndex = hloubka;
+                    snimek.classList.toggle('je-aktivni', d === 0);
+
+                    // Co není vidět, nemá být ani ve čtečce a v tabování.
+                    snimek.setAttribute('aria-hidden', krok > 1 ? 'true' : 'false');
+                    const ramecek = snimek.querySelector('iframe');
+                    if (ramecek) ramecek.tabIndex = d === 0 ? 0 : -1;
+                });
+
+                tecky.forEach((t, i) => {
+                    t.classList.toggle('je-aktivni', i === aktivni);
+                    t.setAttribute('aria-current', i === aktivni ? 'true' : 'false');
+                });
+            }
+
+            // Video, které odjelo dozadu, by jinak hrálo dál – slyšitelně, i když
+            // ho není vidět. `autopause` Vimea řeší jen opačný případ (spuštění
+            // jiného videa), tohle je zpráva přehrávači přes postMessage.
+            function zastavOstatni() {
+                snimky.forEach((snimek, i) => {
+                    if (i === aktivni) return;
+                    const ramecek = snimek.querySelector('iframe');
+                    if (!ramecek || !ramecek.contentWindow) return;
+                    try {
+                        ramecek.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
+                    } catch (e) { /* přehrávač ještě neběží, nevadí */ }
+                });
+            }
+
+            function prepni(i) {
+                const n = snimky.length;
+                aktivni = ((i % n) + n) % n;
+                rozmisti();
+                zastavOstatni();
+            }
+
+            karusel.querySelectorAll('.projekt-zpet').forEach(b => b.addEventListener('click', () => prepni(aktivni - 1)));
+            karusel.querySelectorAll('.projekt-vpred').forEach(b => b.addEventListener('click', () => prepni(aktivni + 1)));
+            tecky.forEach((t, i) => t.addEventListener('click', () => prepni(i)));
+
+            draha.addEventListener('keydown', e => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); prepni(aktivni - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); prepni(aktivni + 1); }
+            });
+
+            // Tah do strany. `touch-action: pan-y` v CSS nechává svislé rolování
+            // prohlížeči, takže sem doputuje jen vodorovné gesto. Nad aktivním
+            // videem si gesto bere iframe přehrávače – od toho jsou šipky a tečky.
+            let zacatekX = null, zacatekY = null;
+            draha.addEventListener('pointerdown', e => {
+                zacatekX = e.clientX; zacatekY = e.clientY;
+            });
+            draha.addEventListener('pointerup', e => {
+                if (zacatekX === null) return;
+                const dx = e.clientX - zacatekX;
+                const dy = e.clientY - zacatekY;
+                zacatekX = null;
+                if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) prepni(aktivni + (dx < 0 ? 1 : -1));
+            });
+            draha.addEventListener('pointercancel', () => { zacatekX = null; });
+
+            // Přišel poměr stran z Vimea – přepočítat výšku dráhy i rozestupy.
+            draha.addEventListener('galerie:pomer', () => {
+                prepocitejVysku();
+                rozmisti();
+            });
+
+            prepocitejVysku();
+            rozmisti();
+            prepocty.push(() => { prepocitejVysku(); rozmisti(); });
+        });
+
+        const vse = () => prepocty.forEach(f => f());
+        siroko.addEventListener('change', vse);
+        // Skrytá sekce má nulovou šířku a nejde změřit – po odkrytí filtrem
+        // (a po změně velikosti okna) se musí rozměry spočítat znovu.
+        window.addEventListener('galerie:prepocitat', vse);
+
+        let casovac;
+        window.addEventListener('resize', () => {
+            clearTimeout(casovac);
+            casovac = setTimeout(vse, 150);
+        });
     })();
 </script>
