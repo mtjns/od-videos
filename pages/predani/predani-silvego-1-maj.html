@@ -1,0 +1,599 @@
+---
+# ────────────────── ZmĚNIT ─────────────────────────────
+permalink: /predani/modify      # Adresa této stránky (kam klient zadá odkaz)
+password: "1234"        # Heslo pro vstup (necháš prázdné "" = brána se vypne)
+
+# ────────────────── NEMĚNIT ────────────────────────────────────────
+layout: minimal
+title: "Předání projektu"  # Titulek stránky (zobrazuje se v záložce prohlížeče)
+noindex: true
+sitemap: false
+---
+
+{%- comment -%}
+Předání projektu klientovi. Vše ostatní (loga, projekty, videa) se nastavuje v
+objektu CONFIG ve skriptu na konci stránky. Heslo a adresa (permalink) žijí ve
+front matteru nahoře — pro nového klienta zkopíruj tento soubor, změň permalink,
+password a CONFIG. Stránka běží na šabloně `minimal` (hlavička s logem + přepínač
+motivu + patička), barvy dědí ze semantických tokenů v assets/css/main.css.
+{%- endcomment -%}
+
+<style>
+    /* ---------- Oddělený pruh s logy a záložkami ---------- */
+    .band {
+        background: hsl(var(--surface));
+        margin: 1.5rem calc(50% - 50vw) 3.5rem;
+        padding: 2.5rem calc(50vw - 50%) 2rem;
+        border-top: 1px solid hsl(var(--line) / 0.09);
+        border-bottom: 1px solid hsl(var(--line) / 0.09);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* jemná mřížka na pozadí (stejné parametry jako odvideos.cz) */
+    .predani::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(hsl(var(--line) / 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--line) / 0.07) 1px, transparent 1px);
+        background-size: 46px 46px;
+        -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+        mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+    }
+
+    /* Obsah je vycentrovaný do středu stránky. */
+    .predani {
+        position: relative;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0.5rem 1.5rem 5rem;
+        text-align: center;
+    }
+    @media (min-width: 768px) {
+        .predani { padding-left: 2rem; padding-right: 2rem; }
+    }
+
+    @keyframes predani-fade {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade { animation: predani-fade 0.6s ease-out both; position: relative; z-index: 1; }
+
+    /* ---------- Collaboration logos ---------- */
+    .collab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(1.5rem, 6vw, 4rem);
+        padding: 1rem 0 2.5rem;
+    }
+    .collab img { height: clamp(48px, 9vw, 78px); width: auto; object-fit: contain; }
+    .collab .cross { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 300; opacity: 0.35; line-height: 1; }
+    .collab .client-fallback { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; letter-spacing: 0.01em; }
+
+    /* Přepínání OD loga podle motivu (barevné = světlý, bílé = tmavý) */
+    .logo-dark { display: none; }
+    .dark .logo-dark { display: block; }
+    .dark .logo-light { display: none; }
+
+    /* Klientské logo (SVG s fill=currentColor) přebarvíme v tmavém režimu na bílé. */
+    .dark .collab .client-logo { filter: brightness(0) invert(1); }
+
+    /* ---------- Project tabs ---------- */
+    .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 2.25rem;
+        justify-content: center;
+        margin-bottom: 0.25rem;
+    }
+    .tab {
+        background: none;
+        border: 0;
+        padding: 0.35rem 0;
+        color: hsl(var(--muted));
+        font-family: inherit;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.2s ease;
+    }
+    .tab:hover { color: hsl(var(--brand)); }
+    .tab.active { color: hsl(var(--fg)); }
+    .tab.active::after {
+        content: '';
+        position: absolute;
+        left: 0; right: 0; bottom: -7px;
+        height: 2px;
+        background: hsl(var(--brand));
+        border-radius: 2px;
+    }
+
+    /* ---------- Project header ---------- */
+    .project-eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: hsl(var(--brand));
+        margin-bottom: 0.75rem;
+    }
+    .project-title {
+        font-size: clamp(2rem, 6vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.75rem;
+    }
+
+    /* ---------- Popis projektu (bez rámečku, prostý vycentrovaný text) ---------- */
+    .note {
+        color: hsl(var(--muted));
+        font-size: 1.08rem;
+        line-height: 1.75;
+        max-width: 60ch;
+        margin: 0 auto 3.5rem;
+    }
+    .note strong { color: hsl(var(--fg)); font-weight: 600; }
+
+    /* ---------- Video block ---------- */
+    .video-block { margin-bottom: 4rem; }
+    .video-heading {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+    .video-desc {
+        color: hsl(var(--muted));
+        font-size: 0.98rem;
+        line-height: 1.65;
+        max-width: 62ch;
+        margin: -0.3rem auto 1.1rem;
+    }
+    .video-heading .idx {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 1.6rem; height: 1.6rem;
+        background: hsl(var(--brand) / 0.15);
+        color: hsl(var(--brand));
+        border-radius: 50%;
+        font-size: 0.85rem; font-weight: 700;
+    }
+
+    .player {
+        position: relative;
+        width: 100%;
+        max-width: 880px;              /* landscape: čitelná velikost, vycentrováno */
+        margin-left: auto;
+        margin-right: auto;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 1px solid hsl(var(--line) / 0.10);
+        box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+    }
+    .player video { width: 100%; height: 100%; display: block; object-fit: contain; background: #000; }
+    .player iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .player.portrait { aspect-ratio: 9 / 16; max-width: 380px; }   /* na výšku, také vycentrováno */
+    .player .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+    .play-overlay {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.05));
+        transition: opacity 0.25s ease;
+    }
+    .play-overlay.hidden { opacity: 0; pointer-events: none; }
+    .play-btn {
+        width: 76px; height: 76px;
+        border-radius: 50%;
+        background: hsl(var(--brand));
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease;
+    }
+    .play-overlay:hover .play-btn { transform: scale(1.08); }
+    .play-btn svg { width: 46px; height: 46px; fill: hsl(var(--onbrand, 0 0% 8%)); }
+
+    /* ---------- Download row ---------- */
+    .download-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.25rem; }
+    .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: hsl(var(--brand));
+        color: hsl(0 0% 8%);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.85rem 1.5rem;
+        border-radius: 999px;
+        transition: transform 0.15s ease, filter 0.15s ease;
+        white-space: nowrap;
+    }
+    .btn-download:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .btn-download svg { width: 18px; height: 18px; }
+    .meta {
+        display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+        gap: 0.5rem 0.85rem;
+        color: hsl(var(--muted));
+        font-size: 0.85rem; font-weight: 500;
+    }
+    .meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .meta .dot { width: 4px; height: 4px; border-radius: 50%; background: hsl(var(--muted) / 0.6); }
+    /* Parametry videa jako prostý text (bez rámečků) */
+    .meta .tag { color: hsl(var(--fg)); font-weight: 600; }
+    /* Poznámka o dostupnosti — jednou na konci stránky, vycentrovaná */
+    .dl-note {
+        color: hsl(var(--muted));
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-align: center;
+        max-width: 52ch;
+        margin: 3rem auto 0;
+    }
+
+    /* ---------- Soukromá poznámka ---------- */
+    .foot {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid hsl(var(--line) / 0.1);
+        text-align: center;
+        color: hsl(var(--muted));
+        font-size: 0.9rem;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+        .predani { padding: 0.25rem 1.5rem 3.5rem; }
+    }
+
+    /* ---------- Heslová brána ---------- */
+    .gate {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: hsl(var(--bg));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        transition: opacity 0.4s ease;
+    }
+    .gate.unlocked { opacity: 0; pointer-events: none; }
+    .gate-card {
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        background: hsl(var(--surface));
+        border: 1px solid hsl(var(--line) / 0.1);
+        border-radius: 0.75rem;
+        padding: 2.75rem 2rem;
+        box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.5);
+    }
+    .gate-logo { height: 60px; width: auto; margin: 0 auto 1.5rem; }
+    .gate-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+    .gate-sub { color: hsl(var(--muted)); font-size: 0.95rem; margin-bottom: 1.75rem; }
+    .gate-input {
+        width: 100%;
+        padding: 0.9rem 1.1rem;
+        font-size: 1rem;
+        font-family: inherit;
+        color: hsl(var(--fg));
+        background: hsl(var(--bg));
+        border: 1px solid hsl(var(--line) / 0.2);
+        border-radius: 999px;
+        outline: none;
+        text-align: center;
+        transition: border-color 0.2s ease;
+    }
+    .gate-input:focus { border-color: hsl(var(--brand)); }
+    .gate-btn {
+        width: 100%;
+        margin-top: 0.85rem;
+        padding: 0.9rem 1.1rem;
+        font-size: 1rem;
+        font-weight: 700;
+        font-family: inherit;
+        color: hsl(0 0% 8%);
+        background: hsl(var(--brand));
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .gate-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .gate-error {
+        color: #e5484d;
+        font-size: 0.88rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        height: 1.1rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    .gate-error.show { opacity: 1; }
+    body.locked { overflow: hidden; }
+</style>
+
+<!-- Heslová brána -->
+<div class="gate" id="gate">
+    <div class="gate-card">
+        <img src="{{ '/assets/images/logo/logo-color.png' | relative_url }}" alt="OD Videos" class="gate-logo logo-light">
+        <img src="{{ '/assets/images/logo/logo-white.png' | relative_url }}" alt="OD Videos" class="gate-logo logo-dark">
+        <h2 class="gate-title">Tento projekt je chráněný heslem</h2>
+        <p class="gate-sub">Zadejte prosím heslo, které jste ode mě dostali.</p>
+        <form id="gateForm" autocomplete="off">
+            <input type="password" id="gateInput" class="gate-input" placeholder="Heslo" autofocus>
+            <button type="submit" class="gate-btn">Vstoupit</button>
+        </form>
+        <p class="gate-error" id="gateError">Nesprávné heslo, zkuste to prosím znovu.</p>
+    </div>
+</div>
+
+<div class="predani">
+
+    <!-- Oddělený pruh: loga + záložky projektů -->
+    <div class="band">
+        <div class="collab fade" id="collab"></div>
+        <div class="tabs" id="tabs"></div>
+    </div>
+
+    <!-- Active project content -->
+    <div id="content"></div>
+
+    <!-- Dostupnost videí -->
+    <p class="dl-note">Videa zde budou k dispozici a ke stažení po dobu 1 měsíce od poslední úpravy.</p>
+
+    <!-- Soukromá poznámka (kontakt je v patičce webu níže) -->
+    <div class="foot">
+        Toto předání je soukromé, určené pouze pro klienta.
+    </div>
+
+</div>
+
+<script>
+/* ============================================================
+   NASTAVENÍ — tady vše upravuješ. Zbytek se vygeneruje sám.
+   (Heslo a adresa stránky se nastavují ve front matteru nahoře.)
+   ============================================================ */
+const CONFIG = {
+
+    // Heslo pro vstup — přebírá se z front matteru (klíč `password`).
+    password: {{ page.password | jsonify }},
+
+    // Loga v hlavičce (spolupráce: OD × klient)
+    odLogo:      "{{ '/assets/images/logo/logo-white.png' | relative_url }}",   // tmavý režim
+    odLogoLight: "{{ '/assets/images/logo/logo-color.png' | relative_url }}",   // světlý režim
+    clientLogo:  "{{ '/assets/images/clients/silvego.svg' | relative_url }}",
+    clientName:  "Silvego",
+    clientFont:  "inherit",
+    clientColor: "#c2a04e",
+
+    projects: [
+        {
+            id: "1-maj",
+            name: "1. Máj",
+            title: "1. Máj",
+            note: `Video k <strong>1. máji</strong> je připravené. Níže si můžeš pustit náhled a následně
+                   stáhnout finální verzi v plné kvalitě.`,
+            videos: [
+                {
+                    title: "Video k 1. máji",
+                    vimeo:      "https://vimeo.com/1225640729?share=copy&fl=sv&fe=ci",
+                    downloadUrl:"https://vimeo.com/1225640729?share=copy&fl=sv&fe=ci",
+                    orientation: "portrait",
+                    poster:      "",
+                    resolution:  "",
+                    duration:    "",
+                    fps:         "",
+                    format:      "",
+                    size:        ""
+                }
+            ]
+        }
+    ]
+};
+
+/* ============================================================
+   Níže už nic měnit nemusíš.
+   ============================================================ */
+const iconPlay = '<svg viewBox="0 0 100 100"><path d="M40.5,22.5 Q30.9,17.0 30.9,28.0 L30.9,72.0 Q30.9,83.0 40.5,77.5 L78.6,55.5 Q88.1,50.0 78.6,44.5 Z"/></svg>';
+const iconDown = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>';
+
+let activeProject = 0;
+
+// Vytáhne YouTube ID z URL (youtu.be/, watch?v=, /shorts/, /embed/) nebo vrátí zadané ID.
+function ytId(input) {
+    if (!input) return '';
+    const m = input.match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : input.trim();
+}
+
+// Sestaví přímý odkaz na stažení z Google Disku (funguje i pro velké soubory).
+function driveDownload(id) {
+    return `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`;
+}
+
+// Vytáhne Vimeo ID (a případný privátní hash) z URL nebo vrátí zadané ID.
+function vimeoParse(input) {
+    if (!input) return null;
+    const m = input.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9A-Za-z]+))?/);
+    if (m) return { id: m[1], hash: m[2] || '' };
+    if (/^\d+$/.test(input.trim())) return { id: input.trim(), hash: '' };
+    return null;
+}
+
+function renderCollab() {
+    // OD logo se přepíná čistě v CSS (.logo-light / .logo-dark) podle motivu webu.
+    const client = CONFIG.clientLogo
+        ? `<img class="client-logo" src="${CONFIG.clientLogo}" alt="${CONFIG.clientName}">`
+        : `<div class="client-fallback" style="font-family:${CONFIG.clientFont || "inherit"};color:${CONFIG.clientColor || "inherit"};letter-spacing:0.01em;">${CONFIG.clientName}</div>`;
+    document.getElementById('collab').innerHTML =
+        `<img class="logo-light" src="${CONFIG.odLogoLight}" alt="OD Videos">` +
+        `<img class="logo-dark" src="${CONFIG.odLogo}" alt="OD Videos">` +
+        `<span class="cross">×</span>${client}`;
+}
+
+function renderTabs() {
+    const el = document.getElementById('tabs');
+    if (CONFIG.projects.length < 2) { el.innerHTML = ''; return; }
+    el.innerHTML = CONFIG.projects.map((p, i) =>
+        `<button class="tab ${i === activeProject ? 'active' : ''}" onclick="selectProject(${i})">${p.name}</button>`).join('');
+}
+
+function renderContent() {
+    const p = CONFIG.projects[activeProject];
+    const videos = p.videos.map((v, i) => {
+        const id = ytId(v.youtube);
+        const vim = vimeoParse(v.vimeo);
+        const portrait = v.orientation === 'portrait';
+        const posterSrc = v.poster || (id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : '');
+        const posterOnErr = (id && !v.poster) ? ` onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${id}/hqdefault.jpg'"` : '';
+        const posterHtml = posterSrc
+            ? `<img class="poster" src="${posterSrc}" alt="${v.title}"${posterOnErr}>`
+            : '';
+        const meta = [
+            v.duration   ? `<span class="tag">${v.duration}</span>` : '',
+            v.size       ? `<span class="tag">${v.size}</span>` : '',
+            v.resolution ? `<span class="tag">${v.resolution}</span>` : '',
+            v.fps        ? `<span class="tag">${v.fps}</span>` : '',
+            v.format     ? `<span class="tag">${v.format}</span>` : ''
+        ].filter(Boolean).join('<span class="dot"></span>');
+        const numbered = p.videos.length > 1 ? `<span class="idx">${i + 1}</span>` : '';
+        const dlUrl = v.downloadUrl ? v.downloadUrl
+                    : (v.driveId ? driveDownload(v.driveId)
+                    : (v.src ? v.src + (v.src.includes('?') ? '&' : '?') + 'download=true' : ''));
+        const dl = dlUrl
+            ? `<a class="btn-download" href="${dlUrl}" download>${iconDown} Stáhnout video</a>`
+            : `<a class="btn-download" href="#" onclick="return false" style="opacity:.5;cursor:not-allowed">${iconDown} Doplň odkaz na stažení</a>`;
+        const descHtml = v.desc ? `<p class="video-desc">${v.desc}</p>` : '';
+        return `
+        <div class="video-block fade">
+            <div class="video-heading">${numbered}${v.title}</div>
+            ${descHtml}
+            <div class="player${portrait ? ' portrait' : ''}" data-youtube="${id}" data-vimeo="${vim ? vim.id : ''}" data-vimeo-h="${vim ? vim.hash : ''}" data-src="${v.src || ''}">
+                ${posterHtml}
+                <div class="play-overlay" onclick="startPlay(this)">
+                    <div class="play-btn">${iconPlay}</div>
+                </div>
+            </div>
+            <div class="download-row">
+                ${dl}
+                <div class="meta">${meta}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    document.getElementById('content').innerHTML = `
+        <div class="fade">
+            <div class="project-eyebrow">Projekt</div>
+            <h1 class="project-title">${p.title || p.name}</h1>
+            <div class="note">${p.note}</div>
+        </div>
+        ${videos}`;
+}
+
+function startPlay(overlay) {
+    const player = overlay.closest('.player');
+    const yt = player.getAttribute('data-youtube');
+    const vim = player.getAttribute('data-vimeo');
+    const vimH = player.getAttribute('data-vimeo-h');
+    const src = player.getAttribute('data-src');
+    const poster = player.querySelector('.poster');
+
+    if (vim) {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://player.vimeo.com/video/${vim}?autoplay=1&title=0&byline=0&portrait=0&dnt=1` + (vimH ? `&h=${vimH}` : '');
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+        iframe.allowFullscreen = true;
+        if (poster) poster.remove();
+        player.insertBefore(iframe, overlay);
+        overlay.classList.add('hidden');
+        return;
+    }
+
+    if (yt) {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        iframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+        iframe.allowFullscreen = true;
+        if (poster) poster.remove();
+        player.insertBefore(iframe, overlay);
+        overlay.classList.add('hidden');
+        return;
+    }
+
+    if (src) {
+        if (poster) poster.remove();
+        const video = document.createElement('video');
+        video.src = src;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        player.insertBefore(video, overlay);
+        overlay.classList.add('hidden');
+        video.play().catch(() => {});
+        return;
+    }
+
+    alert('K tomuto videu ještě není doplněné Vimeo/YouTube ani MP4 v nastavení (CONFIG).');
+}
+
+function selectProject(i) {
+    activeProject = i;
+    renderTabs();
+    renderContent();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ---------- Heslová brána ---------- */
+(function () {
+    const gate = document.getElementById('gate');
+    const form = document.getElementById('gateForm');
+    const input = document.getElementById('gateInput');
+    const error = document.getElementById('gateError');
+    const KEY = 'od-unlock-' + (CONFIG.projects[0] ? CONFIG.projects[0].id : 'x');
+
+    function unlock() {
+        gate.classList.add('unlocked');
+        document.body.classList.remove('locked');
+        setTimeout(() => gate.remove(), 450);
+    }
+
+    // Brána vypnutá (prázdné heslo) nebo už odemčeno v této relaci
+    if (!CONFIG.password) { gate.remove(); return; }
+    if (sessionStorage.getItem(KEY) === '1') { unlock(); return; }
+
+    document.body.classList.add('locked');
+    input.focus();
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (input.value.trim() === CONFIG.password) {
+            sessionStorage.setItem(KEY, '1');
+            unlock();
+        } else {
+            error.classList.add('show');
+            input.value = '';
+            input.focus();
+        }
+    });
+})();
+
+renderCollab();
+renderTabs();
+renderContent();
+</script>
