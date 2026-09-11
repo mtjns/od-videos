@@ -1,45 +1,44 @@
 {%- comment -%}
-Sečte a vypíše cenu balíčku z jeho SLOŽENÍ v _data/cenik.yml.
+Sečte a vypíše cenu balíčku ze SLUŽEB, které obsahuje (viz balicky v
+_data/cenik.yml). Balíček je prostý seznam "služba: počet".
 
     {% include balicek-cena.html balicek=site.data.cenik.balicky.sada_3_reels %}
 
-Stejné složení čte i kalkulačka (funkce applyPreset v pages/cenik.html),
+Stejné služby sčítá i kalkulačka (funkce cenaSluzby v pages/cenik.html),
 takže dlaždice a kalkulačka nemohou ukázat rozdílnou částku.
 {%- endcomment -%}
 {%- assign ceny = site.data.cenik -%}
-{%- assign b = include.balicek -%}
-{%- assign pocet = b.pocet | default: 1 -%}
+{%- assign zaVideo = ceny.sluzby_za_video -%}
 {%- assign soucet = 0 -%}
 
-{%- if b.typ == 'reality' -%}
-    {%- assign soucet = ceny.reality[b.dispozice] -%}
-    {%- if b.reel %}{% assign soucet = soucet | plus: ceny.reality[b.reel] %}{% endif -%}
-    {%- if b.ai %}{% assign soucet = soucet | plus: ceny.reality.ai_zabery %}{% endif -%}
+{%- comment -%}
+Počet videí v balíčku = největší počet mezi službami, které se neúčtují
+za video. Služby "za každé video" se pak přepočítají na něj — přesně jako
+to dělá funkce srovnejPridavky v kalkulačce.
+{%- endcomment -%}
+{%- assign pocetVidei = 1 -%}
+{%- for polozka in include.balicek -%}
+    {%- unless zaVideo contains polozka[0] -%}
+        {%- if polozka[1] > pocetVidei %}{% assign pocetVidei = polozka[1] %}{% endif -%}
+    {%- endunless -%}
+{%- endfor -%}
 
-{%- elsif b.typ == 'reel' -%}
-    {%- if pocet >= 3 %}{% assign pasmo = '_3ks_a_vic' %}
-    {%- elsif pocet == 2 %}{% assign pasmo = '_2ks' %}
-    {%- else %}{% assign pasmo = '_1ks' %}{% endif -%}
-    {%- assign klic = b.varianta | append: pasmo -%}
-    {%- assign zaKus = ceny.reel[klic] -%}
-    {%- if b.hudba %}{% assign zaKus = zaKus | plus: ceny.hudba.za_video %}{% endif -%}
-    {%- assign soucet = zaKus | times: pocet -%}
+{%- for polozka in include.balicek -%}
+    {%- assign id = polozka[0] -%}
+    {%- assign pocet = polozka[1] -%}
+    {%- if zaVideo contains id %}{% assign pocet = pocetVidei %}{% endif -%}
 
-{%- elsif b.typ == 'studio' -%}
-    {%- if pocet >= 10 %}{% assign klic = 'za_10ks_a_vic' %}
-    {%- elsif pocet >= 3 %}{% assign klic = 'za_3_9ks' %}
-    {%- elsif pocet == 2 %}{% assign klic = 'za_2ks' %}
-    {%- else %}{% assign klic = 'za_1ks' %}{% endif -%}
-    {%- assign zaKus = ceny.studio[klic] -%}
-    {%- if b.hudba %}{% assign zaKus = zaKus | plus: ceny.hudba.za_video %}{% endif -%}
-    {%- if b.ai -%}
-        {%- if pocet >= 10 %}{% assign zaKus = zaKus | plus: ceny.studio.ai_zabery_od_10ks %}
-        {%- else %}{% assign zaKus = zaKus | plus: ceny.studio.ai_zabery %}{% endif -%}
+    {%- assign pevna = ceny.sluzby[id] -%}
+    {%- if pevna -%}
+        {%- assign soucet = pevna | times: pocet | plus: soucet -%}
+    {%- else -%}
+        {%- comment -%} cena podle počtu kusů: platí poslední pásmo, do kterého se počet vejde {%- endcomment -%}
+        {%- assign zaKus = 0 -%}
+        {%- for pasmo in ceny.sluzby_podle_poctu[id] -%}
+            {%- if pocet >= pasmo[0] %}{% assign zaKus = pasmo[1] %}{% endif -%}
+        {%- endfor -%}
+        {%- assign soucet = zaKus | times: pocet | plus: soucet -%}
     {%- endif -%}
-    {%- assign soucet = zaKus | times: pocet -%}
-
-{%- elsif b.typ == 'svatba' -%}
-    {%- assign soucet = ceny.svatba -%}
-{%- endif -%}
+{%- endfor -%}
 
 {%- include cena.html castka=soucet -%}
