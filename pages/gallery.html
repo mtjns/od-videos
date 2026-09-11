@@ -113,6 +113,54 @@ permalink: /galerie
         width: calc(var(--vyska, 13.75rem) * var(--pomer, 1.7778));
     }
 
+    /* Přehrávač bez ovládacích prvků Vimea – přehrávání spouští jen vlastní
+       tlačítko (stejné jako na stránce /predani/modify). Po kliknutí se overlay
+       schová a video se rozehraje přes postMessage. */
+    .galerie-play-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 0;
+        padding: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.05));
+        transition: opacity 0.25s ease;
+    }
+
+    .galerie-play-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .galerie-play-btn {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: hsl(var(--brand));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease;
+    }
+
+    .galerie-play-overlay:hover .galerie-play-btn,
+    .galerie-play-overlay:focus-visible .galerie-play-btn {
+        transform: scale(1.08);
+    }
+
+    .galerie-play-overlay:focus-visible {
+        outline: none;
+    }
+
+    .galerie-play-btn svg {
+        width: 46px;
+        height: 46px;
+        fill: hsl(var(--onbrand, 0 0% 8%));
+    }
+
     /* Šipky jsou vidět pořád; na konci řádku se zašednou. */
     .galerie-sipka {
         position: absolute;
@@ -325,10 +373,15 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 {%- assign vimeo_hash = casti[1] %}
                 <figure
                     class="galerie-video opacity-fade relative overflow-hidden rounded-xl border border-line/10 bg-surface">
-                    <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=1&title=0&byline=0&portrait=0&dnt=1"
+                    <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=0&title=0&byline=0&portrait=0&dnt=1"
                         class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
-                        allow="fullscreen; picture-in-picture" allowfullscreen
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
                         title="{{ sekce.nadpis }} – video {{ forloop.index }}"></iframe>
+                    <button type="button" class="galerie-play-overlay" aria-label="Přehrát video">
+                        <span class="galerie-play-btn" aria-hidden="true">
+                            <svg viewBox="0 0 100 100"><path d="M40.5,22.5 Q30.9,17.0 30.9,28.0 L30.9,72.0 Q30.9,83.0 40.5,77.5 L78.6,55.5 Q88.1,50.0 78.6,44.5 Z"/></svg>
+                        </span>
+                    </button>
                 </figure>
                 {%- endfor %}
                 </div>
@@ -401,10 +454,15 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                                     {%- assign vimeo_hash = casti[1] %}
                                     <figure
                                         class="projekt-snimek overflow-hidden rounded-2xl border border-line/10 bg-surface">
-                                        <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=1&title=0&byline=0&portrait=0&dnt=1"
+                                        <iframe src="https://player.vimeo.com/video/{{ vimeo_id }}?{% if vimeo_hash %}h={{ vimeo_hash }}&amp;{% endif %}airplay=0&autoplay=0&autopause=1&chromecast=0&playsinline=1&loop=0&muted=0&controls=0&title=0&byline=0&portrait=0&dnt=1"
                                             class="absolute inset-0 w-full h-full" loading="lazy" frameborder="0"
-                                            allow="fullscreen; picture-in-picture" allowfullscreen
+                                            allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
                                             title="{{ projekt.nadpis }} – video {{ forloop.index }}"></iframe>
+                                        <button type="button" class="galerie-play-overlay" aria-label="Přehrát video">
+                                            <span class="galerie-play-btn" aria-hidden="true">
+                                                <svg viewBox="0 0 100 100"><path d="M40.5,22.5 Q30.9,17.0 30.9,28.0 L30.9,72.0 Q30.9,83.0 40.5,77.5 L78.6,55.5 Q88.1,50.0 78.6,44.5 Z"/></svg>
+                                            </span>
+                                        </button>
                                     </figure>
                                     {%- endfor %}
                                 </div>
@@ -604,6 +662,29 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
         });
     })();
 
+    // Vlastní tlačítko přehrávání (stejné jako na /predani/modify): v klidu
+    // dlaždice ukazuje jen náhled a vlastní tlačítko, ovládací prvky Vimea jsou
+    // schované (controls=0). Po kliknutí přepneme adresu na autoplay=1 &
+    // controls=1, takže se video rozehraje a ovládání Vimea se ukáže. Kliknutí
+    // dozadu (v karuselu projektů) adresu vrátí zpět na náhled, aby šlo spustit
+    // znovu.
+    function rozehrat(iframe) {
+        if (!iframe) return;
+        iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1').replace('controls=0', 'controls=1');
+    }
+
+    function nahled(iframe) {
+        if (!iframe) return;
+        iframe.src = iframe.src.replace('autoplay=1', 'autoplay=0').replace('controls=1', 'controls=0');
+    }
+
+    document.querySelectorAll('.galerie-play-overlay').forEach(overlay => {
+        overlay.addEventListener('click', () => {
+            rozehrat(overlay.parentElement.querySelector('iframe'));
+            overlay.classList.add('hidden');
+        });
+    });
+
     // Karusel: výška řádku + šipky.
     (function () {
         const obaly = [...document.querySelectorAll('.galerie-karusel-obal')];
@@ -759,11 +840,14 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             function zastavOstatni() {
                 snimky.forEach((snimek, i) => {
                     if (i === aktivni) return;
-                    const ramecek = snimek.querySelector('iframe');
-                    if (!ramecek || !ramecek.contentWindow) return;
-                    try {
-                        ramecek.contentWindow.postMessage(JSON.stringify({ method: 'pause' }), 'https://player.vimeo.com');
-                    } catch (e) { /* přehrávač ještě neběží, nevadí */ }
+                    // Video odjelo dozadu – vrátíme dlaždici na náhled (tím se
+                    // zastaví) a ukážeme tlačítko, aby šlo spustit znovu, až se
+                    // dostane zase dopředu.
+                    const overlay = snimek.querySelector('.galerie-play-overlay');
+                    if (overlay && overlay.classList.contains('hidden')) {
+                        nahled(snimek.querySelector('iframe'));
+                        overlay.classList.remove('hidden');
+                    }
                 });
             }
 
