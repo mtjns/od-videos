@@ -489,7 +489,7 @@ permalink: /
                 <input type="hidden" name="_subject" value="Nová poptávka z webu OD videos">
                 <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://odvideos.cz/dekujeme.html">
+                <input type="hidden" name="_next" value="https://odvideos.cz/dekujeme">
                 <!-- Honeypot: skryté pole proti spamu -->
                 <input type="text" name="_honey" style="display:none">
 
@@ -585,7 +585,7 @@ permalink: /
                     var label = document.getElementById('contact-submit-label');
                     var defaultLabel = label ? label.textContent : '';
                     var endpoint = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
-                    var successUrl = '{{ ' / dekujeme' | relative_url }}';
+                    var successUrl = {{ "/dekujeme" | relative_url | jsonify }};
 
                     form.addEventListener('submit', function (e) {
                         e.preventDefault();
