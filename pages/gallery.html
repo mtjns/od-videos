@@ -71,64 +71,106 @@ permalink: /galerie
         }
     }
 
-    /* Mřížka galerie: dlaždice se skládají zleva doprava a zalamují se, mezery
-       mezi nimi jsou pořád stejné (--mezera) bez ohledu na tvar videa.
+    /* Karusel: každá sekce je jeden řádek, který se posouvá doprava – nezalamuje
+       se. Všechny dlaždice v řádku mají stejnou výšku (--vyska) a šířku podle
+       poměru stran, takže se nic neořezává: 16/9 vyjde široké, 9/16 úzké.
+       Výšku dopočítá skript z nejširšího videa v řádku, aby se to nejširší
+       vešlo do šířky sekce.
 
-       Každá dlaždice má dva stropy a použije se ten, který sedne dřív:
-         – na šířku: šířka sloupce (v řádku je --sloupcu sloupců),
-         – na výšku: --galerie-max-vyska.
-       Poměr stran zůstává v obou případech zachovaný, protože šířku ze stropu
-       výšky dopočítáme vynásobením poměrem (--pomer = šířka/výška, doplní ho
-       skript z Vimea). Vodorovné video tak vyplní sloupec, svislé se zúží tak,
-       aby nepřerostlo do výšky – a do řádku se jich pak vejde víc.
-       Bez --pomer (fallback 99) se uplatní jen strop na šířku.
-
-       Proč flexbox a ne sloupce (columns): sloupce plní nejdřív celý první
-       sloupec shora dolů a teprve pak druhý, takže se dlaždice neskládají
-       zleva doprava. Tohle ano. */
-    .galerie-mrizka {
-        --mezera: 1.25rem;
-        --sloupcu: 1;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        gap: var(--mezera);
+       Bez scroll-snapu schválně: se sloupci různé šířky nemá co srovnávat a
+       hlavně nedovolil doscrollovat na nulu (řádek se zasekl o 40 px vedle),
+       takže by levá šipka nikdy nezešedla a první video zůstalo uříznuté. */
+    .galerie-karusel-obal {
+        position: relative;
     }
 
-    @media (min-width: 640px) {
-        .galerie-mrizka {
-            --sloupcu: 2;
-        }
+    .galerie-karusel {
+        --mezera: 1.25rem;
+        display: flex;
+        gap: var(--mezera);
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-behavior: smooth;
+        /* Posuvník schováme – posouvá se šipkami, tahem nebo shift+kolečkem. */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .galerie-karusel::-webkit-scrollbar {
+        display: none;
     }
 
     @media (min-width: 768px) {
-        .galerie-mrizka {
+        .galerie-karusel {
             --mezera: 1.5rem;
         }
     }
 
-    @media (min-width: 1024px) {
-        .galerie-mrizka {
-            --sloupcu: 3;
-        }
-    }
-
-    /* Dlaždice drží 16/9, dokud skript nezjistí skutečný poměr stran z Vimea. */
+    /* Dokud skript nezjistí poměr stran z Vimea, drží dlaždice 16/9. */
     .galerie-video {
-        --galerie-max-vyska: min(60vh, 420px);
         flex: 0 0 auto;
-        aspect-ratio: 16 / 9;
-        width: min(calc((100% - (var(--sloupcu) - 1) * var(--mezera)) / var(--sloupcu)),
-                calc(var(--galerie-max-vyska) * var(--pomer, 99)));
+        height: var(--vyska, 13.75rem);
+        width: calc(var(--vyska, 13.75rem) * var(--pomer, 1.7778));
     }
 
-    /* Na mobilu je sloupec jen jeden, ale dvě svislá videa se vedle sebe vejdou.
-       Strop na šířku je tu proto půl řádku místo celého. */
-    @media (max-width: 639px) {
-        .galerie-video.je-nastojato {
-            width: calc((100% - var(--mezera)) / 2);
+    /* Šipky jsou vidět pořád; na konci řádku se zašednou. */
+    .galerie-sipka {
+        position: absolute;
+        top: 50%;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        transform: translateY(-50%);
+        border-radius: 999px;
+        border: 1px solid hsl(var(--line) / 0.12);
+        background-color: hsl(var(--surface));
+        color: hsl(var(--fg));
+        box-shadow: 0 6px 20px hsl(0 0% 0% / 0.12);
+        transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .galerie-sipka:hover:not(:disabled),
+    .galerie-sipka:focus-visible:not(:disabled) {
+        color: hsl(var(--brand));
+        outline: none;
+    }
+
+    .galerie-sipka:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    .galerie-sipka-vlevo {
+        left: 0.25rem;
+    }
+
+    .galerie-sipka-vpravo {
+        right: 0.25rem;
+    }
+
+    @media (min-width: 768px) {
+        .galerie-sipka {
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+
+        .galerie-sipka-vlevo {
+            left: -0.875rem;
+        }
+
+        .galerie-sipka-vpravo {
+            right: -0.875rem;
         }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+        .galerie-karusel {
+            scroll-behavior: auto;
+        }
+    }
+
 </style>
 
 {%- comment -%}
@@ -208,9 +250,18 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             </div>
 
             {%- if pocet > 0 %}
-            <!-- Dlaždice se skládají zleva doprava, mezery mají pořád stejné.
-                 Velikost řídí .galerie-video v CSS nahoře. -->
-            <div class="galerie-mrizka">
+            <!-- Karusel: řádek se posouvá doprava, nezalamuje se. -->
+            <div class="galerie-karusel-obal">
+                <button type="button" class="galerie-sipka galerie-sipka-vlevo"
+                    aria-label="Posunout doleva" aria-controls="karusel-{{ forloop.index }}">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+
+                <div class="galerie-karusel" id="karusel-{{ forloop.index }}" tabindex="0" role="region"
+                    aria-label="{{ sekce.nadpis }} – ukázky">
                 {%- for id in videa %}
                 {%- assign casti = id | split: "/" %}
                 {%- assign vimeo_id = casti[0] %}
@@ -223,6 +274,15 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                         title="{{ sekce.nadpis }} – video {{ forloop.index }}"></iframe>
                 </figure>
                 {%- endfor %}
+                </div>
+
+                <button type="button" class="galerie-sipka galerie-sipka-vpravo"
+                    aria-label="Posunout doprava" aria-controls="karusel-{{ forloop.index }}">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6" />
+                    </svg>
+                </button>
             </div>
             {%- else %}
             <div
@@ -264,6 +324,9 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
             taby.forEach(t => {
                 t.setAttribute('aria-pressed', String(t.dataset.kategorie === klic));
             });
+            // Skryté řádky mají nulovou šířku a nejdou změřit – po odkrytí se
+            // musí výška i stav šipek spočítat znovu.
+            window.dispatchEvent(new CustomEvent('galerie:prepocitat'));
         }
 
         taby.forEach(t => {
@@ -353,14 +416,85 @@ jen seznam jejich ID (klíč `vimeo`). Tady se z nich skládá adresa přehráva
                 .then(data => {
                     if (data.width && data.height) {
                         dlazdice.style.aspectRatio = data.width + ' / ' + data.height;
-                        // Strop velikosti svislých dlaždic – viz .je-nastojato v CSS.
+                        // Šířka dlaždice se počítá z poměru – viz .galerie-video v CSS.
                         dlazdice.style.setProperty('--pomer', data.width / data.height);
-                        if (data.height > data.width) {
-                            dlazdice.classList.add('je-nastojato');
-                        }
+                        // Řádek si podle nového poměru přepočítá výšku.
+                        dlazdice.dispatchEvent(new CustomEvent('galerie:pomer', { bubbles: true }));
                     }
                 })
                 .catch(() => { /* ponech výchozích 16/9 */ });
         });
+    })();
+
+    // Karusel: výška řádku + šipky.
+    (function () {
+        const obaly = [...document.querySelectorAll('.galerie-karusel-obal')];
+        if (!obaly.length) return;
+
+        // Výšku řádku určí nejširší video v něm: to se musí vejít do šířky sekce
+        // při zvoleném počtu viditelných dlaždic. Užší (svislá) videa jsou pak
+        // automaticky užší, takže se jich do řádku vejde víc.
+        function prepocitejVysku(karusel) {
+            const dlazdice = [...karusel.querySelectorAll('.galerie-video')];
+            if (!dlazdice.length || !karusel.clientWidth) return;
+
+            const pomery = dlazdice.map(d => parseFloat(d.style.getPropertyValue('--pomer')) || 16 / 9);
+            const nejsirsi = Math.max(...pomery);
+            const mezera = parseFloat(getComputedStyle(karusel).columnGap) || 24;
+            const sirka = karusel.clientWidth;
+            const viditelnych = sirka < 640 ? 1 : (sirka < 1024 ? 2 : 3);
+            const sirkaDlazdice = (sirka - (viditelnych - 1) * mezera) / viditelnych;
+            // Strop, ať svislá videa nevytáhnou řádek přes celou obrazovku.
+            const strop = sirka < 640 ? 300 : Math.min(window.innerHeight * 0.6, 460);
+
+            karusel.style.setProperty('--vyska', Math.round(Math.min(sirkaDlazdice / nejsirsi, strop)) + 'px');
+        }
+
+        function stavSipek(obal) {
+            const karusel = obal.querySelector('.galerie-karusel');
+            const vlevo = obal.querySelector('.galerie-sipka-vlevo');
+            const vpravo = obal.querySelector('.galerie-sipka-vpravo');
+            if (!karusel || !vlevo || !vpravo) return;
+            const max = karusel.scrollWidth - karusel.clientWidth;
+            vlevo.disabled = karusel.scrollLeft <= 1;
+            vpravo.disabled = karusel.scrollLeft >= max - 1;
+        }
+
+        obaly.forEach(obal => {
+            const karusel = obal.querySelector('.galerie-karusel');
+            if (!karusel) return;
+
+            obal.querySelector('.galerie-sipka-vlevo').addEventListener('click', () => {
+                karusel.scrollBy({ left: -karusel.clientWidth * 0.8 });
+            });
+            obal.querySelector('.galerie-sipka-vpravo').addEventListener('click', () => {
+                karusel.scrollBy({ left: karusel.clientWidth * 0.8 });
+            });
+
+            karusel.addEventListener('scroll', () => stavSipek(obal), { passive: true });
+            // Přišel poměr stran z Vimea – přepočítat výšku i dojezd šipek.
+            karusel.addEventListener('galerie:pomer', () => {
+                prepocitejVysku(karusel);
+                stavSipek(obal);
+            });
+
+            prepocitejVysku(karusel);
+            stavSipek(obal);
+        });
+
+        function vse() {
+            obaly.forEach(obal => {
+                const karusel = obal.querySelector('.galerie-karusel');
+                if (karusel) prepocitejVysku(karusel);
+                stavSipek(obal);
+            });
+        }
+
+        let casovac;
+        window.addEventListener('resize', () => {
+            clearTimeout(casovac);
+            casovac = setTimeout(vse, 150);
+        });
+        window.addEventListener('galerie:prepocitat', vse);
     })();
 </script>
