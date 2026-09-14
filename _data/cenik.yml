@@ -30,7 +30,7 @@ sluzby:
   ai_zabery_reality: 500             # zobrazuje se jako "od"
 
   # --- Svatba ---------------------------------------------------------------
-  svatebni_video: 15000
+  svatebni_video: 12000
 
   # --- Přídavky účtované za každé video -------------------------------------
   licencovana_hudba: 250             # za jedno video (reely i studiová videa)
