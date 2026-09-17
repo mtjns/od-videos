@@ -123,9 +123,6 @@ priplatky:
 # POZOR: kódy se na stránce nikde nezobrazují, ale jsou součástí veřejného
 # zdrojového kódu webu — kdokoli si je v něm může najít.
 slevove_kody:
-  - kod: "ODfriend"
-    typ: procenta
-    hodnota: 10
   - kod: "ODstart"
     typ: procenta
     hodnota: 50
