@@ -16,15 +16,9 @@ utility classes work directly in markup with no compile step.
 
 ## Running locally
 
-```bash
-bundle install                # first time only
-bundle exec jekyll serve --livereload --host 0.0.0.0 --baseurl "" --force_polling
-```
+assume the user has run the command on a devcontainer and check port 4000, if incorrect, ask for the correct port.
 
-Serves on `http://localhost:4000` with livereload on `35729` (both forwarded by
-`.devcontainer/devcontainer.json`, image `mcr.microsoft.com/devcontainers/jekyll:2`).
-
-**`_config.yml` is not hot-reloaded** — restart Jekyll after editing it.
+**`_config.yml` is not hot-reloaded**
 
 ## Repository layout
 
@@ -63,9 +57,10 @@ _drafts/               Jekyll drafts (not published)
 - Content pages live in `pages/` and each declares an explicit `permalink`
   (e.g. `/cenik`, `/galerie`). `permalink: pretty` is the site default.
 - Use `layout: default` for the home page (full nav + footer); use
-  `layout: minimal` for standalone subpages (ceník, galerie, dotaznik, etc.).
+  `layout: minimal` for standalone subpages (ceník, dotaznik, etc.).
 - Utility pages that shouldn't be indexed set `noindex: true` and
   `sitemap: false` in front matter (dotaznik, dekujeme, privacy, 404).
+- Write code and comments in **English**; user-facing copy is **Czech**.
 
 ### Theming (light/dark)
 - Light is the default; dark is toggled by adding the `.dark` class to `<html>`.
@@ -152,10 +147,6 @@ not treat them as the source of truth for how the site works:
 - `pages/404.html` is the **sole** 404 page (Czech, noindexed). The old root
   `404.html` template duplicate was deleted; don't reintroduce a competing
   `permalink: /404`.
-
-`README.md` is now current — it accurately describes the OD Videos Jekyll site
-(tech stack, structure, local dev), so it can be trusted as a companion to this
-file.
 
 ## Git workflow
 
