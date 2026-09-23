@@ -43,6 +43,7 @@
 
     {% seo title=false %}
     {% include structured-data.html %}
+    {% include breadcrumbs.html %}
 
     <!-- Keep utility pages (thank-you, review form) out of the search index. -->
     {% if page.noindex %}<meta name="robots" content="noindex, follow">{% endif %}
