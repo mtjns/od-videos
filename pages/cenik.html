@@ -907,7 +907,9 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         }
 
         else if (t === 'studio') {
-            html = `<div class="${C.card}">
+            html = `
+            ${infoboxHTML(`Vhodné pro edukační videa a kontent, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje techniku navíc a důkladnější přípravu.`)}
+            <div class="${C.card}">
                     <div class="${C.fieldLabel}">Počet videí</div>
                     <div class="mt-3">${counterHTML()}</div>
                     <p class="${C.desc} mt-2">${popisPasem('studiove_video')}</p>
@@ -917,7 +919,6 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
 
                 <div class="${C.card}">
                     ${toggleSluzba('ai_zabery_studio', { cls: 'js-prepinac', plus: true })}
-                    ${infoboxHTML('Vhodné pro edukační videa a content, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje techniku navíc a důkladnější přípravu.')}
                 </div>
 
                 ${zavesHTML()}`;
