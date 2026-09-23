@@ -17,20 +17,68 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
 <style>
     /* Přejíždějící odlesk na zvýrazněné dlaždici */
     @keyframes cenik-sheen {
-        0% { left: -75%; opacity: 0; }
-        12% { opacity: 1; }
-        88% { opacity: 1; }
-        100% { left: 135%; opacity: 0; }
+        0% {
+            left: -75%;
+            opacity: 0;
+        }
+
+        12% {
+            opacity: 1;
+        }
+
+        88% {
+            opacity: 1;
+        }
+
+        100% {
+            left: 135%;
+            opacity: 0;
+        }
     }
-    .cenik-featured:hover .cenik-sheen { animation: cenik-sheen 1.1s ease-out forwards; }
+
+    .cenik-featured:hover .cenik-sheen {
+        animation: cenik-sheen 1.1s ease-out forwards;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .cenik-featured:hover .cenik-sheen { animation: none; }
+        .cenik-featured:hover .cenik-sheen {
+            animation: none;
+        }
     }
 
     /* Číselné pole bez šipek */
     .cenik-num::-webkit-outer-spin-button,
-    .cenik-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    .cenik-num { -moz-appearance: textfield; }
+    .cenik-num::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .cenik-num {
+        -moz-appearance: textfield;
+    }
+
+    /* Nativní rozbalovací nabídka — barvy rozbaleného seznamu podle motivu */
+    .cenik-select {
+        color-scheme: light;
+    }
+
+    .dark .cenik-select {
+        color-scheme: dark;
+    }
+
+    /* Rozbalení kontaktu / slevového kódu — jemný náběh */
+    @keyframes cenik-reveal {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    .cenik-reveal {
+        animation: cenik-reveal 0.28s ease-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .cenik-reveal { animation: none; }
+    }
 </style>
 
 <!-- Hlavička stránky -->
@@ -55,8 +103,7 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         </h1>
 
         <p class="text-muted text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-            Vyberte si hotový balíček, nebo si poskládejte vlastní zakázku. Cena se počítá živě — orientačně, finální
-            částku vždy potvrdíme po konzultaci.
+            Vyberte si hotový balíček, nebo si poskládejte vlastní zakázku.
         </p>
     </div>
 </section>
@@ -71,150 +118,104 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
                 <span class="text-brand text-sm font-semibold tracking-widest uppercase">Balíčky</span>
             </div>
             <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Základní balíčky</h2>
-            <p class="text-muted text-lg">Klikněte na balíček a níže se vám předvyplní kalkulačka — pak už jen doladíte
-                detaily.</p>
+            <p class="text-muted text-lg">Klikněte na balíček a níže se vám předvyplní kalkulačka.</p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6 opacity-fade">
 
             <!-- Balíček 1 -->
             <button type="button" data-preset="sada_3_reels"
-                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span
                     class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Sociální&nbsp;sítě</span>
                 <h3 class="text-fg text-lg font-semibold pr-24 mb-1">Sada 3 Reels</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.sada_3_reels %}
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include
+                    balicek-cena.html balicek=ceny.balicky.sada_3_reels %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Natáčení naráz + edit
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Stylizované animované titulky
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Neobsahuje licencovanou hudbu
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Cíleno na sociální sítě
                     </li>
                 </ul>
                 <p class="mt-4 text-xs italic text-muted/70">Jedná se o 3 pokročilé reely.</p>
-                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
-                    Předvyplnit kalkulačku
-                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
-                        </path>
-                    </svg>
-                </span>
             </button>
 
             <!-- Balíček 2 -->
             <button type="button" data-preset="videoprohlidka_reel"
-                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Reality</span>
                 <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Videoprohlídka + Reel</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.videoprohlidka_reel %}
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include
+                    balicek-cena.html balicek=ceny.balicky.videoprohlidka_reel %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Obsahuje záběry z dronu
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Kompletní videoprohlídka (1+kk)
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Reel složený ze záběrů natočených pro videoprohlídku
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Videoprohlídka obsahuje licencovanou hudbu
                     </li>
                 </ul>
-                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
-                    Předvyplnit kalkulačku
-                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
-                        </path>
-                    </svg>
-                </span>
             </button>
 
             <!-- Balíček 3 -->
             <button type="button" data-preset="sada_3_studiova_videa"
-                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+                class="cenik-tile group relative text-left flex flex-col bg-surface border border-line/10 rounded-2xl p-7 transition-all duration-300 hover:border-brand/50 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
                 <span class="absolute top-5 right-5 text-[11px] tracking-widest uppercase text-muted/70">Studio</span>
                 <h3 class="text-fg text-lg font-semibold pr-20 mb-1">Sada 3 studiová videa</h3>
                 <div class="text-brand text-3xl font-extrabold tracking-tight mt-1 mb-4">
-                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include balicek-cena.html balicek=ceny.balicky.sada_3_studiova_videa %}
+                    <span class="text-[0.5em] font-semibold text-muted align-middle mr-1">od</span>{% include
+                    balicek-cena.html balicek=ceny.balicky.sada_3_studiova_videa %}
                 </div>
                 <ul class="space-y-2.5 flex-1 text-sm text-muted">
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Studiové osvětlení a zvuk
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Profesionální titulky
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Edukační / brand kontent
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-[7px] w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-[7px] w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Podpůrné animace
                     </li>
                 </ul>
-                <span class="mt-5 inline-flex items-center gap-2 text-brand text-sm font-semibold">
-                    Předvyplnit kalkulačku
-                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6">
-                        </path>
-                    </svg>
-                </span>
             </button>
         </div>
 
         <!-- Zvýrazněný balíček -->
         <button type="button" data-preset="top_videoprohlidka_reel"
-            class="cenik-tile cenik-featured opacity-fade group relative block w-full text-left overflow-hidden mt-6 rounded-2xl border-2 border-brand p-8 md:p-10 bg-gradient-to-br from-brand/20 via-brand/5 to-surface transition-all duration-300 hover:-translate-y-1 hover:border-fg hover:shadow-[0_30px_80px_-20px_hsl(var(--brand)/0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
+            class="cenik-tile cenik-featured opacity-fade group relative block w-full text-left overflow-hidden mt-6 rounded-2xl border-2 border-brand p-8 md:p-10 bg-gradient-to-br from-brand/20 via-brand/5 to-surface transition-all duration-300 hover:border-fg hover:shadow-[0_30px_80px_-20px_hsl(var(--brand)/0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-base">
 
             <!-- odlesk -->
             <span aria-hidden="true"
@@ -233,47 +234,30 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
                     <h3 class="text-fg text-2xl md:text-3xl font-bold tracking-tight mb-1">Videoprohlídka nemovitosti +
                         Reel</h3>
                     <div class="text-brand text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-2">
-                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>{% include balicek-cena.html balicek=ceny.balicky.top_videoprohlidka_reel %}
+                        <span class="text-[0.5em] font-semibold text-muted align-middle mr-1.5">od</span>{% include
+                        balicek-cena.html balicek=ceny.balicky.top_videoprohlidka_reel %}
                     </div>
-                    <span class="mt-5 inline-flex items-center gap-2 text-brand text-base font-semibold">
-                        Předvyplnit kalkulačku
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                d="M5 12h14M13 6l6 6-6 6"></path>
-                        </svg>
-                    </span>
                 </div>
 
                 <ul class="space-y-3 text-fg">
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Kompletní videoprohlídka bytu 2+kk
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Reel z nových záběrů (natočený na výšku)
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         AI záběry
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Dronové záběry v ceně
                     </li>
-                    <li class="relative pl-6">
-                        <span
-                            class="absolute left-0 top-2 w-3 h-3 rounded-full bg-brand/15 border border-brand/45 flex items-center justify-center"><span
-                                class="w-1 h-1 rounded-full bg-brand"></span></span>
+                    <li class="flex items-start gap-3">
+                        <span class="mt-2 w-1.5 h-1.5 rounded-full bg-brand shrink-0"></span>
                         Licencovaná hudba videoprohlídky v ceně
                     </li>
                 </ul>
@@ -287,22 +271,16 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
     <div class="max-w-6xl mx-auto">
 
         <div class="opacity-fade mb-10">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-8 h-1 bg-brand rounded-full"></div>
-                <span class="text-brand text-sm font-semibold tracking-widest uppercase">Krok 1</span>
-            </div>
             <h2 class="text-fg text-3xl md:text-4xl font-bold tracking-tight mb-3">Poskládejte si vlastní zakázku</h2>
-            <p class="text-muted text-lg">Vyberte typ videa — podle výběru se rozbalí možnosti a cena se dopočítá.</p>
         </div>
 
-        <div class="grid lg:grid-cols-[minmax(0,1fr)_380px] gap-6 lg:gap-8 items-start">
+        <div class="grid lg:grid-cols-[minmax(0,1fr)_440px] gap-6 lg:gap-8 items-start">
 
             <!-- Levý sloupec: nástroje -->
             <div class="opacity-fade">
-                <div class="bg-base border border-line/10 rounded-2xl p-6 md:p-7">
-                    <div class="text-fg font-semibold mb-1">Typ videa</div>
-                    <p class="text-muted text-sm mb-4">Vyberte jednu možnost.</p>
-                    <div class="grid sm:grid-cols-2 gap-3" id="typeGrid"></div>
+                <div class="mb-10">
+                    <div class="text-fg text-lg font-semibold mb-1">Typ videa</div>
+                    <div id="typeGrid"></div>
                 </div>
 
                 <div id="tools" class="space-y-5"></div>
@@ -310,51 +288,49 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
 
             <!-- Pravý sloupec: výstup -->
             <div class="opacity-fade lg:sticky lg:top-28">
-                <div class="bg-base border border-brand/40 rounded-2xl p-6 md:p-7 shadow-2xl">
+                <div class="bg-base border border-line/10 rounded-2xl p-6 md:p-7">
                     <div class="text-muted text-xs font-semibold tracking-widest uppercase">Orientační cena</div>
                     <div id="bigPrice" class="text-brand text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-1">
-                        <span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč
+                        <span class="text-[0.5em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč
                     </div>
                     <div id="breakdown" class="mt-5"></div>
-                    <p id="disclaimer" class="text-muted/80 text-xs leading-relaxed mt-4">Vyberte typ videa a možnosti —
+                    <p id="disclaimer" class="text-muted/80 text-sm leading-relaxed mt-4">Vyberte typ videa a možnosti —
                         cena se dopočítá.</p>
 
-                    <a href="{{ '/#contact' | relative_url }}"
-                        class="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-[15px] px-5 py-4 rounded-xl hover:-translate-y-0.5 hover:brightness-110 transition-all duration-200">
-                        Nezávazně poptat
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                                d="M5 12h14M13 6l6 6-6 6"></path>
-                        </svg>
-                    </a>
+                    <!-- Kontakt + odeslání poptávky (jeden krok, tlačítko se odemkne
+                         až je vybraný základ) -->
+                    <div id="contactStep" class="mt-6 pt-6 border-t border-line/15">
+                        <!-- Jméno + e-mail jsou schované; rozbalí se (a tlačítko sjede dolů
+                             a změní barvu) po prvním kliknutí na „Nezávazně poptat". -->
+                        <div id="contactFields" class="hidden">
+                            <div>
+                                <div class="text-fg text-lg font-semibold mb-1">Zanechte na sebe kontakt</div>
+                                <p class="text-muted text-sm leading-relaxed mb-4">Pošleme vám nezávaznou nabídku na e-mail. Rozpis výše
+                                    přiložíme.</p>
+                                <div class="space-y-5">
+                                    <input id="leadName" type="text" autocomplete="name" placeholder="Jméno/firma"
+                                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                                    <input id="leadEmail" type="email" autocomplete="email" inputmode="email"
+                                        placeholder="E-mail"
+                                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                                </div>
+
+                                <!-- Honeypot proti spamu -->
+                                <input id="leadHoney" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"
+                                    class="hidden">
+
+                                <p id="leadError" class="hidden text-red-500 text-sm mt-3"></p>
+                            </div>
+                        </div>
+
+                        <button id="sendConfirm" type="button" disabled
+                            class="mt-5 w-full inline-flex items-center justify-center gap-2 font-bold text-lg px-5 py-4 rounded-xl border-2 border-brand text-brand bg-transparent transition-all duration-300 enabled:hover:bg-brand/10 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span id="sendConfirmLabel">Nezávazně poptat</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Závěrečné CTA -->
-<section class="bg-base py-20 md:py-28 px-4 md:px-8 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none">
-    </div>
-    <div class="max-w-3xl mx-auto text-center relative z-10 opacity-fade">
-        <h2 class="text-brand text-3xl md:text-4xl font-bold tracking-tight mb-5">Máte v hlavě něco, co se do ceníku
-            nevejde?</h2>
-        <p class="text-fg text-lg leading-relaxed mb-10">
-            Napište mi svou představu a společně nastavíme správný směr, rozsah, cenu i termín realizace.
-        </p>
-        <a href="{{ '/#contact' | relative_url }}"
-            class="group inline-flex items-center gap-4 text-brand hover:text-fg transition-colors duration-300">
-            <span class="text-xl font-bold uppercase tracking-widest">Odeslat poptávku</span>
-            <span
-                class="w-12 h-12 rounded-full border border-brand flex items-center justify-center group-hover:bg-brand group-hover:border-transparent transition-all duration-300">
-                <svg class="w-5 h-5 text-brand group-hover:text-onbrand transition-colors duration-300" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
-                    </path>
-                </svg>
-            </span>
-        </a>
     </div>
 </section>
 
@@ -371,752 +347,921 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
            Ceny všech služeb — z _data/cenik.yml.
            Jediné místo, kde se mění částky; níže v kódu už žádná není.
            ============================================================ */
-        const P = {{ site.data.cenik | jsonify }};
+        const P = {{ site.data.cenik | jsonify
+    }};
 
-        /* ============================================================
-           Katalog služeb — co která služba znamená a jak se jmenuje.
-           Ceny sem NEPATŘÍ (ty jsou v _data/cenik.yml pod stejným id).
+    /* ============================================================
+       Katalog služeb — co která služba znamená a jak se jmenuje.
+       Ceny sem NEPATŘÍ (ty jsou v _data/cenik.yml pod stejným id).
 
-             typ      do které kategorie služba patří
-             zaklad   hlavní položka zakázky (bez ní se cena nepočítá)
-             od       cena je orientační, vypíše se jako "od"
+         typ      do které kategorie služba patří
+         zaklad   hlavní položka zakázky (bez ní se cena nepočítá)
+         od       cena je orientační, vypíše se jako "od"
 
-           Které služby se účtují za každé video, říká seznam
-           sluzby_za_video v _data/cenik.yml.
+       Které služby se účtují za každé video, říká seznam
+       sluzby_za_video v _data/cenik.yml.
 
-           Pořadí v tomto seznamu = pořadí řádků v rozpisu ceny.
-           ============================================================ */
-        const SLUZBY = {
-            /* --- Videoprohlídka nemovitosti --------------------------- */
-            videoprohlidka_byt_1kk:     { typ: 'reality', zaklad: true, label: 'Byt 1+kk / 1+1' },
-            videoprohlidka_byt_2kk:     { typ: 'reality', zaklad: true, label: 'Byt 2+kk / 2+1' },
-            videoprohlidka_byt_3kk:     { typ: 'reality', zaklad: true, label: 'Byt 3+kk / 3+1' },
-            videoprohlidka_byt_4kk:     { typ: 'reality', zaklad: true, label: 'Byt 4+kk / 4+1 a větší' },
-            videoprohlidka_rodinny_dum: { typ: 'reality', zaklad: true, label: 'Rodinný dům', od: true },
+       Pořadí v tomto seznamu = pořadí řádků v rozpisu ceny.
+       ============================================================ */
+    const SLUZBY = {
+        /* --- Videoprohlídka nemovitosti --------------------------- */
+        videoprohlidka_byt_1kk: { typ: 'reality', zaklad: true, label: 'Byt 1+kk / 1+1' },
+        videoprohlidka_byt_2kk: { typ: 'reality', zaklad: true, label: 'Byt 2+kk / 2+1' },
+        videoprohlidka_byt_3kk: { typ: 'reality', zaklad: true, label: 'Byt 3+kk / 3+1' },
+        videoprohlidka_byt_4kk: { typ: 'reality', zaklad: true, label: 'Byt 4+kk / 4+1 a větší' },
+        videoprohlidka_rodinny_dum: { typ: 'reality', zaklad: true, label: 'Rodinný dům', od: true },
 
-            reel_ze_zaberu:    { typ: 'reality', label: 'Reel ze záběrů z videoprohlídky' },
-            reel_nove_zabery:  { typ: 'reality', label: 'Reel z nových záběrů (nutné natočit znovu na výšku)', od: true },
-            ai_zabery_reality: { typ: 'reality', label: 'AI záběry', od: true },
+        reel_ze_zaberu: { typ: 'reality', label: 'Reel ze záběrů z videoprohlídky' },
+        reel_nove_zabery: { typ: 'reality', label: 'Reel z nových záběrů (nutné natočit znovu na výšku)', od: true },
+        ai_zabery_reality: { typ: 'reality', label: 'AI záběry', od: true },
 
-            /* --- Krátké video (Reel) ---------------------------------- */
-            reel_zakladni:  { typ: 'reel', zaklad: true, label: 'Základní reel', popis: 'jednoduché záběry, natáčení, střih a běžné titulky' },
-            reel_pokrocily: { typ: 'reel', zaklad: true, label: 'Pokročilý reel', popis: 'složitější záběry, natáčení, střih a stylizované titulky' },
+        /* --- Krátké video (Reel) ---------------------------------- */
+        reel_zakladni: { typ: 'reel', zaklad: true, label: 'Základní reel', popis: 'jednoduché záběry, natáčení, střih a běžné titulky' },
+        reel_pokrocily: { typ: 'reel', zaklad: true, label: 'Pokročilý reel', popis: 'složitější záběry, natáčení, střih a stylizované titulky' },
 
-            /* --- Studiové video --------------------------------------- */
-            studiove_video: { typ: 'studio', zaklad: true, label: 'Studiové video' },
+        /* --- Studiové video --------------------------------------- */
+        studiove_video: { typ: 'studio', zaklad: true, label: 'Studiové video' },
 
-            /* --- Licencovaná hudba (reely i studiová videa) ----------- */
-            licencovana_hudba:         { label: 'Licencovaná hudba' },
-            licencovana_hudba_projekt: { label: 'Licencovaná hudba · 1 licence pro celý projekt' },
+        /* --- Licencovaná hudba (reely i studiová videa) ----------- */
+        licencovana_hudba: { label: 'Licencovaná hudba' },
+        licencovana_hudba_projekt: { label: 'Licencovaná hudba · 1 licence pro celý projekt' },
 
-            /* --- AI záběry u studiových videí ------------------------- */
-            ai_zabery_studio: { typ: 'studio', label: 'AI záběry' },
+        /* --- AI záběry u studiových videí ------------------------- */
+        ai_zabery_studio: { typ: 'studio', label: 'AI záběry' },
 
-            /* --- AI záběry u reelů --------------------------------------------- */
-            ai_zabery_reel: { typ: 'reel', label: 'AI záběry' },
+        /* --- AI záběry u reelů --------------------------------------------- */
+        ai_zabery_reel: { typ: 'reel', label: 'AI záběry' },
 
-            /* --- Svatba ----------------------------------------------- */
-            svatebni_video: { typ: 'svatba', zaklad: true, label: 'Svatební video' }
-        };
+        /* --- Svatba ----------------------------------------------- */
+        svatebni_video: { typ: 'svatba', zaklad: true, label: 'Svatební video' }
+    };
 
-        /* Kategorie = dlaždice v kroku 1 */
-        const KATEGORIE = [
-            { id: 'reality', label: 'Videoprohlídka nemovitosti' },
-            { id: 'reel',    label: 'Krátké video (Reel)' },
-            { id: 'studio',  label: 'Studiové video' },
-            { id: 'svatba',  label: 'Svatební video' },
-        ];
+    /* Kategorie = dlaždice v kroku 1 */
+    const KATEGORIE = [
+        { id: 'reality', label: 'Videoprohlídka nemovitosti' },
+        { id: 'reel', label: 'Krátké video (Reel)' },
+        { id: 'studio', label: 'Studiové video' },
+        { id: 'svatba', label: 'Svatební video' },
+    ];
 
-        /* Fixní cesty — ceny jsou v _data/cenik.yml pod doprava.<id> */
-        const CESTY = [
-            { id: 'trutnov', label: 'Natáčení v Trutnově', popis: 'za cestu' },
-            { id: 'liberec', label: 'Natáčení v Liberci', popis: 'za cestu (v období školního roku)' }
-        ];
+    /* Fixní cesty — ceny jsou v _data/cenik.yml pod doprava.<id> */
+    const CESTY = [
+        { id: 'trutnov', label: 'Natáčení v Trutnově', popis: '' },
+        { id: 'liberec', label: 'Natáčení v Liberci', popis: '(v období školního roku)' }
+    ];
 
-        /* Skupiny, ze kterých se vybírá právě jedna služba */
-        const PORADI = Object.keys(SLUZBY);
-        const DISPOZICE = PORADI.filter(id => SLUZBY[id].typ === 'reality' && SLUZBY[id].zaklad);
-        const REEL_PRIDAVKY = ['reel_ze_zaberu', 'reel_nove_zabery'];
-        const VARIANTY_REELU = ['reel_zakladni', 'reel_pokrocily'];
+    /* Skupiny, ze kterých se vybírá právě jedna služba */
+    const PORADI = Object.keys(SLUZBY);
+    const DISPOZICE = PORADI.filter(id => SLUZBY[id].typ === 'reality' && SLUZBY[id].zaklad);
+    const REEL_PRIDAVKY = ['reel_ze_zaberu', 'reel_nove_zabery'];
+    const VARIANTY_REELU = ['reel_zakladni', 'reel_pokrocily'];
 
-        /* Které služby se dají množit (mají počet kusů) */
-        const POCITANE = { reel: VARIANTY_REELU, studio: ['studiove_video'] };
+    /* Které služby se dají množit (mají počet kusů) */
+    const POCITANE = { reel: VARIANTY_REELU, studio: ['studiove_video'] };
 
-        /* Služby účtované za každé video — seznam je v _data/cenik.yml,
-           aby stejné pravidlo platilo i pro ceny na dlaždicích balíčků. */
-        const ZA_VIDEO = P.sluzby_za_video || [];
-        const jeZaVideo = id => ZA_VIDEO.indexOf(id) !== -1;
+    /* Služby účtované za každé video — seznam je v _data/cenik.yml,
+       aby stejné pravidlo platilo i pro ceny na dlaždicích balíčků. */
+    const ZA_VIDEO = P.sluzby_za_video || [];
+    const jeZaVideo = id => ZA_VIDEO.indexOf(id) !== -1;
 
-        /* Slevové kódy z _data/cenik.yml (nikde se nezobrazují) */
-        const SLEVY = {};
-        P.slevove_kody.forEach(d => { SLEVY[d.kod] = d; });
+    /* Slevové kódy z _data/cenik.yml (nikde se nezobrazují) */
+    const SLEVY = {};
+    P.slevove_kody.forEach(d => { SLEVY[d.kod] = d; });
 
-        /* ============================================================
-           Cena služby
-           ============================================================ */
-        function kc(n) { return Math.round(n).toLocaleString('cs-CZ') + ' Kč'; }
+    /* ============================================================
+       Cena služby
+       ============================================================ */
+    function kc(n) { return Math.round(n).toLocaleString('cs-CZ') + ' Kč'; }
 
-        /* Cena za JEDEN kus. U služeb s pásmy podle počtu platí poslední
-           pásmo, do kterého se počet vejde. */
-        function cenaZaKus(id, pocet) {
-            pocet = Math.max(1, pocet || 1);
-            if (Object.prototype.hasOwnProperty.call(P.sluzby, id)) return P.sluzby[id];
+    /* Cena za JEDEN kus. U služeb s pásmy podle počtu platí poslední
+       pásmo, do kterého se počet vejde. */
+    function cenaZaKus(id, pocet) {
+        pocet = Math.max(1, pocet || 1);
+        if (Object.prototype.hasOwnProperty.call(P.sluzby, id)) return P.sluzby[id];
 
-            const pasma = P.sluzby_podle_poctu[id];
-            if (!pasma) return 0;
-            let cena = 0;
-            Object.keys(pasma).map(Number).sort((a, b) => a - b)
-                .forEach(od => { if (pocet >= od) cena = pasma[od]; });
-            return cena;
+        const pasma = P.sluzby_podle_poctu[id];
+        if (!pasma) return 0;
+        let cena = 0;
+        Object.keys(pasma).map(Number).sort((a, b) => a - b)
+            .forEach(od => { if (pocet >= od) cena = pasma[od]; });
+        return cena;
+    }
+    function cenaSluzby(id, pocet) {
+        pocet = Math.max(1, pocet || 1);
+        return cenaZaKus(id, pocet) * pocet;
+    }
+
+    /* Řádek rozpisu: "Pokročilý reel — 3× 2 500 Kč" / "Byt 2+kk / 2+1" */
+    function popisPolozky(id, pocet) {
+        const s = SLUZBY[id];
+        if (pocet > 1) return s.label + ' — ' + pocet + '× ' + kc(cenaZaKus(id, pocet));
+        return s.label + (s.od ? ' (od)' : '');
+    }
+
+    /* Věta o množstevních pásmech, poskládaná z cen:
+       "1 ks = 4 000 Kč/ks   2 ks = 3 750 Kč/ks   3 a více kusů = 3 500 Kč/ks." */
+    function popisPasem(id) {
+        const pasma = P.sluzby_podle_poctu[id];
+        if (!pasma) return '';
+        const kroky = Object.keys(pasma).map(Number).sort((a, b) => a - b);
+        return kroky.map((od, i) => {
+            const dalsi = kroky[i + 1];
+            let rozsah;
+            if (!dalsi) rozsah = od + ' a více kusů';
+            else if (dalsi - od === 1) rozsah = od + ' ks';
+            else rozsah = od + '–' + (dalsi - 1) + ' ks';
+            return rozsah + ' = ' + kc(pasma[od]) + '/ks';
+        }).join(',  ');
+    }
+
+    /* ============================================================
+       Stav — každá kategorie má svůj vlastní košík služeb,
+       takže přepínání mezi typy nic nesmaže.
+       ============================================================ */
+    function novyStav() {
+        return { sluzby: {}, hudbaProjekt: false, velkeMesto: false, express: false, km: '', cesta: null, dopravaOpen: false };
+    }
+    const state = {
+        typ: null,
+        data: {
+            reality: novyStav(), reel: novyStav(), studio: novyStav(),
+            svatba: novyStav(), firemni: novyStav()
+        },
+        discountCode: '',
+        appliedCode: '',
+        discountOpen: false
+    };
+    function S() { return state.data[state.typ]; }
+
+    function ma(id) { return !!S().sluzby[id]; }
+    function nastav(id, pocet) {
+        const s = S();
+        if (pocet > 0) s.sluzby[id] = pocet; else delete s.sluzby[id];
+    }
+    function prepni(id) { nastav(id, ma(id) ? 0 : 1); }
+    /* Vybere právě jednu službu ze skupiny (null = žádnou) */
+    function vyberJednu(skupina, id) {
+        const s = S();
+        skupina.forEach(x => delete s.sluzby[x]);
+        if (id) s.sluzby[id] = 1;
+    }
+
+    /* Hlavní počítaná služba kategorie (reel / studiové video) */
+    function hlavniId() {
+        const l = POCITANE[state.typ] || [];
+        return l.find(id => id in S().sluzby) || l[0] || null;
+    }
+    function hlavniPocet() {
+        const id = hlavniId();
+        return id ? Math.max(1, S().sluzby[id] || 1) : 1;
+    }
+    function maHudbu() {
+        const s = S();
+        return !!(s.sluzby.licencovana_hudba || s.sluzby.licencovana_hudba_projekt);
+    }
+
+    /* Přídavky "za každé video" se vždy srovnají na počet videí a hudba
+       se překlopí mezi cenou za video a jednou licencí na projekt. */
+    function srovnejPridavky() {
+        const s = S();
+        const n = hlavniPocet();
+
+        Object.keys(s.sluzby).forEach(id => {
+            if (jeZaVideo(id)) s.sluzby[id] = n;
+        });
+
+        const hudba = maHudbu();
+        delete s.sluzby.licencovana_hudba;
+        delete s.sluzby.licencovana_hudba_projekt;
+        if (hudba) {
+            if (s.hudbaProjekt && n >= 2) s.sluzby.licencovana_hudba_projekt = 1;
+            else s.sluzby.licencovana_hudba = n;
         }
-        function cenaSluzby(id, pocet) {
-            pocet = Math.max(1, pocet || 1);
-            return cenaZaKus(id, pocet) * pocet;
-        }
+    }
 
-        /* Řádek rozpisu: "Pokročilý reel — 3× 2 500 Kč" / "Byt 2+kk / 2+1" */
-        function popisPolozky(id, pocet) {
-            const s = SLUZBY[id];
-            if (pocet > 1) return s.label + ' — ' + pocet + '× ' + kc(cenaZaKus(id, pocet));
-            return s.label + (s.od ? ' (od)' : '');
-        }
+    /* ============================================================
+       Výpočet celé zakázky
+       ============================================================ */
+    function calculate() {
+        const typ = state.typ;
+        if (!typ || typ === 'firemni') return null;
+        const s = S();
 
-        /* Věta o množstevních pásmech, poskládaná z cen:
-           "1 ks = 4 000 Kč/ks · 2 ks = 3 750 Kč/ks · 3 a více ks = 3 500 Kč/ks." */
-        function popisPasem(id) {
-            const pasma = P.sluzby_podle_poctu[id];
-            if (!pasma) return '';
-            const kroky = Object.keys(pasma).map(Number).sort((a, b) => a - b);
-            return kroky.map((od, i) => {
-                const dalsi = kroky[i + 1];
-                let rozsah;
-                if (!dalsi) rozsah = od + ' a více ks';
-                else if (dalsi - od === 1) rozsah = od + ' ks';
-                else rozsah = od + '–' + (dalsi - 1) + ' ks';
-                return rozsah + ' = ' + kc(pasma[od]) + '/ks';
-            }).join(' · ') + '.';
-        }
+        /* přídavky za video drží počet videí — hlídá se tady, ať se to
+           nedá obejít žádnou cestou, kterou se košík změní */
+        srovnejPridavky();
 
-        /* ============================================================
-           Stav — každá kategorie má svůj vlastní košík služeb,
-           takže přepínání mezi typy nic nesmaže.
-           ============================================================ */
-        function novyStav() {
-            return { sluzby: {}, hudbaProjekt: false, velkeMesto: false, express: false, km: '', cesta: null };
-        }
-        const state = {
-            typ: null,
-            data: {
-                reality: novyStav(), reel: novyStav(), studio: novyStav(),
-                svatba: novyStav(), firemni: novyStav()
-            },
-            discountCode: '',
-            appliedCode: ''
-        };
-        function S() { return state.data[state.typ]; }
+        const items = Object.keys(s.sluzby)
+            .filter(id => SLUZBY[id] && s.sluzby[id] > 0)
+            .sort((a, b) => PORADI.indexOf(a) - PORADI.indexOf(b))
+            .map(id => ({
+                id: id,
+                label: popisPolozky(id, s.sluzby[id]),
+                amount: cenaSluzby(id, s.sluzby[id])
+            }));
 
-        function ma(id) { return !!S().sluzby[id]; }
-        function nastav(id, pocet) {
-            const s = S();
-            if (pocet > 0) s.sluzby[id] = pocet; else delete s.sluzby[id];
-        }
-        function prepni(id) { nastav(id, ma(id) ? 0 : 1); }
-        /* Vybere právě jednu službu ze skupiny (null = žádnou) */
-        function vyberJednu(skupina, id) {
-            const s = S();
-            skupina.forEach(x => delete s.sluzby[x]);
-            if (id) s.sluzby[id] = 1;
-        }
+        const hasBase = items.some(i => SLUZBY[i.id].zaklad);
+        const itemsSum = items.reduce((a, i) => a + i.amount, 0);
 
-        /* Hlavní počítaná služba kategorie (reel / studiové video) */
-        function hlavniId() {
-            const l = POCITANE[state.typ] || [];
-            return l.find(id => id in S().sluzby) || l[0] || null;
-        }
-        function hlavniPocet() {
-            const id = hlavniId();
-            return id ? Math.max(1, S().sluzby[id] || 1) : 1;
-        }
-        function maHudbu() {
-            const s = S();
-            return !!(s.sluzby.licencovana_hudba || s.sluzby.licencovana_hudba_projekt);
-        }
-
-        /* Přídavky "za každé video" se vždy srovnají na počet videí a hudba
-           se překlopí mezi cenou za video a jednou licencí na projekt. */
-        function srovnejPridavky() {
-            const s = S();
-            const n = hlavniPocet();
-
-            Object.keys(s.sluzby).forEach(id => {
-                if (jeZaVideo(id)) s.sluzby[id] = n;
-            });
-
-            const hudba = maHudbu();
-            delete s.sluzby.licencovana_hudba;
-            delete s.sluzby.licencovana_hudba_projekt;
-            if (hudba) {
-                if (s.hudbaProjekt && n >= 2) s.sluzby.licencovana_hudba_projekt = 1;
-                else s.sluzby.licencovana_hudba = n;
-            }
-        }
-
-        /* ============================================================
-           Výpočet celé zakázky
-           ============================================================ */
-        function calculate() {
-            const typ = state.typ;
-            if (!typ || typ === 'firemni') return null;
-            const s = S();
-
-            /* přídavky za video drží počet videí — hlídá se tady, ať se to
-               nedá obejít žádnou cestou, kterou se košík změní */
-            srovnejPridavky();
-
-            const items = Object.keys(s.sluzby)
-                .filter(id => SLUZBY[id] && s.sluzby[id] > 0)
-                .sort((a, b) => PORADI.indexOf(a) - PORADI.indexOf(b))
-                .map(id => ({
-                    id: id,
-                    label: popisPolozky(id, s.sluzby[id]),
-                    amount: cenaSluzby(id, s.sluzby[id])
-                }));
-
-            const hasBase = items.some(i => SLUZBY[i.id].zaklad);
-            const itemsSum = items.reduce((a, i) => a + i.amount, 0);
-
-            /* Doprava = km × cena/km, nebo fixní cesta */
-            let doprava = 0;
+        /* Doprava = fixní cesta (Trutnov / Liberec), nebo „Jiná vzdálenost" (km × cena/km) */
+        let doprava = 0;
+        if (s.cesta === 'km') {
             const km = parseInt(s.km, 10);
             if (!isNaN(km) && km > 0) doprava += km * P.doprava.za_km;
-            if (s.cesta) doprava += P.doprava[s.cesta];
-
-            /* Velké město (Praha / Brno) — % z ceny včetně dopravy */
-            let cityFee = 0;
-            if (typ === 'reality' && s.velkeMesto) {
-                cityFee = Math.round((itemsSum + doprava) * P.priplatky.velke_mesto / 100);
-            }
-
-            /* Expresní dodání — % ze základu + přídavků + dopravy + velkého města */
-            let express = 0;
-            if (s.express) {
-                express = Math.round((itemsSum + doprava + cityFee) * P.priplatky.expresni_dodani / 100);
-            }
-
-            const subtotal = itemsSum + doprava + cityFee + express;
-
-            let discountAmount = 0, discountLabel = '';
-            const sleva = SLEVY[state.appliedCode.trim()];
-            if (sleva) {
-                if (sleva.typ === 'procenta') {
-                    discountAmount = Math.round(subtotal * sleva.hodnota / 100);
-                    discountLabel = 'Sleva −' + sleva.hodnota + ' %';
-                } else {
-                    discountAmount = Math.min(sleva.hodnota, subtotal);
-                    discountLabel = 'Sleva ' + kc(sleva.hodnota);
-                }
-            }
-
-            return {
-                items: items, doprava: doprava, cityFee: cityFee, express: express,
-                subtotal: subtotal, discountAmount: discountAmount, discountLabel: discountLabel,
-                total: subtotal - discountAmount, hasBase: hasBase
-            };
+        } else if (s.cesta === 'trutnov' || s.cesta === 'liberec') {
+            doprava += P.doprava[s.cesta];
         }
 
-        /* ============================================================
-           Sdílené sady tříd (psané celé, aby je Tailwind našel při buildu)
-           ============================================================ */
-        const C = {
-            panel: 'bg-base border border-line/10 rounded-2xl p-6 md:p-7',
-            stepTag: 'block text-brand text-xs font-semibold tracking-widest uppercase mb-3',
-            fieldLabel: 'text-fg font-semibold mb-1',
-            fieldHint: 'text-muted text-sm mb-4',
-            subhead: 'text-muted/70 text-xs font-semibold tracking-widest uppercase mt-7 mb-3',
-            note: 'text-muted/70 text-xs mt-2 leading-relaxed',
-            accentNote: 'text-brand text-xs mt-2 leading-relaxed',
-            sep: 'border-0 border-t border-line/10 my-6',
-            optBase: 'w-full flex items-start gap-3 text-left rounded-xl border p-4 transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand',
-            optIdle: 'bg-surface border-line/15 hover:border-line/35',
-            optActive: 'bg-brand/10 border-brand',
-            input: 'cenik-num bg-surface border border-line/15 rounded-xl text-fg px-4 py-3 text-[15px] w-full focus:outline-none focus:border-brand/60 transition-colors placeholder-muted/60'
+        /* Velké město (Praha / Brno) — % z ceny včetně dopravy */
+        let cityFee = 0;
+        if (typ === 'reality' && s.velkeMesto) {
+            cityFee = Math.round((itemsSum + doprava) * P.priplatky.velke_mesto / 100);
+        }
+
+        /* Expresní dodání — % ze základu + přídavků + dopravy + velkého města */
+        let express = 0;
+        if (s.express) {
+            express = Math.round((itemsSum + doprava + cityFee) * P.priplatky.expresni_dodani / 100);
+        }
+
+        const subtotal = itemsSum + doprava + cityFee + express;
+
+        let discountAmount = 0, discountLabel = '';
+        const sleva = SLEVY[state.appliedCode.trim()];
+        if (sleva) {
+            if (sleva.typ === 'procenta') {
+                discountAmount = Math.round(subtotal * sleva.hodnota / 100);
+                discountLabel = 'Sleva −' + sleva.hodnota + ' %';
+            } else {
+                discountAmount = Math.min(sleva.hodnota, subtotal);
+                discountLabel = 'Sleva ' + kc(sleva.hodnota);
+            }
+        }
+
+        return {
+            items: items, doprava: doprava, cityFee: cityFee, express: express,
+            subtotal: subtotal, discountAmount: discountAmount, discountLabel: discountLabel,
+            total: subtotal - discountAmount, hasBase: hasBase
         };
+    }
 
-        const arrow = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6"></path></svg>';
+    /* ============================================================
+       Sdílené sady tříd (psané celé, aby je Tailwind našel při buildu)
+       ============================================================ */
+    const C = {
+        /* jedna karta = jedna sekce formuláře */
+        card: 'bg-surface border border-line/10 rounded-2xl p-6 md:p-7',
+        fieldLabel: 'text-fg text-lg font-semibold mb-1',
+        subhead: 'text-fg text-lg font-semibold mt-7 mb-1',
+        /* jednotný styl pro všechny vysvětlivky */
+        desc: 'text-muted text-sm leading-relaxed',
+        /* podtržené pole ve stylu formuláře na homepage */
+        input: 'cenik-num w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors'
+    };
 
-        /* Přepínač: kolečko (radio) nebo čtvereček (checkbox) */
-        function marker(active, isCheckbox) {
-            if (isCheckbox) {
-                return `<span class="mt-0.5 shrink-0 w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center transition-colors ${active ? 'border-brand bg-brand' : 'border-line/40'}">
+    const arrow = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 12h14M13 6l6 6-6 6"></path></svg>';
+
+    /* ============================================================
+       Přepínač zapnuto/vypnuto — lehký řádek se switchem (bez dlaždice).
+       Používá se pro doplňkové volby (AI záběry, hudba, velké město, express).
+       ============================================================ */
+    function toggleRow(o) {
+        const active = !!o.active;
+        return `<button type="button" role="checkbox" aria-checked="${active}" class="w-full flex items-start gap-3 text-left py-1.5 focus-visible:outline-none group ${o.cls || ''}" ${o.attrs || ''}>
+                <span class="shrink-0 mt-1 w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center transition-colors ${active ? 'border-brand bg-brand' : 'border-line/40 group-hover:border-line/60'}">
                     <svg class="w-3 h-3 text-onbrand ${active ? '' : 'hidden'}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                </span>`;
-            }
-            return `<span class="mt-0.5 shrink-0 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-colors ${active ? 'border-brand' : 'border-line/40'}">
-                <span class="w-2 h-2 rounded-full bg-brand ${active ? '' : 'hidden'}"></span>
-            </span>`;
-        }
-
-        /* Jedna volba (radio/checkbox) */
-        function opt(o) {
-            const active = !!o.active;
-            return `<button type="button" class="${C.optBase} ${active ? C.optActive : C.optIdle} ${o.cls || ''}" ${o.attrs || ''}>
-                ${marker(active, o.checkbox)}
+                </span>
                 <span class="flex flex-col min-w-0">
-                    <span class="text-fg text-[14.5px] font-medium">${o.title}</span>
+                    <span class="text-fg text-lg">${o.title}</span>
                     ${o.desc ? `<span class="text-muted/70 text-xs leading-snug mt-1">${o.desc}</span>` : ''}
-                    ${o.price ? `<span class="text-[13.5px] font-semibold mt-1 ${active ? 'text-brand' : 'text-muted'}">${o.price}</span>` : ''}
+                    ${o.price ? `<span class="text-sm font-semibold mt-0.5 ${active ? 'text-brand' : 'text-muted'}">${o.price}</span>` : ''}
                 </span>
             </button>`;
-        }
+    }
 
-        /* Volba přímo pro službu — název i cena se berou z katalogu a ceníku */
-        function optSluzba(id, o) {
-            o = o || {};
-            const s = SLUZBY[id];
-            const cena = (s.od ? 'od ' : '') + (o.plus ? '+' : '') + kc(cenaZaKus(id, 1))
-                + (jeZaVideo(id) ? ' za každé video' : '');
-            return opt(Object.assign({
-                title: s.label,
-                desc: s.popis,
-                price: cena,
-                active: ma(id),
-                attrs: `data-sluzba="${id}"`
-            }, o));
-        }
+    /* Switch přímo pro službu — název i cena z katalogu a ceníku */
+    function toggleSluzba(id, o) {
+        o = o || {};
+        const s = SLUZBY[id];
+        const cena = (s.od ? 'od ' : '') + (o.plus ? '+' : '') + kc(cenaZaKus(id, 1))
+            + (jeZaVideo(id) ? ' za každé video' : '');
+        return toggleRow(Object.assign({
+            title: s.label,
+            price: cena,
+            active: ma(id),
+            attrs: `data-sluzba="${id}"`
+        }, o));
+    }
 
-        /* ============================================================
-           Výběr kategorie (krok 1)
-           ============================================================ */
-        const typeGrid = document.getElementById('typeGrid');
-        const tools = document.getElementById('tools');
+    /* Přepínač „vyber právě jednu" (radio) — kolečko vlevo, popis a cena
+       jako popisek pod názvem. */
+    function radioRow(o) {
+        const active = !!o.active;
+        return `<button type="button" role="radio" aria-checked="${active}" class="w-full flex items-start gap-3 text-left py-1.5 focus-visible:outline-none group ${o.cls || ''}" ${o.attrs || ''}>
+                <span class="shrink-0 mt-1 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-colors ${active ? 'border-brand' : 'border-line/40 group-hover:border-line/60'}">
+                    <span class="w-2 h-2 rounded-full bg-brand ${active ? '' : 'hidden'}"></span>
+                </span>
+                <span class="flex flex-col min-w-0">
+                    <span class="text-fg text-lg">${o.title}</span>
+                    ${o.desc ? `<span class="${C.desc}">${o.desc}</span>` : ''}
+                    ${o.price ? `<span class="${C.desc}">${o.price}</span>` : ''}
+                </span>
+            </button>`;
+    }
 
-        function renderTypeGrid() {
-            typeGrid.innerHTML = KATEGORIE.map(k => opt({
-                title: k.label,
-                active: state.typ === k.id,
-                cls: 'js-type',
-                attrs: `data-type="${k.id}"`
-            })).join('');
+    /* Radio přímo pro službu — název, popis i cena z katalogu a ceníku. */
+    function radioSluzba(id, o) {
+        o = o || {};
+        const s = SLUZBY[id];
+        const jePasmo = !!(P.sluzby_podle_poctu && P.sluzby_podle_poctu[id]);
+        const cena = (s.od || jePasmo ? 'od ' : '') + (o.plus ? '+' : '') + kc(cenaZaKus(id, 1));
+        return radioRow(Object.assign({
+            title: s.label,
+            desc: s.popis,
+            price: cena,
+            active: ma(id),
+            attrs: `data-sluzba="${id}"`
+        }, o));
+    }
 
-            typeGrid.querySelectorAll('.js-type').forEach(b => b.addEventListener('click', () => {
-                selectType(b.dataset.type);
-            }));
-        }
+    /* ============================================================
+       Rozbalovací nabídka (native <select>) — pro skupiny, kde se
+       vybírá právě jedna možnost. Vzhled sladěný s designem stránky,
+       chování a přístupnost necháváme na nativním prvku.
+       ============================================================ */
+    /* Rozbalovací nabídka ve stylu <select> na homepage: průhledné pole
+       s podtržením a otočnou šipkou v barvě značky. o: { cls, attrs, value,
+       options:[{ value, label, disabled }] } */
+    /* o: { cls, attrs, value, options:[{ value, label, disabled }] } */
+    function selectHTML(o) {
+        const opts = o.options.map(op => {
+            const cls = (op.value === '' || op.disabled) ? 'bg-surface text-muted' : 'bg-surface text-fg py-2';
+            return `<option value="${op.value}" class="${cls}"${op.value === (o.value || '') ? ' selected' : ''}${op.disabled ? ' disabled' : ''}>${op.label}</option>`;
+        }).join('');
+        return `<div class="relative border-b border-line/20 focus-within:border-brand transition-colors">
+                <select class="w-full bg-transparent border-0 px-0 py-3 text-fg text-lg appearance-none cursor-pointer peer cenik-select ${o.cls || ''}" ${o.attrs || ''}>${opts}</select>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-brand peer-focus:rotate-180 transition-transform duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>`;
+    }
 
-        function selectType(t) {
-            state.typ = t;
-            /* kategorie s jasným základem se předvyplní, ať je hned vidět cena */
-            if (t === 'svatba' && !ma('svatebni_video')) nastav('svatebni_video', 1);
-            if (t === 'reel' && !hlavniId()) nastav('reel_zakladni', 1);
-            if (t === 'reel' && !VARIANTY_REELU.some(ma)) nastav('reel_zakladni', 1);
-            if (t === 'studio' && !ma('studiove_video')) nastav('studiove_video', 1);
-            renderTypeGrid();
-            renderTools();
-            renderOutput();
-        }
 
-        /* ============================================================
-           Dílčí bloky formuláře
-           ============================================================ */
-        function counterHTML() {
-            return `<div class="inline-flex items-center bg-surface border border-line/15 rounded-xl overflow-hidden" data-counter>
+    /* ============================================================
+       Výběr kategorie (krok 1)
+       ============================================================ */
+    const typeGrid = document.getElementById('typeGrid');
+    const tools = document.getElementById('tools');
+
+    function renderTypeGrid() {
+        typeGrid.innerHTML = selectHTML({
+            cls: 'js-type',
+            value: state.typ || '',
+            options: [{ value: '', label: 'Vyberte typ videa…' }]
+                .concat(KATEGORIE.map(k => ({ value: k.id, label: k.label })))
+        });
+
+        const sel = typeGrid.querySelector('.js-type');
+        sel.addEventListener('change', () => { if (sel.value) selectType(sel.value); });
+    }
+
+    function selectType(t) {
+        state.typ = t;
+        /* kategorie s jasným základem se předvyplní, ať je hned vidět cena */
+        if (t === 'svatba' && !ma('svatebni_video')) nastav('svatebni_video', 1);
+        if (t === 'reel' && !hlavniId()) nastav('reel_zakladni', 1);
+        if (t === 'reel' && !VARIANTY_REELU.some(ma)) nastav('reel_zakladni', 1);
+        if (t === 'studio' && !ma('studiove_video')) nastav('studiove_video', 1);
+        renderTypeGrid();
+        renderTools();
+        renderOutput();
+    }
+
+    /* ============================================================
+       Dílčí bloky formuláře
+       ============================================================ */
+    function counterHTML() {
+        return `<div class="inline-flex items-center bg-surface border border-line/15 rounded-xl overflow-hidden" data-counter>
                 <button type="button" data-step="-1" aria-label="Ubrat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand/10 hover:text-brand transition-colors">−</button>
                 <span class="w-14 text-center text-fg text-lg font-semibold">${hlavniPocet()}</span>
                 <button type="button" data-step="1" aria-label="Přidat" class="w-12 h-12 text-fg text-2xl leading-none hover:bg-brand/10 hover:text-brand transition-colors">+</button>
             </div>`;
-        }
+    }
 
-        function infoboxHTML(inner) {
-            return `<div class="mt-4 rounded-xl border border-brand/45 border-l-[3px] border-l-brand bg-brand/[0.12] px-4 py-3.5 text-[13.5px] leading-relaxed text-fg/80">${inner}</div>`;
-        }
+    function infoboxHTML(inner) {
+        return `<p class="${C.desc} mt-3">${inner}</p>`;
+    }
 
-        function hudbaHTML() {
-            const n = hlavniPocet();
-            const zaVideo = P.sluzby.licencovana_hudba;
-            const projekt = P.sluzby.licencovana_hudba_projekt;
+    function hudbaHTML() {
+        const n = hlavniPocet();
+        const zaVideo = P.sluzby.licencovana_hudba;
 
-            let volba = '';
-            if (maHudbu() && n >= 2) {
-                volba = `<div class="space-y-2.5 mt-3">
-                    ${opt({ title: 'Zvlášť pro každé video', price: `${kc(zaVideo)} × ${n} = ${kc(zaVideo * n)}`, active: !S().hudbaProjekt, cls: 'js-hudba-rozsah', attrs: 'data-projekt="0"' })}
-                    ${opt({ title: 'Jedna licence pro celý projekt', price: `${kc(projekt)} za všech ${n} videí`, active: S().hudbaProjekt, cls: 'js-hudba-rozsah', attrs: 'data-projekt="1"' })}
+        let volba = '';
+        if (maHudbu() && n >= 2) {
+            volba = `<div class="mt-4">
+                    <p class="${C.desc} mb-1.5">Rozsah licence</p>
+                    ${selectHTML({
+                cls: 'js-hudba-rozsah',
+                value: S().hudbaProjekt ? '1' : '0',
+                options: [
+                    { value: '0', label: 'Zvlášť pro každé video' },
+                    { value: '1', label: 'Jedna licence pro celý projekt' }
+                ]
+            })}
                 </div>`;
-            }
-
-            return `<div class="${C.subhead}">Licencovaná hudba</div>
-                ${opt({ title: SLUZBY.licencovana_hudba.label, price: '+' + kc(zaVideo) + ' za každé video', checkbox: true, active: maHudbu(), cls: 'js-hudba' })}
-                <p class="${C.note}">Licencovaná hudba je pouze pro firmy s méně než 100 zaměstnanci.</p>
-                ${volba}`;
         }
 
-        function dopravaHTML() {
-            const s = S();
-            const cesty = CESTY.map(c => opt({
-                title: c.label,
-                price: kc(P.doprava[c.id]) + ' ' + c.popis,
-                checkbox: true,
-                active: s.cesta === c.id,
-                cls: 'js-cesta',
-                attrs: `data-cesta="${c.id}"`
-            })).join('');
+        return `<div class="${C.card}">
+                ${toggleRow({ title: SLUZBY.licencovana_hudba.label, price: '+' + kc(zaVideo) + ' za každé video', active: maHudbu(), cls: 'js-hudba' })}
+                <p class="${C.desc} mt-2">Licencovaná hudba je pouze pro firmy s méně než 100 zaměstnanci.</p>
+                ${volba}
+            </div>`;
+    }
 
-            return `<hr class="${C.sep}">
+    function dopravaHTML() {
+        const s = S();
+        /* Doprava je ve výchozím stavu vypnutá (nezahrnutá v ceně). Rozbalí se
+           tlačítkem, nebo sama zůstane rozbalená, když už nějaká hodnota drží. */
+        const open = s.dopravaOpen || !!s.km || !!s.cesta;
+
+        if (!open) {
+            return `<div class="${C.card}">
                 <div class="${C.fieldLabel}">Doprava</div>
-                <p class="${C.fieldHint}">Vyberte jednu variantu — ${kc(P.doprava.za_km)}/km, nebo fixní cestu. Poslední volba přepíše předchozí.</p>
-                <div class="flex items-center gap-3 flex-wrap">
+                <p class="${C.desc} mb-3">Účtuje se zvlášť podle místa natáčení — ${kc(P.doprava.za_km)}/km, nebo fixní sazba pro Trutnov (${kc(P.doprava.trutnov)}) a Liberec (${kc(P.doprava.liberec)}).</p>
+                <button type="button" class="js-doprava-open inline-flex items-center gap-2 text-brand text-sm font-semibold hover:text-fg transition-colors">
+                    <span class="text-lg leading-none">+</span> Přidat dopravu
+                </button>
+            </div>`;
+        }
+
+        const cestaRadios = CESTY.map(c => radioRow({
+            title: c.label,
+            price: (kc(P.doprava[c.id]) + ' ' + (c.popis || '')).trim(),
+            active: s.cesta === c.id,
+            cls: 'js-cesta',
+            attrs: `data-cesta="${c.id}"`
+        })).join('');
+
+        /* Pole pro km se ukáže až po zvolení „Jiná vzdálenost" (cesta === 'km'),
+           odsazené pod odrážku (šířka kolečka + mezera). */
+        const kmInput = s.cesta === 'km' ? `<div class="flex items-center gap-3 flex-wrap mt-2 pl-[30px]">
                     <input class="${C.input} js-km max-w-[140px]" type="number" min="0" inputmode="numeric" placeholder="0" value="${s.km}">
                     <span class="text-muted text-sm">km × ${kc(P.doprava.za_km)}/km</span>
+                </div>` : '';
+
+        return `<div class="${C.card}">
+                <div class="flex items-center justify-between gap-3 mb-1">
+                    <span class="text-fg text-lg font-semibold">Doprava</span>
+                    <button type="button" class="js-doprava-close text-muted text-sm hover:text-fg transition-colors">Zrušit</button>
                 </div>
-                <div class="space-y-2.5 mt-4">${cesty}</div>`;
-        }
-
-        function expressHTML() {
-            return `<hr class="${C.sep}">
-                <div class="${C.fieldLabel}">Expresní dodání</div>
-                <div class="mt-3">
-                    ${opt({ title: 'Expresní dodání', price: '+' + P.priplatky.expresni_dodani + ' % z celkové ceny', checkbox: true, active: S().express, cls: 'js-express' })}
+                <p class="${C.desc} mb-4">Vyberte místo natáčení.</p>
+                <div class="space-y-1" role="radiogroup" aria-label="Místo natáčení">
+                    ${cestaRadios}
+                    ${radioRow({ title: 'Jiná vzdálenost', price: kc(P.doprava.za_km) + '/km', active: s.cesta === 'km', cls: 'js-cesta', attrs: 'data-cesta="km"' })}
                 </div>
-                <p class="${C.note}">Pokud váš projekt spěchá a potřebujete ho mít hotový do 3. dne od natáčení (závisí na velikosti projektu).</p>`;
-        }
+                ${kmInput}
+            </div>`;
+    }
 
-        function discountHTML() {
-            return `<hr class="${C.sep}">
-                <div class="${C.fieldLabel}">Slevový kód</div>
-                <div class="flex items-center gap-3 flex-wrap mt-3">
-                    <input class="${C.input} js-code max-w-[200px]" type="text" placeholder="Zadejte kód" value="${state.discountCode}">
-                    <button type="button" class="js-apply bg-brand/10 text-brand border border-brand/45 rounded-xl px-6 py-3 text-sm font-semibold hover:bg-brand hover:text-onbrand transition-colors">Uplatnit</button>
-                </div>
-                <div class="text-sm mt-2 min-h-[20px]" id="discountStatus"></div>`;
-        }
+    /* Expresní dodání a slevový kód sdílejí jednu kartu — obě jsou krátké
+       volitelné příplatky/výjimky, oddělené jen tenkou vnitřní linkou. */
+    function expressDiscountHTML() {
+        const open = state.discountOpen || !!state.discountCode;
+        const pole = open ? `<div class="cenik-reveal">
+                    <div class="flex items-center gap-3 flex-wrap mt-3">
+                        <input class="${C.input} js-code max-w-[200px]" type="text" placeholder="Zadejte kód" value="${state.discountCode}">
+                        <button type="button" class="js-apply bg-brand/10 text-brand border border-brand/45 rounded-xl px-6 py-3 text-sm font-semibold hover:bg-brand hover:text-onbrand transition-colors">Uplatnit</button>
+                    </div>
+                    <div class="text-sm mt-2 min-h-[20px]" id="discountStatus"></div>
+                </div>` : '';
 
-        /* společný konec každého panelu */
-        function zavesHTML() {
-            return dopravaHTML() + expressHTML() + discountHTML();
-        }
+        return `<div class="${C.card}">
+                ${toggleRow({ title: 'Expresní dodání', price: '+' + P.priplatky.expresni_dodani + ' % z celkové ceny', active: S().express, cls: 'js-express' })}
+                <hr class="border-0 border-t border-line/10 my-5">
+                ${toggleRow({ title: 'Mám slevový kód', active: open, cls: 'js-discount-toggle' })}
+                ${pole}
+            </div>`;
+    }
 
-        /* ============================================================
-           Formulář podle kategorie (krok 2)
-           ============================================================ */
-        function renderTools() {
-            const t = state.typ;
-            if (!t) { tools.innerHTML = ''; return; }
+    /* společný konec každého panelu */
+    function zavesHTML() {
+        return dopravaHTML() + expressDiscountHTML();
+    }
 
-            let html = '';
+    /* ============================================================
+       Formulář podle kategorie (krok 2)
+       ============================================================ */
+    function renderTools() {
+        const t = state.typ;
+        if (!t) { tools.innerHTML = ''; return; }
 
-            if (t === 'reality') {
-                html = `<div class="${C.panel}">
-                    <span class="${C.stepTag}">Krok 2 · Videoprohlídka nemovitosti</span>
-                    <div class="${C.fieldLabel}">Výběr nemovitosti <span class="text-brand text-xs font-semibold ml-1">povinné</span></div>
-                    <p class="${C.fieldHint}">Vyberte jednu možnost.</p>
-                    <div class="space-y-2.5">
-                        ${DISPOZICE.map(id => optSluzba(id, { cls: 'js-dispozice' })).join('')}
+        let html = '';
+
+        if (t === 'reality') {
+            html = `<div class="${C.card}">
+                    <div class="${C.fieldLabel}">Typ nemovitosti</div>
+                    <div class="space-y-1" role="radiogroup" aria-label="Typ nemovitosti">
+                        ${DISPOZICE.map(id => radioSluzba(id, { cls: 'js-dispozice' })).join('')}
                     </div>
 
-                    ${infoboxHTML(`<b class="text-fg font-semibold">Co je v ceně:</b> dronové záběry, licencovaná hudba, možné nahrání voiceoveru s makléřem a talking head záběry makléře.
-                        <div class="mt-3 pt-3 border-t border-line/20"><b class="text-fg font-semibold">Neobsahuje:</b> AI záběry (lze přidat).</div>`)}
+                    ${infoboxHTML(`<b class="text-fg font-medium">Co je v ceně:</b> dronové záběry, licencovaná hudba, možné nahrání voiceoveru s makléřem a talking head záběry makléře. <b class="text-fg font-medium">Neobsahuje:</b> AI záběry (lze přidat).`)}
+                </div>
 
-                    <div class="${C.subhead}">Přídavek Reel · volitelné</div>
-                    <div class="space-y-2.5">
-                        ${REEL_PRIDAVKY.map(id => optSluzba(id, { cls: 'js-reel-pridavek', plus: true })).join('')}
+                <div class="${C.card}">
+                    <div class="${C.fieldLabel}">Přídavek Reel · volitelné</div>
+                    <div class="space-y-1 mt-3" role="radiogroup" aria-label="Přídavek Reel">
+                        ${radioRow({ title: 'Bez reelu', active: !REEL_PRIDAVKY.some(ma), cls: 'js-reel-pridavek', attrs: 'data-sluzba=""' })}
+                        ${REEL_PRIDAVKY.map(id => radioSluzba(id, { cls: 'js-reel-pridavek', plus: true })).join('')}
                     </div>
-                    <p class="${C.accentNote}">V balíčku ušetříte ${kc(cenaZaKus('reel_pokrocily', 1) - cenaZaKus('reel_nove_zabery', 1))} oproti samostatnému reelu, který stojí od ${kc(cenaZaKus('reel_pokrocily', 1))}.</p>
+                    <p class="${C.desc} mt-2">V balíčku ušetříte ${kc(cenaZaKus('reel_pokrocily', 1) - cenaZaKus('reel_nove_zabery', 1))} oproti samostatnému reelu, který stojí od ${kc(cenaZaKus('reel_pokrocily', 1))}.</p>
+                </div>
 
-                    <div class="${C.subhead}">Přídavek AI záběry</div>
-                    ${optSluzba('ai_zabery_reality', { checkbox: true, cls: 'js-prepinac', plus: true })}
+                <div class="${C.card} space-y-3">
+                    ${toggleSluzba('ai_zabery_reality', { cls: 'js-prepinac', plus: true })}
+                    ${toggleRow({ title: 'Velké město (Praha / Brno)', price: '+' + P.priplatky.velke_mesto + ' % z celkové ceny', active: S().velkeMesto, cls: 'js-mesto' })}
+                </div>
 
-                    <div class="${C.subhead}">Velké město</div>
-                    ${opt({ title: 'Praha / Brno', price: '+' + P.priplatky.velke_mesto + ' % z celkové ceny', checkbox: true, active: S().velkeMesto, cls: 'js-mesto' })}
+                ${zavesHTML()}`;
+        }
 
-                    ${zavesHTML()}
-                </div>`;
-            }
-
-            else if (t === 'reel') {
-                const varianta = hlavniId();
-                html = `<div class="${C.panel}">
-                    <span class="${C.stepTag}">Krok 2 · Krátké video na sociální sítě (Reel)</span>
-                    <div class="${C.fieldLabel}">Varianta</div>
-                    <p class="${C.fieldHint}">Vyberte jednu možnost.</p>
-                    <div class="space-y-2.5">
-                        ${VARIANTY_REELU.map(id => opt({
-                            title: SLUZBY[id].label,
-                            desc: SLUZBY[id].popis,
-                            price: 'od ' + kc(cenaZaKus(id, 1)),
-                            active: id === varianta,
-                            cls: 'js-varianta',
-                            attrs: `data-sluzba="${id}"`
-                        })).join('')}
+        else if (t === 'reel') {
+            const varianta = hlavniId();
+            html = `<div class="${C.card}">
+                    <div class="${C.fieldLabel}">Varianta reelu</div>
+                    <div class="space-y-1" role="radiogroup" aria-label="Varianta reelu">
+                        ${VARIANTY_REELU.map(id => radioSluzba(id, { cls: 'js-varianta' })).join('')}
                     </div>
 
                     <div class="${C.subhead}">Počet reelů</div>
                     ${counterHTML()}
-                    <p class="${C.note}">${popisPasem(varianta)}</p>
+                    <p class="${C.desc} mt-2">${popisPasem(varianta)}</p>
+                </div>
 
-                    ${hudbaHTML()}
+                ${hudbaHTML()}
 
-                    <div class="${C.subhead}">AI záběry</div>
-                    ${optSluzba('ai_zabery_reel', { checkbox: true, cls: 'js-prepinac', plus: true })}
+                <div class="${C.card}">
+                    ${toggleSluzba('ai_zabery_reel', { cls: 'js-prepinac', plus: true })}
+                    ${infoboxHTML('Reely obsahují designové animované titulky pro talking head content.')}
+                </div>
 
-                    ${infoboxHTML('Reely obsahují <b class="text-fg font-semibold">designové animované titulky</b> pro talking head content.')}
+                ${zavesHTML()}`;
+        }
 
-                    ${zavesHTML()}
-                </div>`;
-            }
-
-            else if (t === 'studio') {
-                html = `<div class="${C.panel}">
-                    <span class="${C.stepTag}">Krok 2 · Studiové video</span>
+        else if (t === 'studio') {
+            html = `<div class="${C.card}">
                     <div class="${C.fieldLabel}">Počet videí</div>
                     <div class="mt-3">${counterHTML()}</div>
-                    <p class="${C.note}">${popisPasem('studiove_video')}</p>
+                    <p class="${C.desc} mt-2">${popisPasem('studiove_video')}</p>
+                </div>
 
-                    ${hudbaHTML()}
+                ${hudbaHTML()}
 
-                    <div class="${C.subhead}">AI záběry</div>
-                    ${optSluzba('ai_zabery_studio', { checkbox: true, cls: 'js-prepinac', plus: true })}
+                <div class="${C.card}">
+                    ${toggleSluzba('ai_zabery_studio', { cls: 'js-prepinac', plus: true })}
+                    ${infoboxHTML('Vhodné pro edukační videa a content, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje techniku navíc a důkladnější přípravu.')}
+                </div>
 
-                    ${infoboxHTML('Vhodné pro edukační videa a content, nebo videa, kde představujete sebe či svoji službu (video na web). Obsahuje <b class="text-fg font-semibold">techniku navíc a důkladnější přípravu</b>.')}
+                ${zavesHTML()}`;
+        }
 
-                    ${zavesHTML()}
-                </div>`;
-            }
-
-            else if (t === 'svatba') {
-                html = `<div class="${C.panel}">
-                    <span class="${C.stepTag}">Krok 2 · Svatební video</span>
+        else if (t === 'svatba') {
+            html = `<div class="${C.card}">
                     <div class="${C.fieldLabel}">Pevná cena ${kc(cenaZaKus('svatebni_video', 1))}</div>
-                    <p class="${C.fieldHint}">Celý den natáčení, postprodukce a dronové záběry v ceně. Výstup 3-5 minutové video.</p>
-                    ${zavesHTML()}
-                </div>`;
-            }
+                    <p class="${C.desc} mb-4">Celý den natáčení, postprodukce a dronové záběry v ceně. Výstup 3-5 minutové video.</p>
+                </div>
 
-            else if (t === 'firemni') {
-                html = `<div class="${C.panel}">
-                    <span class="${C.stepTag}">Firemní akce</span>
+                ${zavesHTML()}`;
+        }
+
+        else if (t === 'firemni') {
+            html = `<div class="${C.card}">
                     <div class="text-center py-8 px-2">
-                        <p class="text-muted text-base max-w-md mx-auto mb-6">Domluvte si s námi schůzku a společně připravíme cenovou nabídku na míru.</p>
-                        <a href="{{ '/#contact' | relative_url }}" class="inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-[15px] px-6 py-4 rounded-xl hover:-translate-y-0.5 hover:brightness-110 transition-all duration-200">
+                        <p class="${C.desc} max-w-md mx-auto mb-6">Domluvte si s námi schůzku a společně připravíme cenovou nabídku na míru.</p>
+                        <a href="{{ '/#contact' | relative_url }}" class="inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-lg px-6 py-4 rounded-xl hover:-translate-y-0.5 hover:brightness-110 transition-all duration-200">
                             Domluvit schůzku ${arrow}
                         </a>
                     </div>
                 </div>`;
-            }
-
-            tools.innerHTML = html;
-            bindToolEvents();
         }
 
-        /* ============================================================
-           Události ve formuláři
-           ============================================================ */
-        function bindToolEvents() {
-            const on = (sel, fn) => tools.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => fn(b)));
+        tools.innerHTML = html;
+        bindToolEvents();
+    }
 
-            /* výběr právě jedné dispozice */
-            on('.js-dispozice', b => { vyberJednu(DISPOZICE, b.dataset.sluzba); refresh(); });
+    /* ============================================================
+       Události ve formuláři
+       ============================================================ */
+    function bindToolEvents() {
+        const on = (sel, fn) => tools.querySelectorAll(sel).forEach(b => b.addEventListener('click', () => fn(b)));
+        const onChange = (sel, fn) => tools.querySelectorAll(sel).forEach(b => b.addEventListener('change', () => fn(b)));
 
-            /* přídavek Reel — druhé kliknutí volbu zruší */
-            on('.js-reel-pridavek', b => {
-                const id = b.dataset.sluzba;
-                vyberJednu(REEL_PRIDAVKY, ma(id) ? null : id);
-                refresh();
-            });
+        /* výběr právě jedné dispozice (radio) */
+        on('.js-dispozice', b => { vyberJednu(DISPOZICE, b.dataset.sluzba); refresh(); });
 
-            /* jednoduché zapnout/vypnout */
-            on('.js-prepinac', b => { prepni(b.dataset.sluzba); srovnejPridavky(); refresh(); });
+        /* přídavek Reel (radio; prázdná hodnota = bez reelu) */
+        on('.js-reel-pridavek', b => { vyberJednu(REEL_PRIDAVKY, b.dataset.sluzba || null); refresh(); });
 
-            /* varianta reelu — počet se přenese */
-            on('.js-varianta', b => {
-                const n = hlavniPocet();
-                vyberJednu(VARIANTY_REELU, b.dataset.sluzba);
-                nastav(b.dataset.sluzba, n);
-                refresh();
-            });
+        /* jednoduché zapnout/vypnout */
+        on('.js-prepinac', b => { prepni(b.dataset.sluzba); srovnejPridavky(); refresh(); });
 
-            /* licencovaná hudba */
-            on('.js-hudba', () => {
-                const s = S();
-                if (maHudbu()) {
-                    delete s.sluzby.licencovana_hudba;
-                    delete s.sluzby.licencovana_hudba_projekt;
-                } else {
-                    s.sluzby.licencovana_hudba = hlavniPocet();
-                }
+        /* varianta reelu (radio) — počet se přenese */
+        on('.js-varianta', b => {
+            const n = hlavniPocet();
+            vyberJednu(VARIANTY_REELU, b.dataset.sluzba);
+            nastav(b.dataset.sluzba, n);
+            refresh();
+        });
+
+        /* licencovaná hudba */
+        on('.js-hudba', () => {
+            const s = S();
+            if (maHudbu()) {
+                delete s.sluzby.licencovana_hudba;
+                delete s.sluzby.licencovana_hudba_projekt;
+            } else {
+                s.sluzby.licencovana_hudba = hlavniPocet();
+            }
+            srovnejPridavky();
+            refresh();
+        });
+        onChange('.js-hudba-rozsah', b => {
+            S().hudbaProjekt = b.value === '1';
+            srovnejPridavky();
+            refresh();
+        });
+
+        /* příplatky */
+        on('.js-mesto', () => { S().velkeMesto = !S().velkeMesto; refresh(); });
+        on('.js-express', () => { S().express = !S().express; refresh(); });
+
+        /* počet kusů */
+        tools.querySelectorAll('[data-counter]').forEach(c => {
+            c.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+                const id = hlavniId();
+                if (!id) return;
+                nastav(id, Math.max(1, hlavniPocet() + parseInt(btn.dataset.step, 10)));
                 srovnejPridavky();
                 refresh();
-            });
-            on('.js-hudba-rozsah', b => {
-                S().hudbaProjekt = b.dataset.projekt === '1';
-                srovnejPridavky();
-                refresh();
-            });
-
-            /* příplatky */
-            on('.js-mesto', () => { S().velkeMesto = !S().velkeMesto; refresh(); });
-            on('.js-express', () => { S().express = !S().express; refresh(); });
-
-            /* počet kusů */
-            tools.querySelectorAll('[data-counter]').forEach(c => {
-                c.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
-                    const id = hlavniId();
-                    if (!id) return;
-                    nastav(id, Math.max(1, hlavniPocet() + parseInt(btn.dataset.step, 10)));
-                    srovnejPridavky();
-                    refresh();
-                }));
-            });
-
-            /* doprava — km (bez překreslení, ať nepřijdeme o kurzor) */
-            tools.querySelectorAll('.js-km').forEach(inp => inp.addEventListener('input', () => {
-                S().km = inp.value;
-                if (inp.value.trim() !== '') {
-                    S().cesta = null;
-                    tools.querySelectorAll('.js-cesta').forEach(b => {
-                        b.className = `${C.optBase} ${C.optIdle} js-cesta`;
-                        const box = b.querySelector('span');
-                        if (box) {
-                            box.className = 'mt-0.5 shrink-0 w-[18px] h-[18px] rounded-md border-2 flex items-center justify-center transition-colors border-line/40';
-                            const fajfka = box.querySelector('svg');
-                            if (fajfka) fajfka.classList.add('hidden');
-                        }
-                    });
-                }
-                renderOutput();
             }));
+        });
 
-            /* doprava — fixní cesty (jen jedna; poslední volba přepíše km i druhou cestu) */
-            on('.js-cesta', b => {
-                const s = S(), id = b.dataset.cesta;
-                const zapnout = s.cesta !== id;
-                s.cesta = zapnout ? id : null;
-                if (zapnout) s.km = '';
-                refresh();
-            });
+        /* doprava — rozbalení / zrušení (výchozí stav je bez dopravy) */
+        on('.js-doprava-open', () => { S().dopravaOpen = true; refresh(); });
+        on('.js-doprava-close', () => {
+            const s = S();
+            s.dopravaOpen = false; s.km = ''; s.cesta = null;
+            refresh();
+        });
 
-            /* slevový kód (bez překreslení, ať nepřijdeme o kurzor) */
-            const code = tools.querySelector('.js-code');
-            const applyBtn = tools.querySelector('.js-apply');
-            const statusEl = tools.querySelector('#discountStatus');
+        /* doprava — km (bez překreslení, ať nepřijdeme o kurzor) */
+        tools.querySelectorAll('.js-km').forEach(inp => inp.addEventListener('input', () => {
+            S().km = inp.value;
+            renderOutput();
+        }));
 
-            function setStatus(text, druh) {
-                if (!statusEl) return;
-                statusEl.textContent = text;
-                statusEl.className = 'text-sm mt-2 min-h-[20px] ' +
-                    (druh === 'ok' ? 'text-emerald-500' : druh === 'bad' ? 'text-red-500' : 'text-muted');
-            }
+        /* doprava — místo natáčení (radio: trutnov / liberec / km) */
+        on('.js-cesta', b => {
+            const s = S();
+            s.cesta = b.dataset.cesta;
+            if (b.dataset.cesta !== 'km') s.km = '';
+            refresh();
+        });
 
-            function applyCode() {
-                const val = code.value.trim();
-                if (val && SLEVY[val]) {
-                    state.appliedCode = val;
-                    setStatus('Kód uplatněn.', 'ok');
-                } else {
-                    state.appliedCode = '';
-                    setStatus(val ? 'Kód není platný.' : 'Zadejte slevový kód.', 'bad');
-                }
-                renderOutput();
-            }
+        /* slevový kód — checkbox rozbalí/schová pole (zrušením se kód i uplatnění smažou) */
+        on('.js-discount-toggle', () => {
+            state.discountOpen = !state.discountOpen;
+            if (!state.discountOpen) { state.discountCode = ''; state.appliedCode = ''; }
+            refresh();
+        });
 
-            if (code) {
-                code.addEventListener('input', () => {
-                    state.discountCode = code.value;
-                    /* změna textu zruší dřívější uplatnění — je nutné znovu kliknout na Uplatnit */
-                    state.appliedCode = '';
-                    setStatus('', '');
-                    renderOutput();
-                });
-                code.addEventListener('keydown', e => {
-                    if (e.key === 'Enter') { e.preventDefault(); applyCode(); }
-                });
-            }
-            if (applyBtn) applyBtn.addEventListener('click', applyCode);
+        /* slevový kód (bez překreslení, ať nepřijdeme o kurzor) */
+        const code = tools.querySelector('.js-code');
+        const applyBtn = tools.querySelector('.js-apply');
+        const statusEl = tools.querySelector('#discountStatus');
+
+        function setStatus(text, druh) {
+            if (!statusEl) return;
+            statusEl.textContent = text;
+            statusEl.className = 'text-sm mt-2 min-h-[20px] ' +
+                (druh === 'ok' ? 'text-emerald-500' : druh === 'bad' ? 'text-red-500' : 'text-muted');
         }
 
-        function refresh() { renderTools(); renderOutput(); }
+        function applyCode() {
+            const val = code.value.trim();
+            if (val && SLEVY[val]) {
+                state.appliedCode = val;
+                setStatus('Kód uplatněn.', 'ok');
+            } else {
+                state.appliedCode = '';
+                setStatus(val ? 'Kód není platný.' : 'Zadejte slevový kód.', 'bad');
+            }
+            renderOutput();
+        }
 
-        /* ============================================================
-           Rozpis ceny
-           ============================================================ */
-        const bigPrice = document.getElementById('bigPrice');
-        const breakdown = document.getElementById('breakdown');
-        const disclaimer = document.getElementById('disclaimer');
+        if (code) {
+            code.addEventListener('input', () => {
+                state.discountCode = code.value;
+                /* změna textu zruší dřívější uplatnění — je nutné znovu kliknout na Uplatnit */
+                state.appliedCode = '';
+                setStatus('', '');
+                renderOutput();
+            });
+            code.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); applyCode(); }
+            });
+        }
+        if (applyBtn) applyBtn.addEventListener('click', applyCode);
+    }
 
-        const rowCls = 'flex justify-between gap-4 py-2.5 border-b border-dashed border-line/15 text-sm last:border-b-0';
-        function radek(popis, castka, tridy) {
-            return `<div class="${rowCls}">
+    function refresh() { renderTools(); renderOutput(); }
+
+    /* ============================================================
+       Rozpis ceny
+       ============================================================ */
+    const bigPrice = document.getElementById('bigPrice');
+    const breakdown = document.getElementById('breakdown');
+    const disclaimer = document.getElementById('disclaimer');
+
+    const rowCls = 'flex justify-between gap-4 py-2.5 border-b border-dashed border-line/15 text-sm last:border-b-0';
+    function radek(popis, castka, tridy) {
+        return `<div class="${rowCls}">
                 <span class="${tridy || 'text-muted'}">${popis}</span>
                 <span class="${tridy || 'text-fg'} font-semibold whitespace-nowrap">${castka}</span>
             </div>`;
+    }
+
+    function renderOutput() {
+        if (state.typ === 'firemni') {
+            bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle">Individuální</span>`;
+            breakdown.innerHTML = '';
+            disclaimer.textContent = 'Cenu firemní akce připravíme na míru po schůzce.';
+            setSendEnabled(false);
+            return;
         }
 
-        function renderOutput() {
-            if (state.typ === 'firemni') {
-                bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle">Individuální</span>`;
-                breakdown.innerHTML = '';
-                disclaimer.textContent = 'Cenu firemní akce připravíme na míru po schůzce.';
-                return;
-            }
+        const calc = calculate();
 
-            const calc = calculate();
-
-            if (!calc || !calc.hasBase) {
-                bigPrice.innerHTML = `<span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč`;
-                breakdown.innerHTML = '';
-                disclaimer.textContent = state.typ
-                    ? 'Doplňte možnosti výše — cena se dopočítá.'
-                    : 'Vyberte typ videa a možnosti — cena se dopočítá.';
-                return;
-            }
-
-            bigPrice.innerHTML = `<span class="text-[0.42em] font-semibold text-muted align-middle mr-1.5">od</span>${kc(calc.total)}`;
-
-            let rows = calc.items.map(i => radek(i.label, kc(i.amount))).join('');
-
-            if (calc.doprava > 0) rows += radek('Doprava', kc(calc.doprava));
-            if (calc.cityFee > 0) rows += radek(`Velké město (Praha / Brno) · +${P.priplatky.velke_mesto} %`, kc(calc.cityFee));
-            if (calc.express > 0) rows += radek(`Expresní dodání · +${P.priplatky.expresni_dodani} %`, kc(calc.express));
-            if (calc.discountAmount > 0) rows += radek(calc.discountLabel, '−' + kc(calc.discountAmount), 'text-emerald-500');
-
-            rows += `<div class="flex justify-between gap-4 pt-4 mt-2 border-t border-line/25 text-base">
-                <span class="text-fg font-semibold">Orientační cena od</span>
-                <span class="text-brand font-extrabold whitespace-nowrap">${kc(calc.total)}</span>
-            </div>`;
-
-            breakdown.innerHTML = rows;
-            disclaimer.textContent = 'Jde o orientační cenu, finální částku potvrdíme po konzultaci.';
+        if (!calc || !calc.hasBase) {
+            bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle mr-1.5">od</span>0 Kč`;
+            breakdown.innerHTML = '';
+            disclaimer.textContent = state.typ
+                ? 'Doplňte možnosti výše — cena se dopočítá.'
+                : 'Vyberte typ videa a možnosti — cena se dopočítá.';
+            setSendEnabled(false);
+            return;
         }
 
-        /* ============================================================
-           Balíček z dlaždice = předvyplněný formulář.
-           Seznam služeb je v _data/cenik.yml (balicky) a stejný seznam
-           si výše sečetl i Liquid do ceny na dlaždici.
-           ============================================================ */
-        function applyPreset(nazev) {
-            const balicek = P.balicky[nazev];
-            if (!balicek) return;
+        setSendEnabled(true);
+        bigPrice.innerHTML = `<span class="text-[0.5em] font-semibold text-muted align-middle mr-1.5">od</span>${kc(calc.total)}`;
 
-            const idcka = Object.keys(balicek).filter(id => SLUZBY[id]);
-            const typ = idcka.length ? SLUZBY[idcka[0]].typ : null;
-            if (!typ) return;
+        let rows = calc.items.map(i => radek(i.label, kc(i.amount))).join('');
 
-            const stav = novyStav();
-            idcka.forEach(id => { stav.sluzby[id] = balicek[id]; });
-            state.data[typ] = stav;
-            state.typ = typ;
-            srovnejPridavky();
+        if (calc.doprava > 0) rows += radek('Doprava', kc(calc.doprava));
+        if (calc.cityFee > 0) rows += radek(`Velké město (Praha / Brno) · +${P.priplatky.velke_mesto} %`, kc(calc.cityFee));
+        if (calc.express > 0) rows += radek(`Expresní dodání · +${P.priplatky.expresni_dodani} %`, kc(calc.express));
+        if (calc.discountAmount > 0) rows += radek(calc.discountLabel, '−' + kc(calc.discountAmount), 'text-emerald-500');
 
-            renderTypeGrid();
-            renderTools();
-            renderOutput();
-            document.getElementById('kalkulacka').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        breakdown.innerHTML = rows;
+        disclaimer.textContent = 'Jde o orientační cenu, finální částku potvrdíme po konzultaci.';
+    }
 
-        document.querySelectorAll('.cenik-tile').forEach(tile => {
-            tile.addEventListener('click', () => applyPreset(tile.dataset.preset));
-        });
+    /* ============================================================
+       Odeslání poptávky — dvoukrokové: tlačítko odemkne kontakt,
+       kontakt odešle e-mail. Jde přes formsubmit.co na stejnou adresu
+       jako kontaktní formulář na homepage (už aktivovanou).
+       ============================================================ */
+    const contactFields = document.getElementById('contactFields');
+    const leadName = document.getElementById('leadName');
+    const leadEmail = document.getElementById('leadEmail');
+    const leadHoney = document.getElementById('leadHoney');
+    const leadError = document.getElementById('leadError');
+    const sendConfirm = document.getElementById('sendConfirm');
+    const sendConfirmLabel = document.getElementById('sendConfirmLabel');
 
-        /* init */
+    const SEND_ENDPOINT = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
+    const SUCCESS_URL = {{ "/dekujeme" | relative_url | jsonify }};
+
+    /* Odesílací tlačítko je aktivní až po výběru základní služby */
+    function setSendEnabled(on) {
+        sendConfirm.disabled = !on;
+        if (!on) leadError.classList.add('hidden');
+    }
+
+    /* Krok 1 → krok 2: rozbalí jméno + e-mail (tlačítko sjede dolů) a z obrysového
+       tlačítka „Nezávazně poptat" udělá plné zlaté „Odeslat…". */
+    let contactExpanded = false;
+    function expandContact() {
+        contactExpanded = true;
+        contactFields.classList.remove('hidden');
+        contactFields.classList.add('cenik-reveal');
+        sendConfirm.classList.remove('text-brand', 'bg-transparent', 'enabled:hover:bg-brand/10');
+        sendConfirm.classList.add('bg-brand', 'text-onbrand', 'enabled:hover:brightness-110');
+        sendConfirmLabel.textContent = 'Odeslat nezávaznou poptávku';
+        leadName.focus();
+    }
+
+    function showLeadError(msg) {
+        leadError.textContent = msg;
+        leadError.classList.remove('hidden');
+    }
+
+    function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+    /* Lidsky čitelný rozpis do e-mailu — ze stejných dat jako panel */
+    function buildSummary(calc) {
+        const typLabel = (KATEGORIE.find(k => k.id === state.typ) || {}).label || state.typ;
+        const lines = ['Typ videa: ' + typLabel, ''];
+        calc.items.forEach(i => lines.push('• ' + i.label + ': ' + kc(i.amount)));
+        if (calc.doprava > 0) lines.push('• Doprava: ' + kc(calc.doprava));
+        if (calc.cityFee > 0) lines.push('• Velké město (Praha / Brno) +' + P.priplatky.velke_mesto + ' %: ' + kc(calc.cityFee));
+        if (calc.express > 0) lines.push('• Expresní dodání +' + P.priplatky.expresni_dodani + ' %: ' + kc(calc.express));
+        if (calc.discountAmount > 0) lines.push('• ' + calc.discountLabel + ': −' + kc(calc.discountAmount));
+        lines.push('', 'Orientační cena od: ' + kc(calc.total));
+        return lines.join('\n');
+    }
+
+    sendConfirm.addEventListener('click', () => {
+        if (sendConfirm.disabled) return;
+        /* první kliknutí jen rozbalí kontakt; odesílá se až podruhé */
+        if (!contactExpanded) { expandContact(); return; }
+        if (leadHoney.value) return;                 // skryté pole vyplnil bot
+        const jmeno = leadName.value.trim();
+        const email = leadEmail.value.trim();
+        if (!jmeno) { showLeadError('Vyplňte prosím jméno.'); leadName.focus(); return; }
+        if (!validEmail(email)) { showLeadError('Zadejte platný e-mail.'); leadEmail.focus(); return; }
+
+        const calc = calculate();
+        if (!calc || !calc.hasBase) { showLeadError('Nejdřív vyberte službu výše.'); return; }
+
+        const typLabel = (KATEGORIE.find(k => k.id === state.typ) || {}).label || state.typ;
+
+        sendConfirm.disabled = true;
+        sendConfirmLabel.textContent = 'Odesílám…';
+        leadError.classList.add('hidden');
+
+        if (typeof track === 'function') track('cenik-poptavka-submit', 'Odeslání poptávky z kalkulačky');
+
+        fetch(SEND_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+                'Jméno': jmeno,
+                'E-mail': email,
+                '_replyto': email,
+                'Typ videa': typLabel,
+                'Konfigurace': buildSummary(calc),
+                'Orientační cena': kc(calc.total),
+                '_subject': 'Nová poptávka z kalkulačky – ' + typLabel,
+                '_template': 'table',
+                '_captcha': 'false'
+            })
+        })
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(res => {
+                if (res && (res.success === 'true' || res.success === true)) {
+                    window.location.href = SUCCESS_URL;
+                } else {
+                    return Promise.reject();
+                }
+            })
+            .catch(() => {
+                sendConfirm.disabled = false;
+                sendConfirmLabel.textContent = 'Odeslat nezávaznou poptávku';
+                showLeadError('Odeslání se nezdařilo. Zkontrolujte připojení a zkuste to znovu.');
+            });
+    });
+
+    /* ============================================================
+       Balíček z dlaždice = předvyplněný formulář.
+       Seznam služeb je v _data/cenik.yml (balicky) a stejný seznam
+       si výše sečetl i Liquid do ceny na dlaždici.
+       ============================================================ */
+    function applyPreset(nazev) {
+        const balicek = P.balicky[nazev];
+        if (!balicek) return;
+
+        const idcka = Object.keys(balicek).filter(id => SLUZBY[id]);
+        const typ = idcka.length ? SLUZBY[idcka[0]].typ : null;
+        if (!typ) return;
+
+        const stav = novyStav();
+        idcka.forEach(id => { stav.sluzby[id] = balicek[id]; });
+        state.data[typ] = stav;
+        state.typ = typ;
+        srovnejPridavky();
+
         renderTypeGrid();
+        renderTools();
         renderOutput();
-    })();
+        document.getElementById('kalkulacka').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.querySelectorAll('.cenik-tile').forEach(tile => {
+        tile.addEventListener('click', () => applyPreset(tile.dataset.preset));
+    });
+
+    /* init */
+    renderTypeGrid();
+    renderOutput();
+    }) ();
 </script>
