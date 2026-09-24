@@ -36,7 +36,7 @@ _includes/
 pages/                 Actual site pages (each sets its own `permalink`)
   index.html           Home (/)  — hero, about, services, contact form, gallery
   cenik.html           Price calculator (/cenik)
-  gallery.html         Gallery (/galerie)  ⚠ still placeholder content
+  gallery.html         Gallery (/galerie), content driven by _data/galerie.yml
   dotaznik.html        Review form (/dotaznik) → Google Apps Script
   dekujeme.html        Thank-you page (/dekujeme) — contact-form success target
   privacy-policy.html  Privacy policy (/ochrana-soukromi)
@@ -142,11 +142,13 @@ not treat them as the source of truth for how the site works:
   items and images that don't exist (`/assets/images/gallery-*.jpg`). It is a
   draft and is not built; don't mine it for markup. `pages/gallery.html` itself
   was rewritten and is current — see "Gallery" above.
-- `TODO.md` reads "Gallery": the page works, but `_data/galerie.yml` has no
-  Vimeo IDs in it yet, so every section renders its "Připravujeme" empty state.
+- `_data/galerie.yml` is populated with real Vimeo IDs across its four
+  sections (Videoprohlídky, Realitní videa na sociální sítě, Reels, Svatby) —
+  the gallery no longer renders the "Připravujeme" empty state. The commented-out
+  gallery block in `pages/index.html` (referencing nonexistent `gallery-*.jpg`
+  files) is separate dead code, not the live `/galerie` page — leave it
+  commented out it, don't uncomment it.
 - `pages/404.html` is the **sole** 404 page (Czech, noindexed). The old root
-  `404.html` template duplicate was deleted; don't reintroduce a competing
-  `permalink: /404`.
 
 ## Git workflow
 
