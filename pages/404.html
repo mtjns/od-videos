@@ -56,12 +56,16 @@ podle odkazující stránky) vyměníme text za srozumitelnější hlášku.
 
         var title = document.getElementById('nf-title');
         var text = document.getElementById('nf-text');
+        var galleryButton = document.querySelector('#nf-actions a[href$="/#gallery"]');
 
         if (title) title.textContent = 'Předání projektu není dostupné';
         if (text) {
             text.innerHTML = 'Tahle předávací stránka není dostupná — videa mohla být po předání archivována, ' +
                 'nebo je odkaz neúplný či překlepnutý. Zkontrolujte prosím celou adresu, kterou jste zadali. ' +
                 'Pokud je odkaz správný, kontaktujte nás prosím.';
+        }
+        if (galleryButton) {
+            galleryButton.setAttribute('style', 'display: none;');
         }
     })();
 </script>
