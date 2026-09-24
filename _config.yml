@@ -62,6 +62,7 @@ exclude:
   - .git/
   - README.md
   - TODO.md
+  - CLAUDE.md
   - google-apps-script/
 
 # Required plugins for SEO and sitemap generation
