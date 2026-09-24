@@ -1,4 +1,4 @@
-
+---
 # ────────────────── ZmĚNIT ─────────────────────────────
 permalink: /predani/modify      # Adresa této stránky (kam klient zadá odkaz)
 password: "ODmodify9120"        # Heslo pro vstup (necháš prázdné "" = brána se vypne)
@@ -383,7 +383,15 @@ const CONFIG = {
     clientColor: "#c2a04e",                  // zlatá Modify (záloha, když by logo chybělo)
 
     // Projekty = "složky". Dvě a více záložek → dají se překlikávat.
- "projects": [
+    projects: {
+  "password": "ODmod9120",
+  "odLogo": "/assets/images/logo/logo-white.png",
+  "odLogoLight": "/assets/images/logo/logo-color.png",
+  "clientLogo": "/assets/images/clients/modify-real-estate.svg",
+  "clientName": "Modify",
+  "clientFont": "inherit",
+  "clientColor": "#c2a04e",
+  "projects": [
     {
       "id": "tisnov",
       "name": "Tišnov",
