@@ -76,8 +76,35 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         animation: cenik-reveal 0.28s ease-out;
     }
 
+    /* Dialog poptávky — jemné zvětšení + prolnutí */
+    @keyframes cenik-modal-in {
+        from { opacity: 0; transform: scale(0.96); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+    .cenik-modal-in {
+        animation: cenik-modal-in 0.22s ease-out;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .cenik-reveal { animation: none; }
+        .cenik-reveal, .cenik-modal-in { animation: none; }
+    }
+
+    /* Dialog zůstává posuvný, když je obsah vyšší než obrazovka, ale bez
+       viditelného posuvníku — scrollování myší/dotykem/klávesnicí funguje dál. */
+    .cenik-noscrollbar {
+        scrollbar-width: none;      /* Firefox */
+        -ms-overflow-style: none;   /* starší Edge */
+    }
+
+    .cenik-noscrollbar::-webkit-scrollbar {
+        display: none;              /* Chrome, Safari */
+    }
+
+    /* Shrnutí v modálu: poslední položka nemá tečkovanou linku — hned pod ní
+       je plná čára součtu, takže by se linky zdvojily. */
+    #poptavkaSummary > div:nth-last-child(2) {
+        border-bottom: 0;
     }
 </style>
 
@@ -297,37 +324,11 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
                     <p id="disclaimer" class="text-muted/80 text-sm leading-relaxed mt-4">Vyberte typ videa a možnosti —
                         cena se dopočítá.</p>
 
-                    <!-- Kontakt + odeslání poptávky (jeden krok, tlačítko se odemkne
-                         až je vybraný základ) -->
-                    <div id="contactStep" class="mt-6 pt-6 border-t border-line/15">
-                        <!-- Jméno + e-mail jsou schované; rozbalí se (a tlačítko sjede dolů
-                             a změní barvu) po prvním kliknutí na „Nezávazně poptat". -->
-                        <div id="contactFields" class="hidden">
-                            <div>
-                                <div class="text-fg text-lg font-semibold mb-1">Zanechte na sebe kontakt</div>
-                                <p class="text-muted text-sm leading-relaxed mb-4">Pošleme vám nezávaznou nabídku na e-mail. Rozpis výše
-                                    přiložíme.</p>
-                                <div class="space-y-5">
-                                    <input id="leadName" type="text" autocomplete="name" placeholder="Jméno/firma"
-                                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
-                                    <input id="leadEmail" type="email" autocomplete="email" inputmode="email"
-                                        placeholder="E-mail"
-                                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
-                                </div>
-
-                                <!-- Honeypot proti spamu -->
-                                <input id="leadHoney" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"
-                                    class="hidden">
-
-                                <p id="leadError" class="hidden text-red-500 text-sm mt-3"></p>
-                            </div>
-                        </div>
-
-                        <button id="sendConfirm" type="button" disabled
-                            class="mt-5 w-full inline-flex items-center justify-center gap-2 font-bold text-lg px-5 py-4 rounded-xl border-2 border-brand text-brand bg-transparent transition-all duration-300 enabled:hover:bg-brand/10 disabled:opacity-40 disabled:cursor-not-allowed">
-                            <span id="sendConfirmLabel">Nezávazně poptat</span>
-                        </button>
-                    </div>
+                    <!-- Poptávka: kliknutím se otevře modální okno se shrnutím a kontaktem -->
+                    <button id="poptatBtn" type="button" disabled
+                        class="mt-6 w-full inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-lg px-5 py-4 rounded-xl transition-all duration-200 enabled:hover:-translate-y-0.5 enabled:hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed">
+                        Nezávazně poptat
+                    </button>
                 </div>
             </div>
         </div>
@@ -340,6 +341,64 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
     </svg>
 </button>
+
+<!-- Modál nezávazné poptávky -->
+<div id="poptavkaModal" class="hidden fixed inset-0 z-[60]">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div id="poptavkaOverlay" class="relative min-h-full flex items-start justify-center p-4 py-10">
+        <div id="poptavkaDialog" role="dialog" aria-modal="true" aria-labelledby="poptavkaTitle"
+            class="cenik-modal-in cenik-noscrollbar relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-base border border-line/10 rounded-2xl shadow-2xl p-6 md:p-8">
+            <button id="poptavkaClose" type="button" aria-label="Zavřít"
+                class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full text-muted hover:text-fg hover:bg-surface transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <!-- Krok 1: shrnutí + kontakt -->
+            <div id="poptavkaForm">
+                <h3 id="poptavkaTitle" class="text-fg text-xl font-bold tracking-tight mb-4 pr-8">Nezávazná poptávka</h3>
+
+                <div id="poptavkaSummary" class="mb-6"></div>
+
+                <div class="space-y-5">
+                    <input id="leadName" type="text" autocomplete="name" placeholder="Jméno/firma"
+                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                    <input id="leadEmail" type="email" autocomplete="email" inputmode="email" placeholder="E-mail"
+                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                    <textarea id="leadNote" rows="3" placeholder="Poznámka (nepovinné)"
+                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none"></textarea>
+                </div>
+
+                <!-- Honeypot proti spamu -->
+                <input id="leadHoney" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
+
+                <p id="leadError" class="hidden text-red-500 text-sm mt-3"></p>
+
+                <button id="modalSend" type="button"
+                    class="mt-5 w-full inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-lg px-5 py-4 rounded-xl transition-all duration-200 enabled:hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed">
+                    <span id="modalSendLabel">Odeslat nezávaznou poptávku</span>
+                </button>
+            </div>
+
+            <!-- Krok 2: poděkování -->
+            <div id="poptavkaThanks" class="hidden text-center py-6">
+                <div class="w-16 h-16 mx-auto rounded-full bg-brand/10 border border-brand/30 flex items-center justify-center mb-6">
+                    <svg class="w-7 h-7 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-fg text-xl font-bold tracking-tight mb-2">Děkujeme!</h3>
+                <p class="text-muted text-sm leading-relaxed mb-6">Vaše poptávka byla odeslána. Ozveme se vám co
+                    nejdříve na uvedený e-mail.</p>
+                <button id="poptavkaThanksClose" type="button"
+                    class="inline-flex items-center justify-center gap-2 bg-brand text-onbrand font-bold text-lg px-6 py-3.5 rounded-xl hover:brightness-110 transition-all duration-200">
+                    Zavřít
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     (function () {
@@ -1126,38 +1185,31 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
     }
 
     /* ============================================================
-       Odeslání poptávky — dvoukrokové: tlačítko odemkne kontakt,
-       kontakt odešle e-mail. Jde přes formsubmit.co na stejnou adresu
-       jako kontaktní formulář na homepage (už aktivovanou).
+       Nezávazná poptávka — modál se shrnutím zakázky a kontaktem.
+       Odesílání jde přes formsubmit.co na stejnou adresu jako
+       kontaktní formulář na homepage (už aktivovanou).
        ============================================================ */
-    const contactFields = document.getElementById('contactFields');
+    const poptatBtn = document.getElementById('poptatBtn');
+    const poptavkaModal = document.getElementById('poptavkaModal');
+    const poptavkaOverlay = document.getElementById('poptavkaOverlay');
+    const poptavkaClose = document.getElementById('poptavkaClose');
+    const poptavkaForm = document.getElementById('poptavkaForm');
+    const poptavkaThanks = document.getElementById('poptavkaThanks');
+    const poptavkaThanksClose = document.getElementById('poptavkaThanksClose');
+    const poptavkaSummary = document.getElementById('poptavkaSummary');
     const leadName = document.getElementById('leadName');
     const leadEmail = document.getElementById('leadEmail');
+    const leadNote = document.getElementById('leadNote');
     const leadHoney = document.getElementById('leadHoney');
     const leadError = document.getElementById('leadError');
-    const sendConfirm = document.getElementById('sendConfirm');
-    const sendConfirmLabel = document.getElementById('sendConfirmLabel');
+    const modalSend = document.getElementById('modalSend');
+    const modalSendLabel = document.getElementById('modalSendLabel');
 
     const SEND_ENDPOINT = 'https://formsubmit.co/ajax/od.videomaker@gmail.com';
-    const SUCCESS_URL = {{ "/dekujeme" | relative_url | jsonify }};
 
-    /* Odesílací tlačítko je aktivní až po výběru základní služby */
+    /* Tlačítko „Nezávazně poptat" je aktivní až po výběru základní služby */
     function setSendEnabled(on) {
-        sendConfirm.disabled = !on;
-        if (!on) leadError.classList.add('hidden');
-    }
-
-    /* Krok 1 → krok 2: rozbalí jméno + e-mail (tlačítko sjede dolů) a z obrysového
-       tlačítka „Nezávazně poptat" udělá plné zlaté „Odeslat…". */
-    let contactExpanded = false;
-    function expandContact() {
-        contactExpanded = true;
-        contactFields.classList.remove('hidden');
-        contactFields.classList.add('cenik-reveal');
-        sendConfirm.classList.remove('text-brand', 'bg-transparent', 'enabled:hover:bg-brand/10');
-        sendConfirm.classList.add('bg-brand', 'text-onbrand', 'enabled:hover:brightness-110');
-        sendConfirmLabel.textContent = 'Odeslat nezávaznou poptávku';
-        leadName.focus();
+        poptatBtn.disabled = !on;
     }
 
     function showLeadError(msg) {
@@ -1180,13 +1232,73 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         return lines.join('\n');
     }
 
-    sendConfirm.addEventListener('click', () => {
-        if (sendConfirm.disabled) return;
-        /* první kliknutí jen rozbalí kontakt; odesílá se až podruhé */
-        if (!contactExpanded) { expandContact(); return; }
+    /* Shrnutí zakázky v modálu — stejné řádky jako rozpis v panelu, plus
+       celkový součet (ten se v panelu nezobrazuje, aby se neopakoval
+       s velkou cenou nahoře — tady žádná velká cena není, takže patří sem). */
+    function renderModalSummary(calc) {
+        const typLabel = (KATEGORIE.find(k => k.id === state.typ) || {}).label || state.typ;
+        let rows = radek('Typ videa', typLabel);
+        rows += calc.items.map(i => radek(i.label, kc(i.amount))).join('');
+        if (calc.doprava > 0) rows += radek('Doprava', kc(calc.doprava));
+        if (calc.cityFee > 0) rows += radek(`Velké město (Praha / Brno) · +${P.priplatky.velke_mesto} %`, kc(calc.cityFee));
+        if (calc.express > 0) rows += radek(`Expresní dodání · +${P.priplatky.expresni_dodani} %`, kc(calc.express));
+        if (calc.discountAmount > 0) rows += radek(calc.discountLabel, '−' + kc(calc.discountAmount), 'text-emerald-500');
+        rows += `<div class="flex justify-between gap-4 pt-4 mt-2 border-t border-line/25 text-lg">
+                <span class="text-fg font-semibold">Orientační cena od</span>
+                <span class="text-brand font-extrabold whitespace-nowrap">${kc(calc.total)}</span>
+            </div>`;
+        poptavkaSummary.innerHTML = rows;
+    }
+
+    let poptavkaSent = false;
+
+    function openModal() {
+        if (poptatBtn.disabled) return;
+        const calc = calculate();
+        if (!calc || !calc.hasBase) return;
+
+        /* pokud se předchozí poptávka už úspěšně odeslala, formulář se
+           pro další otevření vyčistí */
+        if (poptavkaSent) {
+            leadName.value = ''; leadEmail.value = ''; leadNote.value = '';
+            poptavkaSent = false;
+        }
+        poptavkaThanks.classList.add('hidden');
+        poptavkaForm.classList.remove('hidden');
+        leadError.classList.add('hidden');
+        modalSend.disabled = false;
+        modalSendLabel.textContent = 'Odeslat nezávaznou poptávku';
+
+        renderModalSummary(calc);
+
+        poptavkaModal.classList.remove('hidden');
+        document.documentElement.classList.add('overflow-hidden');
+        leadName.focus();
+    }
+
+    function closeModal() {
+        poptavkaModal.classList.add('hidden');
+        document.documentElement.classList.remove('overflow-hidden');
+        poptatBtn.focus();
+    }
+
+    poptatBtn.addEventListener('click', openModal);
+    poptavkaClose.addEventListener('click', closeModal);
+    /* klik mimo dialog (na překryvnou vrstvu, ne na jeho potomky) zavře modál */
+    poptavkaOverlay.addEventListener('click', e => {
+        if (e.target === poptavkaOverlay) closeModal();
+    });
+    poptavkaThanksClose.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && !poptavkaModal.classList.contains('hidden')) closeModal();
+    });
+
+    modalSend.addEventListener('click', () => {
+        if (modalSend.disabled) return;
         if (leadHoney.value) return;                 // skryté pole vyplnil bot
         const jmeno = leadName.value.trim();
         const email = leadEmail.value.trim();
+        const poznamka = leadNote.value.trim();
         if (!jmeno) { showLeadError('Vyplňte prosím jméno.'); leadName.focus(); return; }
         if (!validEmail(email)) { showLeadError('Zadejte platný e-mail.'); leadEmail.focus(); return; }
 
@@ -1195,8 +1307,8 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
 
         const typLabel = (KATEGORIE.find(k => k.id === state.typ) || {}).label || state.typ;
 
-        sendConfirm.disabled = true;
-        sendConfirmLabel.textContent = 'Odesílám…';
+        modalSend.disabled = true;
+        modalSendLabel.textContent = 'Odesílám…';
         leadError.classList.add('hidden');
 
         if (typeof track === 'function') track('cenik-poptavka-submit', 'Odeslání poptávky z kalkulačky');
@@ -1207,6 +1319,7 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
             body: JSON.stringify({
                 'Jméno': jmeno,
                 'E-mail': email,
+                'Poznámka': poznamka,
                 '_replyto': email,
                 'Typ videa': typLabel,
                 'Konfigurace': buildSummary(calc),
@@ -1219,14 +1332,16 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
             .then(r => r.ok ? r.json() : Promise.reject())
             .then(res => {
                 if (res && (res.success === 'true' || res.success === true)) {
-                    window.location.href = SUCCESS_URL;
+                    poptavkaSent = true;
+                    poptavkaForm.classList.add('hidden');
+                    poptavkaThanks.classList.remove('hidden');
                 } else {
                     return Promise.reject();
                 }
             })
             .catch(() => {
-                sendConfirm.disabled = false;
-                sendConfirmLabel.textContent = 'Odeslat nezávaznou poptávku';
+                modalSend.disabled = false;
+                modalSendLabel.textContent = 'Odeslat nezávaznou poptávku';
                 showLeadError('Odeslání se nezdařilo. Zkuste to za chvíli znovu. Případně nás kontaktujte přímo na e-mailu');
             });
     });
