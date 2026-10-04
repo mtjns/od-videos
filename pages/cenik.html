@@ -366,6 +366,8 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
                         class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
                     <input id="leadEmail" type="email" autocomplete="email" inputmode="email" placeholder="E-mail"
                         class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
+                    <input id="leadPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Telefon (nepovinné)"
+                        class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors">
                     <textarea id="leadNote" rows="3" placeholder="Poznámka (nepovinné)"
                         class="w-full bg-transparent border-0 border-b border-line/20 px-0 py-3 text-fg text-lg placeholder-muted focus:ring-0 focus:outline-none focus:border-brand transition-colors resize-none"></textarea>
                 </div>
@@ -1199,6 +1201,7 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
     const poptavkaSummary = document.getElementById('poptavkaSummary');
     const leadName = document.getElementById('leadName');
     const leadEmail = document.getElementById('leadEmail');
+    const leadPhone = document.getElementById('leadPhone');
     const leadNote = document.getElementById('leadNote');
     const leadHoney = document.getElementById('leadHoney');
     const leadError = document.getElementById('leadError');
@@ -1260,7 +1263,7 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         /* pokud se předchozí poptávka už úspěšně odeslala, formulář se
            pro další otevření vyčistí */
         if (poptavkaSent) {
-            leadName.value = ''; leadEmail.value = ''; leadNote.value = '';
+            leadName.value = ''; leadEmail.value = ''; leadPhone.value = ''; leadNote.value = '';
             poptavkaSent = false;
         }
         poptavkaThanks.classList.add('hidden');
@@ -1298,9 +1301,12 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
         if (leadHoney.value) return;                 // skryté pole vyplnil bot
         const jmeno = leadName.value.trim();
         const email = leadEmail.value.trim();
+        const telefon = leadPhone.value.trim();
         const poznamka = leadNote.value.trim();
         if (!jmeno) { showLeadError('Vyplňte prosím jméno.'); leadName.focus(); return; }
         if (!validEmail(email)) { showLeadError('Zadejte platný e-mail.'); leadEmail.focus(); return; }
+        /* telefon je nepovinný; když je vyplněný, musí obsahovat aspoň 8 číslic */
+        if (telefon && telefon.replace(/\D/g, '').length < 8) { showLeadError('Zadejte platné telefonní číslo, nebo pole nechte prázdné.'); leadPhone.focus(); return; }
 
         const calc = calculate();
         if (!calc || !calc.hasBase) { showLeadError('Nejdřív vyberte službu výše.'); return; }
@@ -1319,6 +1325,7 @@ v kalkulačce níže objekt P (viz začátek skriptu na konci stránky).
             body: JSON.stringify({
                 'Jméno': jmeno,
                 'E-mail': email,
+                'Telefon': telefon,
                 'Poznámka': poznamka,
                 '_replyto': email,
                 'Typ videa': typLabel,
